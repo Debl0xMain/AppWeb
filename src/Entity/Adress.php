@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AdressRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdressRepository::class)]
@@ -27,6 +29,14 @@ class Adress
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adrAddInfo = null;
+
+    #[ORM\ManyToMany(targetEntity: users::class, inversedBy: 'adresses')]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +99,30 @@ class Adress
     public function setAdrAddInfo(?string $adrAddInfo): static
     {
         $this->adrAddInfo = $adrAddInfo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, users>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(users $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(users $user): static
+    {
+        $this->users->removeElement($user);
 
         return $this;
     }
