@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DeliveryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,14 @@ class Delivery
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $delDateDeliveryClient = null;
+
+    #[ORM\ManyToMany(targetEntity: ProductDelivery::class, inversedBy: 'deliveries')]
+    private Collection $product;
+
+    public function __construct()
+    {
+        $this->product = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +70,30 @@ class Delivery
     public function setDelDateDeliveryClient(?\DateTimeInterface $delDateDeliveryClient): static
     {
         $this->delDateDeliveryClient = $delDateDeliveryClient;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductDelivery>
+     */
+    public function getProduct(): Collection
+    {
+        return $this->product;
+    }
+
+    public function addProduct(ProductDelivery $product): static
+    {
+        if (!$this->product->contains($product)) {
+            $this->product->add($product);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(ProductDelivery $product): static
+    {
+        $this->product->removeElement($product);
 
         return $this;
     }

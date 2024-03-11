@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,22 @@ class Product
 
     #[ORM\Column(length: 255)]
     private ?string $proRef = null;
+
+    #[ORM\OneToMany(targetEntity: SubCategory::class, mappedBy: 'product')]
+    private Collection $subcategory;
+
+    #[ORM\OneToMany(targetEntity: Supplier::class, mappedBy: 'product')]
+    private Collection $supplier;
+
+    #[ORM\ManyToMany(targetEntity: ProductDelivery::class, inversedBy: 'products')]
+    private Collection $delivery;
+
+    public function __construct()
+    {
+        $this->subcategory = new ArrayCollection();
+        $this->supplier = new ArrayCollection();
+        $this->delivery = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +123,90 @@ class Product
     public function setProRef(string $proRef): static
     {
         $this->proRef = $proRef;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SubCategory>
+     */
+    public function getSubcategory(): Collection
+    {
+        return $this->subcategory;
+    }
+
+    public function addSubcategory(SubCategory $subcategory): static
+    {
+        if (!$this->subcategory->contains($subcategory)) {
+            $this->subcategory->add($subcategory);
+            $subcategory->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubcategory(SubCategory $subcategory): static
+    {
+        if ($this->subcategory->removeElement($subcategory)) {
+            // set the owning side to null (unless already changed)
+            if ($subcategory->getProduct() === $this) {
+                $subcategory->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Supplier>
+     */
+    public function getSupplier(): Collection
+    {
+        return $this->supplier;
+    }
+
+    public function addSupplier(Supplier $supplier): static
+    {
+        if (!$this->supplier->contains($supplier)) {
+            $this->supplier->add($supplier);
+            $supplier->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupplier(Supplier $supplier): static
+    {
+        if ($this->supplier->removeElement($supplier)) {
+            // set the owning side to null (unless already changed)
+            if ($supplier->getProduct() === $this) {
+                $supplier->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductDelivery>
+     */
+    public function getDelivery(): Collection
+    {
+        return $this->delivery;
+    }
+
+    public function addDelivery(ProductDelivery $delivery): static
+    {
+        if (!$this->delivery->contains($delivery)) {
+            $this->delivery->add($delivery);
+        }
+
+        return $this;
+    }
+
+    public function removeDelivery(ProductDelivery $delivery): static
+    {
+        $this->delivery->removeElement($delivery);
 
         return $this;
     }

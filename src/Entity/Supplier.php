@@ -40,6 +40,9 @@ class Supplier
     #[ORM\Column(length: 100)]
     private ?string $supVille = null;
 
+    #[ORM\ManyToOne(inversedBy: 'supplier')]
+    private ?Product $product = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -149,6 +152,18 @@ class Supplier
     public function setSupVille(string $supVille): static
     {
         $this->supVille = $supVille;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        $this->product = $product;
 
         return $this;
     }

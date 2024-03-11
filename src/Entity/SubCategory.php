@@ -22,6 +22,9 @@ class SubCategory
     #[ORM\ManyToOne(inversedBy: 'subcategory')]
     private ?Category $category = null;
 
+    #[ORM\ManyToOne(inversedBy: 'subcategory')]
+    private ?Product $product = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class SubCategory
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        $this->product = $product;
 
         return $this;
     }
