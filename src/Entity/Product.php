@@ -37,9 +37,6 @@ class Product
     #[ORM\OneToMany(targetEntity: SubCategory::class, mappedBy: 'product')]
     private Collection $subcategory;
 
-    #[ORM\OneToMany(targetEntity: Supplier::class, mappedBy: 'product')]
-    private Collection $supplier;
-
     #[ORM\ManyToMany(targetEntity: ProductDelivery::class, inversedBy: 'products')]
     private Collection $delivery;
 
@@ -49,7 +46,6 @@ class Product
     public function __construct()
     {
         $this->subcategory = new ArrayCollection();
-        $this->supplier = new ArrayCollection();
         $this->delivery = new ArrayCollection();
         $this->productOrders = new ArrayCollection();
     }
@@ -161,35 +157,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection<int, Supplier>
-     */
-    public function getSupplier(): Collection
-    {
-        return $this->supplier;
-    }
-
-    public function addSupplier(Supplier $supplier): static
-    {
-        if (!$this->supplier->contains($supplier)) {
-            $this->supplier->add($supplier);
-            $supplier->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSupplier(Supplier $supplier): static
-    {
-        if ($this->supplier->removeElement($supplier)) {
-            // set the owning side to null (unless already changed)
-            if ($supplier->getProduct() === $this) {
-                $supplier->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, ProductDelivery>

@@ -43,9 +43,15 @@ class Orders
     #[ORM\ManyToMany(targetEntity: ProductOrders::class, mappedBy: 'orders')]
     private Collection $productOrders;
 
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    private ?Delivery $delivery = null;
+
+
+
     public function __construct()
     {
         $this->productOrders = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -175,4 +181,18 @@ class Orders
 
         return $this;
     }
+
+    public function getDelivery(): ?Delivery
+    {
+        return $this->delivery;
+    }
+
+    public function setDelivery(?Delivery $delivery): static
+    {
+        $this->delivery = $delivery;
+
+        return $this;
+    }
+
+    
 }

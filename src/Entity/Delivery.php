@@ -28,9 +28,13 @@ class Delivery
     #[ORM\ManyToMany(targetEntity: ProductDelivery::class, inversedBy: 'deliveries')]
     private Collection $product;
 
+    #[ORM\OneToMany(targetEntity: Orders::class, mappedBy: 'delivery')]
+    private Collection $orders;
+
     public function __construct()
     {
         $this->product = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +98,36 @@ class Delivery
     public function removeProduct(ProductDelivery $product): static
     {
         $this->product->removeElement($product);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Orders>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Orders $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setDelivery($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Orders $order): static
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getDelivery() === $this) {
+                $order->setDelivery(null);
+            }
+        }
 
         return $this;
     }
