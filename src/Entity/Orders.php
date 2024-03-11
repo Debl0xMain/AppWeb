@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\OrdersRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -39,20 +37,6 @@ class Orders
 
     #[ORM\Column]
     private ?int $ordStatusBill = null;
-
-    #[ORM\ManyToMany(targetEntity: ProductOrders::class, mappedBy: 'orders')]
-    private Collection $productOrders;
-
-    #[ORM\ManyToOne(inversedBy: 'orders')]
-    private ?Delivery $delivery = null;
-
-
-
-    public function __construct()
-    {
-        $this->productOrders = new ArrayCollection();
-
-    }
 
     public function getId(): ?int
     {
@@ -154,45 +138,4 @@ class Orders
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, ProductOrders>
-     */
-    public function getProductOrders(): Collection
-    {
-        return $this->productOrders;
-    }
-
-    public function addProductOrder(ProductOrders $productOrder): static
-    {
-        if (!$this->productOrders->contains($productOrder)) {
-            $this->productOrders->add($productOrder);
-            $productOrder->addOrder($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductOrder(ProductOrders $productOrder): static
-    {
-        if ($this->productOrders->removeElement($productOrder)) {
-            $productOrder->removeOrder($this);
-        }
-
-        return $this;
-    }
-
-    public function getDelivery(): ?Delivery
-    {
-        return $this->delivery;
-    }
-
-    public function setDelivery(?Delivery $delivery): static
-    {
-        $this->delivery = $delivery;
-
-        return $this;
-    }
-
-    
 }

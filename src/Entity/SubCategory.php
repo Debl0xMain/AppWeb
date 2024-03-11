@@ -19,12 +19,6 @@ class SubCategory
     #[ORM\Column(length: 255)]
     private ?string $subPictureName = null;
 
-    #[ORM\ManyToOne(inversedBy: 'subcategory')]
-    private ?Category $category = null;
-
-    #[ORM\ManyToOne(inversedBy: 'subcategory')]
-    private ?Product $product = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -50,30 +44,6 @@ class SubCategory
     public function setSubPictureName(string $subPictureName): static
     {
         $this->subPictureName = $subPictureName;
-
-        return $this;
-    }
-
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): static
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): static
-    {
-        $this->product = $product;
 
         return $this;
     }

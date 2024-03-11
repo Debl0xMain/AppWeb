@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -33,22 +31,6 @@ class Product
 
     #[ORM\Column(length: 255)]
     private ?string $proRef = null;
-
-    #[ORM\OneToMany(targetEntity: SubCategory::class, mappedBy: 'product')]
-    private Collection $subcategory;
-
-    #[ORM\ManyToMany(targetEntity: ProductDelivery::class, inversedBy: 'products')]
-    private Collection $delivery;
-
-    #[ORM\ManyToMany(targetEntity: ProductOrders::class, mappedBy: 'product')]
-    private Collection $productOrders;
-
-    public function __construct()
-    {
-        $this->subcategory = new ArrayCollection();
-        $this->delivery = new ArrayCollection();
-        $this->productOrders = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -123,88 +105,6 @@ class Product
     public function setProRef(string $proRef): static
     {
         $this->proRef = $proRef;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, SubCategory>
-     */
-    public function getSubcategory(): Collection
-    {
-        return $this->subcategory;
-    }
-
-    public function addSubcategory(SubCategory $subcategory): static
-    {
-        if (!$this->subcategory->contains($subcategory)) {
-            $this->subcategory->add($subcategory);
-            $subcategory->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubcategory(SubCategory $subcategory): static
-    {
-        if ($this->subcategory->removeElement($subcategory)) {
-            // set the owning side to null (unless already changed)
-            if ($subcategory->getProduct() === $this) {
-                $subcategory->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
-
-    /**
-     * @return Collection<int, ProductDelivery>
-     */
-    public function getDelivery(): Collection
-    {
-        return $this->delivery;
-    }
-
-    public function addDelivery(ProductDelivery $delivery): static
-    {
-        if (!$this->delivery->contains($delivery)) {
-            $this->delivery->add($delivery);
-        }
-
-        return $this;
-    }
-
-    public function removeDelivery(ProductDelivery $delivery): static
-    {
-        $this->delivery->removeElement($delivery);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ProductOrders>
-     */
-    public function getProductOrders(): Collection
-    {
-        return $this->productOrders;
-    }
-
-    public function addProductOrder(ProductOrders $productOrder): static
-    {
-        if (!$this->productOrders->contains($productOrder)) {
-            $this->productOrders->add($productOrder);
-            $productOrder->addProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductOrder(ProductOrders $productOrder): static
-    {
-        if ($this->productOrders->removeElement($productOrder)) {
-            $productOrder->removeProduct($this);
-        }
 
         return $this;
     }
