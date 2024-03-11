@@ -43,11 +43,15 @@ class Product
     #[ORM\ManyToMany(targetEntity: ProductDelivery::class, inversedBy: 'products')]
     private Collection $delivery;
 
+    #[ORM\ManyToMany(targetEntity: ProductOrders::class, mappedBy: 'product')]
+    private Collection $productOrders;
+
     public function __construct()
     {
         $this->subcategory = new ArrayCollection();
         $this->supplier = new ArrayCollection();
         $this->delivery = new ArrayCollection();
+        $this->productOrders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -207,6 +211,33 @@ class Product
     public function removeDelivery(ProductDelivery $delivery): static
     {
         $this->delivery->removeElement($delivery);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductOrders>
+     */
+    public function getProductOrders(): Collection
+    {
+        return $this->productOrders;
+    }
+
+    public function addProductOrder(ProductOrders $productOrder): static
+    {
+        if (!$this->productOrders->contains($productOrder)) {
+            $this->productOrders->add($productOrder);
+            $productOrder->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductOrder(ProductOrders $productOrder): static
+    {
+        if ($this->productOrders->removeElement($productOrder)) {
+            $productOrder->removeProduct($this);
+        }
 
         return $this;
     }
