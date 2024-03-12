@@ -64,10 +64,17 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Orders::class, mappedBy: 'users')]
     private Collection $orders;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'ref_commercial')]
+    private ?self $commercial_ref = null;
+
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'commercial_ref')]
+    private Collection $ref_commercial;
+
     public function __construct()
     {
         $this->yes = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->ref_commercial = new ArrayCollection();
     }
 
 
@@ -292,6 +299,48 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($order->getUsers() === $this) {
                 $order->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCommercialRef(): ?self
+    {
+        return $this->commercial_ref;
+    }
+
+    public function setCommercialRef(?self $commercial_ref): static
+    {
+        $this->commercial_ref = $commercial_ref;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getRefCommercial(): Collection
+    {
+        return $this->ref_commercial;
+    }
+
+    public function addRefCommercial(self $refCommercial): static
+    {
+        if (!$this->ref_commercial->contains($refCommercial)) {
+            $this->ref_commercial->add($refCommercial);
+            $refCommercial->setCommercialRef($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRefCommercial(self $refCommercial): static
+    {
+        if ($this->ref_commercial->removeElement($refCommercial)) {
+            // set the owning side to null (unless already changed)
+            if ($refCommercial->getCommercialRef() === $this) {
+                $refCommercial->setCommercialRef(null);
             }
         }
 
