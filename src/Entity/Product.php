@@ -35,6 +35,9 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?SubCategory $subcategory = null;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?Supplier $suppliers = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class Product
     public function setSubcategory(?SubCategory $subcategory): static
     {
         $this->subcategory = $subcategory;
+
+        return $this;
+    }
+
+    public function getSuppliers(): ?Supplier
+    {
+        return $this->suppliers;
+    }
+
+    public function setSuppliers(?Supplier $suppliers): static
+    {
+        $this->suppliers = $suppliers;
 
         return $this;
     }
