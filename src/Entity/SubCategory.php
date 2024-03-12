@@ -19,6 +19,9 @@ class SubCategory
     #[ORM\Column(length: 255)]
     private ?string $subPictureName = null;
 
+    #[ORM\ManyToOne(inversedBy: 'subcategory')]
+    private ?Category $categorys = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class SubCategory
     public function setSubPictureName(string $subPictureName): static
     {
         $this->subPictureName = $subPictureName;
+
+        return $this;
+    }
+
+    public function getCategorys(): ?Category
+    {
+        return $this->categorys;
+    }
+
+    public function setCategorys(?Category $categorys): static
+    {
+        $this->categorys = $categorys;
 
         return $this;
     }
