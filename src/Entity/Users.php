@@ -61,9 +61,13 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Adress::class, mappedBy: 'users')]
     private Collection $yes;
 
+    #[ORM\OneToMany(targetEntity: Orders::class, mappedBy: 'users')]
+    private Collection $orders;
+
     public function __construct()
     {
         $this->yes = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
 
@@ -259,6 +263,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->yes->removeElement($ye)) {
             $ye->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Orders>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Orders $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Orders $order): static
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getUsers() === $this) {
+                $order->setUsers(null);
+            }
         }
 
         return $this;

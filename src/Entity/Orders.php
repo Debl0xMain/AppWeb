@@ -38,6 +38,9 @@ class Orders
     #[ORM\Column]
     private ?int $ordStatusBill = null;
 
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    private ?Users $users = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,6 +138,18 @@ class Orders
     public function setOrdStatusBill(int $ordStatusBill): static
     {
         $this->ordStatusBill = $ordStatusBill;
+
+        return $this;
+    }
+
+    public function getUsers(): ?Users
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?Users $users): static
+    {
+        $this->users = $users;
 
         return $this;
     }
