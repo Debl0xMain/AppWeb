@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -55,6 +57,14 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
     private ?string $userCompanyCoefficient = null;
+
+    #[ORM\ManyToMany(targetEntity: Adress::class, mappedBy: 'users')]
+    private Collection $yes;
+
+    public function __construct()
+    {
+        $this->yes = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -223,6 +233,33 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUserCompanyCoefficient(?string $userCompanyCoefficient): static
     {
         $this->userCompanyCoefficient = $userCompanyCoefficient;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Adress>
+     */
+    public function getYes(): Collection
+    {
+        return $this->yes;
+    }
+
+    public function addYe(Adress $ye): static
+    {
+        if (!$this->yes->contains($ye)) {
+            $this->yes->add($ye);
+            $ye->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeYe(Adress $ye): static
+    {
+        if ($this->yes->removeElement($ye)) {
+            $ye->removeUser($this);
+        }
 
         return $this;
     }
