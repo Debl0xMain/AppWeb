@@ -23,6 +23,9 @@ class Delivery
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $delDateDeliveryClient = null;
 
+    #[ORM\ManyToOne(inversedBy: 'deliveries')]
+    private ?Orders $orders = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +63,18 @@ class Delivery
     public function setDelDateDeliveryClient(?\DateTimeInterface $delDateDeliveryClient): static
     {
         $this->delDateDeliveryClient = $delDateDeliveryClient;
+
+        return $this;
+    }
+
+    public function getOrders(): ?Orders
+    {
+        return $this->orders;
+    }
+
+    public function setOrders(?Orders $orders): static
+    {
+        $this->orders = $orders;
 
         return $this;
     }
