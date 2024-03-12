@@ -32,6 +32,9 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $proRef = null;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?SubCategory $subcategory = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +108,18 @@ class Product
     public function setProRef(string $proRef): static
     {
         $this->proRef = $proRef;
+
+        return $this;
+    }
+
+    public function getSubcategory(): ?SubCategory
+    {
+        return $this->subcategory;
+    }
+
+    public function setSubcategory(?SubCategory $subcategory): static
+    {
+        $this->subcategory = $subcategory;
 
         return $this;
     }
