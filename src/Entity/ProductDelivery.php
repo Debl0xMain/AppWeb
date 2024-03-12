@@ -16,6 +16,12 @@ class ProductDelivery
     #[ORM\Column]
     private ?int $pro_delProductQuantity = null;
 
+    #[ORM\ManyToOne(inversedBy: 'productDeliveries')]
+    private ?Product $product = null;
+
+    #[ORM\ManyToOne(inversedBy: 'productDeliveries')]
+    private ?Delivery $delivery = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +35,30 @@ class ProductDelivery
     public function setProDelProductQuantity(int $pro_delProductQuantity): static
     {
         $this->pro_delProductQuantity = $pro_delProductQuantity;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getDelivery(): ?Delivery
+    {
+        return $this->delivery;
+    }
+
+    public function setDelivery(?Delivery $delivery): static
+    {
+        $this->delivery = $delivery;
 
         return $this;
     }

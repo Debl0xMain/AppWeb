@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DeliveryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,10 +16,10 @@ class Delivery
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $delDateExped = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $delDatePlannedDelivery = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -25,6 +27,14 @@ class Delivery
 
     #[ORM\ManyToOne(inversedBy: 'deliveries')]
     private ?Orders $orders = null;
+
+    #[ORM\OneToMany(targetEntity: ProductDelivery::class, mappedBy: 'delivery')]
+    private Collection $productDeliveries;
+
+    public function __construct()
+    {
+        $this->productDeliveries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +85,36 @@ class Delivery
     public function setOrders(?Orders $orders): static
     {
         $this->orders = $orders;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductDelivery>
+     */
+    public function getProductDeliveries(): Collection
+    {
+        return $this->productDeliveries;
+    }
+
+    public function addProductDelivery(ProductDelivery $productDelivery): static
+    {
+        if (!$this->productDeliveries->contains($productDelivery)) {
+            $this->productDeliveries->add($productDelivery);
+            $productDelivery->setDelivery($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductDelivery(ProductDelivery $productDelivery): static
+    {
+        if ($this->productDeliveries->removeElement($productDelivery)) {
+            // set the owning side to null (unless already changed)
+            if ($productDelivery->getDelivery() === $this) {
+                $productDelivery->setDelivery(null);
+            }
+        }
 
         return $this;
     }

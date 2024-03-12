@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,6 +39,14 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Supplier $suppliers = null;
+
+    #[ORM\OneToMany(targetEntity: ProductDelivery::class, mappedBy: 'product')]
+    private Collection $productDeliveries;
+
+    public function __construct()
+    {
+        $this->productDeliveries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -135,6 +145,36 @@ class Product
     public function setSuppliers(?Supplier $suppliers): static
     {
         $this->suppliers = $suppliers;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductDelivery>
+     */
+    public function getProductDeliveries(): Collection
+    {
+        return $this->productDeliveries;
+    }
+
+    public function addProductDelivery(ProductDelivery $productDelivery): static
+    {
+        if (!$this->productDeliveries->contains($productDelivery)) {
+            $this->productDeliveries->add($productDelivery);
+            $productDelivery->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductDelivery(ProductDelivery $productDelivery): static
+    {
+        if ($this->productDeliveries->removeElement($productDelivery)) {
+            // set the owning side to null (unless already changed)
+            if ($productDelivery->getProduct() === $this) {
+                $productDelivery->setProduct(null);
+            }
+        }
 
         return $this;
     }
