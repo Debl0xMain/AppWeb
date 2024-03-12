@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Users;
+use App\Entity\Adress;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class JeuTest extends Fixture
@@ -83,6 +84,18 @@ class JeuTest extends Fixture
 
             $manager->persist($user1);
 
+                //adress
+
+                $adress1 = new Adress();
+                $adress1->setAdrNumber('123');
+                $adress1->setAdrStreet('Main Street');
+                $adress1->setAdrZipCode('12345');
+                $adress1->setAdrCity('Cityville');
+                $adress1->setAdrAddInfo('2eme etage');
+                $adress1->addUser($user1);
+        
+                $manager->persist($adress1);
+
             //2
 
             $user2 = new Users();
@@ -98,6 +111,17 @@ class JeuTest extends Fixture
 
             $manager->persist($user2);
 
+                //adress
+
+                $adress2 = new Adress();
+                $adress2->setAdrNumber('24');
+                $adress2->setAdrStreet('rue pierre');
+                $adress2->setAdrZipCode('80514');
+                $adress2->setAdrCity('Villetest');
+                $adress2->addUser($user2);
+        
+                $manager->persist($adress2);
+
             //3
 
             $user3 = new Users();
@@ -112,6 +136,17 @@ class JeuTest extends Fixture
             $user3->setCommercialRef($comuser3);
 
             $manager->persist($user3);
+
+                //adress
+
+                $adress3 = new Adress();
+                $adress3->setAdrNumber('123');
+                $adress3->setAdrStreet('avenue charle');
+                $adress3->setAdrZipCode('80554');
+                $adress3->setAdrCity('testCity');
+                $adress3->addUser($user3);
+        
+                $manager->persist($adress2);
             
             // Client Pro
 
@@ -133,6 +168,18 @@ class JeuTest extends Fixture
 
                 $manager->persist($prouser1);
 
+                    //adress
+
+                    $adress4 = new Adress();
+                    $adress4->setAdrNumber('45');
+                    $adress4->setAdrStreet('rue de la guerre');
+                    $adress4->setAdrZipCode('12345');
+                    $adress4->setAdrCity('Cityville');
+                    $adress4->setAdrAddInfo('Batiment avec la grande baie vitre');
+                    $adress4->addUser($prouser1);
+            
+                    $manager->persist($adress4);
+
                 //2
 
                 $prouser2 = new Users();
@@ -151,6 +198,18 @@ class JeuTest extends Fixture
 
                 $manager->persist($prouser2);
 
+                    //adress
+
+                    $adress5 = new Adress();
+                    $adress5->setAdrNumber('52');
+                    $adress5->setAdrStreet('avenu de la paix');
+                    $adress5->setAdrZipCode('12345');
+                    $adress5->setAdrCity('Cityville');
+                    $adress5->setAdrAddInfo('batiment2');
+                    $adress5->addUser($prouser2);
+            
+                    $manager->persist($adress5);
+
                 //3
 
                 $prouser3 = new Users();
@@ -168,6 +227,17 @@ class JeuTest extends Fixture
                 $prouser3->setCommercialRef($comuser3);
 
                 $manager->persist($prouser3);
+
+                    //adress
+
+                    $adress6 = new Adress();
+                    $adress6->setAdrNumber('45');
+                    $adress6->setAdrStreet('rue de la guerre');
+                    $adress6->setAdrZipCode('12345');
+                    $adress6->setAdrCity('Cityville');
+                    $adress6->addUser($prouser3);
+            
+                    $manager->persist($adress6);
 
         // Send data
         $manager->flush();
