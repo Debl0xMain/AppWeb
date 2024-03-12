@@ -23,6 +23,12 @@ class ProductOrders
     #[ORM\Column(type: Types::DECIMAL, precision: 12, scale: 5)]
     private ?string $pro_ordPriceUht = null;
 
+    #[ORM\ManyToOne(inversedBy: 'productOrders')]
+    private ?Product $product = null;
+
+    #[ORM\ManyToOne(inversedBy: 'productOrders')]
+    private ?Orders $orders = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +66,30 @@ class ProductOrders
     public function setProOrdPriceUht(string $pro_ordPriceUht): static
     {
         $this->pro_ordPriceUht = $pro_ordPriceUht;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getOrders(): ?Orders
+    {
+        return $this->orders;
+    }
+
+    public function setOrders(?Orders $orders): static
+    {
+        $this->orders = $orders;
 
         return $this;
     }
