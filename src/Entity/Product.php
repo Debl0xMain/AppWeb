@@ -19,7 +19,7 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $proName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $proDesc = null;
 
     #[ORM\Column(length: 255)]
@@ -74,7 +74,7 @@ class Product
         return $this->proDesc;
     }
 
-    public function setProDesc(string $proDesc): static
+    public function setProDesc(?string $proDesc): self
     {
         $this->proDesc = $proDesc;
 
