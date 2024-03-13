@@ -15,6 +15,7 @@ use App\Entity\ProductOrders;
 use App\Entity\SubCategory;
 use App\Entity\Supplier;
 use App\Entity\Users;
+use Symfony\Component\VarDumper\VarDumper;
 
 class JeuTest extends Fixture
 {
@@ -41,7 +42,7 @@ class JeuTest extends Fixture
 
             $comuser1 = new Users();
             $comuser1->setUserEmail('commercial1@example.com');
-            $comuser1->setRoles(['ROLE_USER']);
+            $comuser1->setRoles(['ROLE_COM']);
             $comuser1->setPassword($this->hasher->hashPassword($comuser1, 'admin'));
             $comuser1->setUserName('TestUser1');
             $comuser1->setUserFristName('Brian');
@@ -55,7 +56,7 @@ class JeuTest extends Fixture
 
             $comuser2 = new Users();
             $comuser2->setUserEmail('comercial2@example.com');
-            $comuser2->setRoles(['ROLE_USER']);
+            $comuser2->setRoles(['ROLE_COM']);
             $comuser2->setPassword($this->hasher->hashPassword($comuser2, 'admin'));
             $comuser2->setUserName('TestUser2');
             $comuser2->setUserFristName('Bastian');
@@ -69,7 +70,7 @@ class JeuTest extends Fixture
 
             $comuser3 = new Users();
             $comuser3->setUserEmail('commercial3@example.com');
-            $comuser3->setRoles(['ROLE_USER']);
+            $comuser3->setRoles(['ROLE_COM']);
             $comuser3->setPassword($this->hasher->hashPassword($comuser3, 'admin'));
             $comuser3->setUserName('TestUser3');
             $comuser3->setUserFristName('Zoé');
@@ -158,7 +159,7 @@ class JeuTest extends Fixture
                 $adress3->setAdrCity('testCity');
                 $adress3->addUser($user3);
         
-                $manager->persist($adress2);
+                $manager->persist($adress3);
             
             // Client Pro
 
@@ -166,7 +167,7 @@ class JeuTest extends Fixture
 
                 $prouser1 = new Users();
                 $prouser1->setUserEmail('pro1@example.com');
-                $prouser1->setRoles(['ROLE_USER']);
+                $prouser1->setRoles(['ROLE_PRO']);
                 $prouser1->setPassword($this->hasher->hashPassword($prouser1, 'admin'));
                 $prouser1->setUserName('TestUser1');
                 $prouser1->setUserFristName('Jim');
@@ -189,14 +190,15 @@ class JeuTest extends Fixture
                     $adress4->setAdrCity('Cityville');
                     $adress4->setAdrAddInfo('Batiment avec la grande baie vitre');
                     $adress4->addUser($prouser1);
-            
+                    
                     $manager->persist($adress4);
+
 
                 //2
 
                 $prouser2 = new Users();
                 $prouser2->setUserEmail('pro2@example.com');
-                $prouser2->setRoles(['ROLE_USER']);
+                $prouser2->setRoles(['ROLE_PRO']);
                 $prouser2->setPassword($this->hasher->hashPassword($prouser2, 'admin'));
                 $prouser2->setUserName('TestUser2');
                 $prouser2->setUserFristName('Katy');
@@ -226,7 +228,7 @@ class JeuTest extends Fixture
 
                 $prouser3 = new Users();
                 $prouser3->setUserEmail('pro3@example.com');
-                $prouser3->setRoles(['ROLE_USER']);
+                $prouser3->setRoles(['ROLE_PRO']);
                 $prouser3->setPassword($this->hasher->hashPassword($prouser3, 'admin'));
                 $prouser3->setUserName('TestUser3');
                 $prouser3->setUserFristName('Noe');
@@ -239,6 +241,7 @@ class JeuTest extends Fixture
                 $prouser3->setCommercialRef($comuser3);
 
                 $manager->persist($prouser3);
+
 
                     //adress
 
@@ -748,6 +751,17 @@ class JeuTest extends Fixture
                         $product27->setSuppliers($supplier2);
                         $manager->persist($product27);
 
+                                                                    //add relation user/adress
+                                                                        $user1->addYe($adress1);
+                                                                        $user2->addYe($adress2);
+                                                                        $user3->addYe($adress3);
+                    
+                                                                        $prouser1->addYe($adress4);
+                                                                        $prouser2->addYe($adress5);
+                                                                        $prouser3->addYe($adress6);
+
+                                                                    //
+
                         //generation commande client particulier
                         for ($i = 1; $i <= 20; $i++) {
 
@@ -756,14 +770,24 @@ class JeuTest extends Fixture
                             $usernombre = rand(0,2);
                             $productnombre = rand(0,26);
                             $quantityboucle = rand(1,5);
+
+                            $adress_get = $userset[$usernombre]->getYes();
+
+                            $num_adress = $adress_get[0]->getAdrNumber();
+                            $rue_adress = $adress_get[0]->getAdrStreet();
+                            $zip_adress = $adress_get[0]->getAdrZipCode();
+                            $city_adress = $adress_get[0]->getAdrCity();
+                            $addinfo_adress = $adress_get[0]->getAdrAddInfo();
+
+                            $adress_user_get = "$num_adress $rue_adress $zip_adress $city_adress $addinfo_adress ";
                             
                             $order[$i] = new Orders();
                             
                                 $order[$i]->setOrdRef(0000 . $i);
                                 $order[$i]->setOrdReduction(rand(0, 10));
                                 $order[$i]->setOrdClientCoefficient($coeficient_base);
-                                $order[$i]->setOrdAdressDelivery("Adresse de livraison " . $i);
-                                $order[$i]->setOrdAdressBilling("Adresse de facturation " . $i);
+                                $order[$i]->setOrdAdressDelivery($adress_user_get);
+                                $order[$i]->setOrdAdressBilling($adress_user_get);
                                 $order[$i]->setOrdRebBill("Fact00" . $i);
                                 $order[$i]->setOrdDateBill(new \DateTime());
                                 $order[$i]->setOrdStatusBill(rand(1, 3));
@@ -801,21 +825,32 @@ class JeuTest extends Fixture
                                 }
 
                         //generation commande client pro
+                                        
                         for ($i = 1; $i <= 20; $i++) {
 
                             $userset = [$prouser1,$prouser2,$prouser3];
                             $productset = [$product1, $product2, $product3, $product4, $product5, $product6, $product7, $product8, $product9, $product10, $product11, $product12, $product13, $product14, $product15, $product16, $product17, $product18, $product19, $product20, $product21, $product22, $product23, $product24, $product25, $product26, $product27];
                             $usernombre = rand(0,2);
                             $productnombre = rand(0,26);
-                            $quantityboucle = rand(1,5);
-                            
+                            $quantityboucle = rand(1,12);
+
+                            $adress_get = $userset[$usernombre]->getYes();
+
+                            $num_adress = $adress_get[0]->getAdrNumber();
+                            $rue_adress = $adress_get[0]->getAdrStreet();
+                            $zip_adress = $adress_get[0]->getAdrZipCode();
+                            $city_adress = $adress_get[0]->getAdrCity();
+                            $addinfo_adress = $adress_get[0]->getAdrAddInfo();
+
+                            $adress_user_get = "$num_adress $rue_adress $zip_adress $city_adress $addinfo_adress ";
+
                             $order[$i] = new Orders();
                             
                                 $order[$i]->setOrdRef(0000 . $i);
                                 $order[$i]->setOrdReduction(rand(0, 10));
                                 $order[$i]->setOrdClientCoefficient($userset[$usernombre]->getUserCompanyCoefficient());
-                                $order[$i]->setOrdAdressDelivery("Adresse de livraison " . $i);
-                                $order[$i]->setOrdAdressBilling("Adresse de facturation " . $i);
+                                $order[$i]->setOrdAdressDelivery($adress_user_get);
+                                $order[$i]->setOrdAdressBilling($adress_user_get);
                                 $order[$i]->setOrdRebBill("Fact00" . $i);
                                 $order[$i]->setOrdDateBill(new \DateTime());
                                 $order[$i]->setOrdStatusBill(rand(1, 3));
@@ -852,8 +887,6 @@ class JeuTest extends Fixture
                                     $manager->persist($productorder[$i]);
                                     $manager->persist($productdelivery[$i]);
                                 }
-                            
-    
         
         // Send data
         $manager->flush();
