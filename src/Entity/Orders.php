@@ -49,6 +49,9 @@ class Orders
     #[ORM\OneToMany(targetEntity: ProductOrders::class, mappedBy: 'orders')]
     private Collection $productOrders;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
+    private ?string $ordPrixTotal = null;
+
     public function __construct()
     {
         $this->deliveries = new ArrayCollection();
@@ -224,6 +227,18 @@ class Orders
                 $productOrder->setOrders(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOrdPrixTotal(): ?string
+    {
+        return $this->ordPrixTotal;
+    }
+
+    public function setOrdPrixTotal(?string $ordPrixTotal): static
+    {
+        $this->ordPrixTotal = $ordPrixTotal;
 
         return $this;
     }

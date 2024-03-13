@@ -4,18 +4,26 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Users;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\Adress;
 use App\Entity\Category;
-use App\Entity\SubCategory;
 use App\Entity\Product;
+use App\Entity\Delivery;
+use App\Entity\Orders;
+use App\Entity\ProductDelivery;
+use App\Entity\ProductOrders;
+use App\Entity\SubCategory;
 use App\Entity\Supplier;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Entity\Users;
 
 class JeuTest extends Fixture
 {
     //Function
     private $hasher;
+
+    public function calprixtotal ($quantityboucle,$coeficient_base,$prixarticle,$tva ) {
+        return $prixtotal = ((($prixarticle*$quantityboucle)*$coeficient_base)*$tva);
+    }
             
     public function __construct(UserPasswordHasherInterface $hasher){
         $this->hasher = $hasher;
@@ -739,8 +747,113 @@ class JeuTest extends Fixture
                         $product27->setSubcategory($subcategory9);
                         $product27->setSuppliers($supplier2);
                         $manager->persist($product27);
-            
 
+                        //generation commande client particulier
+                        for ($i = 1; $i <= 20; $i++) {
+
+                            $userset = [$user1,$user2,$user3];
+                            $productset = [$product1, $product2, $product3, $product4, $product5, $product6, $product7, $product8, $product9, $product10, $product11, $product12, $product13, $product14, $product15, $product16, $product17, $product18, $product19, $product20, $product21, $product22, $product23, $product24, $product25, $product26, $product27];
+                            $usernombre = rand(0,2);
+                            $productnombre = rand(0,26);
+                            $quantityboucle = rand(1,5);
+                            
+                            $order[$i] = new Orders();
+                            
+                                $order[$i]->setOrdRef(0000 . $i);
+                                $order[$i]->setOrdReduction(rand(0, 10));
+                                $order[$i]->setOrdClientCoefficient($coeficient_base);
+                                $order[$i]->setOrdAdressDelivery("Adresse de livraison " . $i);
+                                $order[$i]->setOrdAdressBilling("Adresse de facturation " . $i);
+                                $order[$i]->setOrdRebBill("Fact00" . $i);
+                                $order[$i]->setOrdDateBill(new \DateTime());
+                                $order[$i]->setOrdStatusBill(rand(1, 3));
+                                $order[$i]->setUsers($userset[$usernombre]); //$userset[$usernombre]
+                            
+                            $delivery[$i] = new Delivery();
+                            
+                                $delivery[$i]->setDelDateExped(new \DateTime());
+                                $delivery[$i]->setDelDatePlannedDelivery(new \DateTime());
+                                $delivery[$i]->setDelDateDeliveryClient(new \DateTime());
+                            
+                            $productorder[$i] = new ProductOrders();
+                            
+                                    $productorder[$i]->setProOrdProductQuantity($quantityboucle);
+                                    $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName()); //$productset[$productnombre]->getProName()
+                                    $productorder[$i]->setProOrdPriceUht($productset[$productnombre]->getProPriceHT()); //$productset[$productnombre]->getProPriceHT()
+                                    $productorder[$i]->setProduct($product1); //$productset[$productnombre]
+                                    $productorder[$i]->setOrders($order[$i]);
+                            
+                            $productdelivery[$i] = new ProductDelivery();
+                            
+                                    $productdelivery[$i]->setProDelProductQuantity($quantityboucle); 
+                                    $productdelivery[$i]->setProduct($productset[$productnombre]);
+                                    $productdelivery[$i]->setDelivery($delivery[$i]);
+                            
+                                    $prixarticle = $productset[$productnombre]->getProPriceHT();
+                                    $tva = 1.20;
+                            
+                                    $order[$i]->setOrdPrixTotal($this->calprixtotal($quantityboucle,$coeficient_base,$prixarticle,$tva));
+                            
+                                    $manager->persist($order[$i]);
+                                    $manager->persist($delivery[$i]);
+                                    $manager->persist($productorder[$i]);
+                                    $manager->persist($productdelivery[$i]);
+                                }
+
+                        //generation commande client pro
+                        for ($i = 1; $i <= 20; $i++) {
+
+                            $userset = [$prouser1,$prouser2,$prouser3];
+                            $productset = [$product1, $product2, $product3, $product4, $product5, $product6, $product7, $product8, $product9, $product10, $product11, $product12, $product13, $product14, $product15, $product16, $product17, $product18, $product19, $product20, $product21, $product22, $product23, $product24, $product25, $product26, $product27];
+                            $usernombre = rand(0,2);
+                            $productnombre = rand(0,26);
+                            $quantityboucle = rand(1,5);
+                            
+                            $order[$i] = new Orders();
+                            
+                                $order[$i]->setOrdRef(0000 . $i);
+                                $order[$i]->setOrdReduction(rand(0, 10));
+                                $order[$i]->setOrdClientCoefficient($userset[$usernombre]->getUserCompanyCoefficient());
+                                $order[$i]->setOrdAdressDelivery("Adresse de livraison " . $i);
+                                $order[$i]->setOrdAdressBilling("Adresse de facturation " . $i);
+                                $order[$i]->setOrdRebBill("Fact00" . $i);
+                                $order[$i]->setOrdDateBill(new \DateTime());
+                                $order[$i]->setOrdStatusBill(rand(1, 3));
+                                $order[$i]->setUsers($userset[$usernombre]); //$userset[$usernombre]
+                            
+                            $delivery[$i] = new Delivery();
+                            
+                                $delivery[$i]->setDelDateExped(new \DateTime());
+                                $delivery[$i]->setDelDatePlannedDelivery(new \DateTime());
+                                $delivery[$i]->setDelDateDeliveryClient(new \DateTime());
+                            
+                            $productorder[$i] = new ProductOrders();
+                            
+                                    $productorder[$i]->setProOrdProductQuantity($quantityboucle);
+                                    $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName()); //$productset[$productnombre]->getProName()
+                                    $productorder[$i]->setProOrdPriceUht($productset[$productnombre]->getProPriceHT()); //$productset[$productnombre]->getProPriceHT()
+                                    $productorder[$i]->setProduct($product1); //$productset[$productnombre]
+                                    $productorder[$i]->setOrders($order[$i]);
+                            
+                            $productdelivery[$i] = new ProductDelivery();
+                            
+                                    $productdelivery[$i]->setProDelProductQuantity($quantityboucle); 
+                                    $productdelivery[$i]->setProduct($productset[$productnombre]);
+                                    $productdelivery[$i]->setDelivery($delivery[$i]);
+                            
+                                    $coeficient_base = $userset[$usernombre]->getUserCompanyCoefficient();
+                                    $prixarticle = $productset[$productnombre]->getProPriceHT();
+                                    $tva = 1.20;
+                            
+                                    $order[$i]->setOrdPrixTotal($this->calprixtotal($quantityboucle,$coeficient_base,$prixarticle,$tva));
+                            
+                                    $manager->persist($order[$i]);
+                                    $manager->persist($delivery[$i]);
+                                    $manager->persist($productorder[$i]);
+                                    $manager->persist($productdelivery[$i]);
+                                }
+                            
+    
         
         // Send data
         $manager->flush();
