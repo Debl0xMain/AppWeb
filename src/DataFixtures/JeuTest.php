@@ -35,7 +35,7 @@ class JeuTest extends Fixture
     //gen Date
     function date_gen_ant($DateJ)   {
 
-        // $date_gen = clone $DateJ;
+        $date_gen = clone $DateJ;
         $rdn = rand(1,3);
 
         $date_retourn = $DateJ->sub(new DateInterval("P" . $rdn . "W"));
@@ -59,6 +59,7 @@ class JeuTest extends Fixture
         //Varibale :
 
             $coeficient_base = 1.8;
+            $x = 100;
         
         //Users Commercial
 
@@ -108,18 +109,18 @@ class JeuTest extends Fixture
 
             //1
 
-            $user1 = new Users();
-            $user1->setUserEmail('particulier1@example.com');
-            $user1->setRoles(['ROLE_USER']);
-            $user1->setPassword($this->hasher->hashPassword($user1, 'admin'));
-            $user1->setUserName('TestUser1');
-            $user1->setUserFristName('John');
-            $user1->setUserRef('clijohn1486');
-            $user1->setUserPhone('123456789');
-            $user1->setUserCoefficient($coeficient_base);
-            $user1->setCommercialRef($comuser1);
+            $user[1] = new Users();
+            $user[1]->setUserEmail('particulier1@example.com');
+            $user[1]->setRoles(['ROLE_USER']);
+            $user[1]->setPassword($this->hasher->hashPassword($user[1], 'admin'));
+            $user[1]->setUserName('TestUser1');
+            $user[1]->setUserFristName('John');
+            $user[1]->setUserRef('clijohn1486');
+            $user[1]->setUserPhone('123456789');
+            $user[1]->setUserCoefficient($coeficient_base);
+            $user[1]->setCommercialRef($comuser1);
 
-            $manager->persist($user1);
+            $manager->persist($user[1]);
 
                 //adress
 
@@ -129,24 +130,24 @@ class JeuTest extends Fixture
                 $adress1->setAdrZipCode('12345');
                 $adress1->setAdrCity('Cityville');
                 $adress1->setAdrAddInfo('2eme etage');
-                $adress1->addUser($user1);
+                $adress1->addUser($user[1]);
         
                 $manager->persist($adress1);
 
             //2
 
-            $user2 = new Users();
-            $user2->setUserEmail('particulier2@example.com');
-            $user2->setRoles(['ROLE_USER']);
-            $user2->setPassword($this->hasher->hashPassword($user2, 'admin'));
-            $user2->setUserName('TestUser2');
-            $user2->setUserFristName('Kim');
-            $user2->setUserRef('clikim1524');
-            $user2->setUserPhone('123456789');
-            $user2->setUserCoefficient($coeficient_base);
-            $user2->setCommercialRef($comuser1);
+            $user[2] = new Users();
+            $user[2]->setUserEmail('particulier2@example.com');
+            $user[2]->setRoles(['ROLE_USER']);
+            $user[2]->setPassword($this->hasher->hashPassword($user[2], 'admin'));
+            $user[2]->setUserName('TestUser2');
+            $user[2]->setUserFristName('Kim');
+            $user[2]->setUserRef('clikim1524');
+            $user[2]->setUserPhone('123456789');
+            $user[2]->setUserCoefficient($coeficient_base);
+            $user[2]->setCommercialRef($comuser1);
 
-            $manager->persist($user2);
+            $manager->persist($user[2]);
 
                 //adress
 
@@ -155,24 +156,24 @@ class JeuTest extends Fixture
                 $adress2->setAdrStreet('rue pierre');
                 $adress2->setAdrZipCode('80514');
                 $adress2->setAdrCity('Villetest');
-                $adress2->addUser($user2);
+                $adress2->addUser($user[2]);
         
                 $manager->persist($adress2);
 
             //3
 
-            $user3 = new Users();
-            $user3->setUserEmail('particulier3@example.com');
-            $user3->setRoles(['ROLE_USER']);
-            $user3->setPassword($this->hasher->hashPassword($user3, 'admin'));
-            $user3->setUserName('TestUser3');
-            $user3->setUserFristName('Lou');
-            $user3->setUserRef('clilou6482');
-            $user3->setUserPhone('123456789');
-            $user3->setUserCoefficient($coeficient_base);
-            $user3->setCommercialRef($comuser3);
+            $user[3] = new Users();
+            $user[3]->setUserEmail('particulier3@example.com');
+            $user[3]->setRoles(['ROLE_USER']);
+            $user[3]->setPassword($this->hasher->hashPassword($user[3], 'admin'));
+            $user[3]->setUserName('TestUser3');
+            $user[3]->setUserFristName('Lou');
+            $user[3]->setUserRef('clilou6482');
+            $user[3]->setUserPhone('123456789');
+            $user[3]->setUserCoefficient($coeficient_base);
+            $user[3]->setCommercialRef($comuser3);
 
-            $manager->persist($user3);
+            $manager->persist($user[3]);
 
                 //adress
 
@@ -181,7 +182,7 @@ class JeuTest extends Fixture
                 $adress3->setAdrStreet('avenue charle');
                 $adress3->setAdrZipCode('80554');
                 $adress3->setAdrCity('testCity');
-                $adress3->addUser($user3);
+                $adress3->addUser($user[3]);
         
                 $manager->persist($adress3);
             
@@ -189,21 +190,21 @@ class JeuTest extends Fixture
 
                 //1
 
-                $prouser1 = new Users();
-                $prouser1->setUserEmail('pro1@example.com');
-                $prouser1->setRoles(['ROLE_PRO']);
-                $prouser1->setPassword($this->hasher->hashPassword($prouser1, 'admin'));
-                $prouser1->setUserName('TestUser1');
-                $prouser1->setUserFristName('Jim');
-                $prouser1->setUserRef('projim8452');
-                $prouser1->setUserPhone('123456789');
-                $prouser1->setUserCoefficient($coeficient_base);
-                $prouser1->setUserCompanyName('OrchestreLe1');
-                $prouser1->setUserCompanySiret('84521569854758');
-                $prouser1->setUserCompanyCoefficient(1.6);
-                $prouser1->setCommercialRef($comuser2);
+                $prouser[1] = new Users();
+                $prouser[1]->setUserEmail('pro1@example.com');
+                $prouser[1]->setRoles(['ROLE_PRO']);
+                $prouser[1]->setPassword($this->hasher->hashPassword($prouser[1], 'admin'));
+                $prouser[1]->setUserName('TestUser1');
+                $prouser[1]->setUserFristName('Jim');
+                $prouser[1]->setUserRef('projim8452');
+                $prouser[1]->setUserPhone('123456789');
+                $prouser[1]->setUserCoefficient($coeficient_base);
+                $prouser[1]->setUserCompanyName('OrchestreLe1');
+                $prouser[1]->setUserCompanySiret('84521569854758');
+                $prouser[1]->setUserCompanyCoefficient(1.6);
+                $prouser[1]->setCommercialRef($comuser2);
 
-                $manager->persist($prouser1);
+                $manager->persist($prouser[1]);
 
                     //adress
 
@@ -213,28 +214,28 @@ class JeuTest extends Fixture
                     $adress4->setAdrZipCode('12345');
                     $adress4->setAdrCity('Cityville');
                     $adress4->setAdrAddInfo('Batiment avec la grande baie vitre');
-                    $adress4->addUser($prouser1);
+                    $adress4->addUser($prouser[1]);
                     
                     $manager->persist($adress4);
 
 
                 //2
 
-                $prouser2 = new Users();
-                $prouser2->setUserEmail('pro2@example.com');
-                $prouser2->setRoles(['ROLE_PRO']);
-                $prouser2->setPassword($this->hasher->hashPassword($prouser2, 'admin'));
-                $prouser2->setUserName('TestUser2');
-                $prouser2->setUserFristName('Katy');
-                $prouser2->setUserRef('proKaty8452');
-                $prouser2->setUserPhone('123456789');
-                $prouser2->setUserCoefficient($coeficient_base);
-                $prouser2->setUserCompanyName('InstumentNet');
-                $prouser2->setUserCompanySiret('84265789525684');
-                $prouser2->setUserCompanyCoefficient(1.2);
-                $prouser2->setCommercialRef($comuser2);
+                $prouser[2] = new Users();
+                $prouser[2]->setUserEmail('pro2@example.com');
+                $prouser[2]->setRoles(['ROLE_PRO']);
+                $prouser[2]->setPassword($this->hasher->hashPassword($prouser[2], 'admin'));
+                $prouser[2]->setUserName('TestUser2');
+                $prouser[2]->setUserFristName('Katy');
+                $prouser[2]->setUserRef('proKaty8452');
+                $prouser[2]->setUserPhone('123456789');
+                $prouser[2]->setUserCoefficient($coeficient_base);
+                $prouser[2]->setUserCompanyName('InstumentNet');
+                $prouser[2]->setUserCompanySiret('84265789525684');
+                $prouser[2]->setUserCompanyCoefficient(1.2);
+                $prouser[2]->setCommercialRef($comuser2);
 
-                $manager->persist($prouser2);
+                $manager->persist($prouser[2]);
 
                     //adress
 
@@ -244,27 +245,27 @@ class JeuTest extends Fixture
                     $adress5->setAdrZipCode('12345');
                     $adress5->setAdrCity('Cityville');
                     $adress5->setAdrAddInfo('batiment2');
-                    $adress5->addUser($prouser2);
+                    $adress5->addUser($prouser[2]);
             
                     $manager->persist($adress5);
 
                 //3
 
-                $prouser3 = new Users();
-                $prouser3->setUserEmail('pro3@example.com');
-                $prouser3->setRoles(['ROLE_PRO']);
-                $prouser3->setPassword($this->hasher->hashPassword($prouser3, 'admin'));
-                $prouser3->setUserName('TestUser3');
-                $prouser3->setUserFristName('Noe');
-                $prouser3->setUserRef('pronoe8431');
-                $prouser3->setUserPhone('123456789');
-                $prouser3->setUserCoefficient($coeficient_base);
-                $prouser3->setUserCompanyName('BuyCorde');
-                $prouser3->setUserCompanySiret('85412569874525');
-                $prouser3->setUserCompanyCoefficient(1.3);
-                $prouser3->setCommercialRef($comuser3);
+                $prouser[3] = new Users();
+                $prouser[3]->setUserEmail('pro3@example.com');
+                $prouser[3]->setRoles(['ROLE_PRO']);
+                $prouser[3]->setPassword($this->hasher->hashPassword($prouser[3], 'admin'));
+                $prouser[3]->setUserName('TestUser3');
+                $prouser[3]->setUserFristName('Noe');
+                $prouser[3]->setUserRef('pronoe8431');
+                $prouser[3]->setUserPhone('123456789');
+                $prouser[3]->setUserCoefficient($coeficient_base);
+                $prouser[3]->setUserCompanyName('BuyCorde');
+                $prouser[3]->setUserCompanySiret('85412569874525');
+                $prouser[3]->setUserCompanyCoefficient(1.3);
+                $prouser[3]->setCommercialRef($comuser3);
 
-                $manager->persist($prouser3);
+                $manager->persist($prouser[3]);
 
 
                     //adress
@@ -274,9 +275,69 @@ class JeuTest extends Fixture
                     $adress6->setAdrStreet('rue de la guerre');
                     $adress6->setAdrZipCode('12345');
                     $adress6->setAdrCity('Cityville');
-                    $adress6->addUser($prouser3);
+                    $adress6->addUser($prouser[3]);
             
                     $manager->persist($adress6);
+
+                    //fake client
+
+                    for ($i = 4; $i <= 25; $i++) {
+
+                        $user[$i] = new Users();
+                        $user[$i]->setUserEmail("particulier{$i}@example.com");
+                        $user[$i]->setRoles(['ROLE_USER']);
+                        $user[$i]->setPassword($this->hasher->hashPassword($user[$i], 'admin'));
+                        $user[$i]->setUserName("TestUser{$i}");
+                        $user[$i]->setUserFristName("John{$i}");
+                        $user[$i]->setUserRef("clijohn{$i}");
+                        $user[$i]->setUserPhone("12345678{$i}");
+                        $user[$i]->setUserCoefficient($coeficient_base);
+                        $user[$i]->setCommercialRef($comuser1);
+                    
+                        $manager->persist($user[$i]);
+                        var_dump("creation user particulier " . $i );
+                        // Création de l'adresse pour cet utilisateur
+                        $address[$i] = new Adress();
+                        $address[$i]->setAdrNumber("55");
+                        $address[$i]->setAdrStreet('Main Street');
+                        $address[$i]->setAdrZipCode("$i.2345");
+                        $address[$i]->setAdrCity('Cityville');
+                        $address[$i]->setAdrAddInfo("$i eme etage");
+                        $address[$i]->addUser($user[$i]);
+                    
+                        $manager->persist($address[$i]);
+                    }
+                    
+                    // Création de 15 utilisateurs professionnels
+                    for ($i = 4; $i <= 25; $i++) {
+
+                        $prouser[$i] = new Users();
+                        $prouser[$i]->setUserEmail("pro{$i}@example.com");
+                        $prouser[$i]->setRoles(['ROLE_PRO']);
+                        $prouser[$i]->setPassword($this->hasher->hashPassword($prouser[$i], 'admin'));
+                        $prouser[$i]->setUserName("TestProUser{$i}");
+                        $prouser[$i]->setUserFristName("ProFirstName{$i}");
+                        $prouser[$i]->setUserRef("pro{$i}");
+                        $prouser[$i]->setUserPhone('123456789');
+                        $prouser[$i]->setUserCoefficient($coeficient_base);
+                        $prouser[$i]->setUserCompanyName("Company{$i}");
+                        $prouser[$i]->setUserCompanySiret(mt_rand(10000000000000, 99999999999999));
+                        $prouser[$i]->setUserCompanyCoefficient(mt_rand(110, 150) / 100);
+                        $prouser[$i]->setCommercialRef($comuser3);
+                        
+                        $manager->persist($prouser[$i]);
+                        var_dump('creation user pro' . $i);
+
+                        $proaddress[$i] = new Adress();
+                        $proaddress[$i]->setAdrNumber("50");
+                        $proaddress[$i]->setAdrStreet('Main Street');
+                        $proaddress[$i]->setAdrZipCode("12345");
+                        $proaddress[$i]->setAdrCity('Cityville');
+                        $proaddress[$i]->setAdrAddInfo("$i eme floor");
+                        $proaddress[$i]->addUser($prouser[$i]);
+                    
+                        $manager->persist($proaddress[$i]);
+                    }
             
                     //Supplier
 
@@ -1048,23 +1109,27 @@ class JeuTest extends Fixture
                             $manager->persist($product45);
 
                                                                     //add relation user/adress
-                                                                        $user1->addYe($adress1);
-                                                                        $user2->addYe($adress2);
-                                                                        $user3->addYe($adress3);
+                                                                        $user[1]->addYe($adress1);
+                                                                        $user[2]->addYe($adress2);
+                                                                        $user[3]->addYe($adress3);
+                                                                        for ($i = 4; $i <= 25; $i++) {
+                                                                            $user[$i]->addYe($address[$i]);
+                                                                        }
                     
-                                                                        $prouser1->addYe($adress4);
-                                                                        $prouser2->addYe($adress5);
-                                                                        $prouser3->addYe($adress6);
+                                                                        $prouser[1]->addYe($adress4);
+                                                                        $prouser[2]->addYe($adress5);
+                                                                        $prouser[3]->addYe($adress6);
+                                                                        for ($i = 4; $i <= 25; $i++) {
+                                                                            $prouser[$i]->addYe($proaddress[$i]);
+                                                                        }
 
                                                                     //
 
                         //generation commande client particulier
 
-                        //
-
-                        for ($i = 1; $i <= 80; $i++) {
-
-                            $userset = [$user1,$user2,$user3];
+                        for ($i = 1; $i <= 226; $i++) {
+                            var_dump("creation commande particulier ". $i);
+                            $userset = [$user[1],$user[2],$user[3],$user[4],$user[5],$user[6],$user[7],$user[8],$user[9],$user[10],$user[11],$user[12],$user[13],$user[14],$user[15],$user[16],$user[17],$user[18],$user[19],$user[20],$user[21],$user[22],$user[23],$user[24]];
                             $productset = [
                                 $product1, $product2, $product3, $product4, $product5,
                                 $product6, $product7, $product8, $product9, $product10,
@@ -1076,8 +1141,8 @@ class JeuTest extends Fixture
                                 $product36, $product37, $product38, $product39, $product40,
                                 $product41, $product42, $product43, $product44, $product45
                             ];
-                            $usernombre = rand(0,2);
-                            $productnombre = rand(0,26);
+                            $usernombre = rand(0,23);
+                            $productnombre = rand(0,44);
                             $quantityboucle = rand(1,5);
 
                             $date_j = new \DateTime();
@@ -1144,9 +1209,9 @@ class JeuTest extends Fixture
 
                         //generation commande client pro
                                         
-                        for ($i = 1; $i <= 160; $i++) {
-
-                            $userset = [$prouser1,$prouser2,$prouser3];
+                        for ($i = 1; $i <= 845; $i++) {
+                            var_dump("creation commande pro ".$i);
+                            $userset = [$prouser[1],$prouser[2],$prouser[3],$prouser[4],$prouser[5],$prouser[6],$prouser[7],$prouser[8],$prouser[9],$prouser[10],$prouser[11],$prouser[12],$prouser[13],$prouser[14],$prouser[15],$prouser[16],$prouser[17],$prouser[18],$prouser[19],$prouser[20],$prouser[21],$prouser[22],$prouser[23],$prouser[24],$prouser[25]];
                             $productset = [
                                 $product1, $product2, $product3, $product4, $product5,
                                 $product6, $product7, $product8, $product9, $product10,
@@ -1158,8 +1223,8 @@ class JeuTest extends Fixture
                                 $product36, $product37, $product38, $product39, $product40,
                                 $product41, $product42, $product43, $product44, $product45
                             ];
-                            $usernombre = rand(0,2);
-                            $productnombre = rand(0,26);
+                            $usernombre = rand(0,24);
+                            $productnombre = rand(0,44);
                             $quantityboucle = rand(1,12);
 
 
