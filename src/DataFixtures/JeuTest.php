@@ -15,13 +15,15 @@ use App\Entity\ProductOrders;
 use App\Entity\SubCategory;
 use App\Entity\Supplier;
 use App\Entity\Users;
+use DateInterval;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\VarDumper\VarDumper;
 
 class JeuTest extends Fixture
 {
     //Function
     private $hasher;
-
+    //calcul prix total
     public function calprixtotal ($quantityboucle,$coeficient_base,$prixarticle,$tva ) {
         return $prixtotal = ((($prixarticle*$quantityboucle)*$coeficient_base)*$tva);
     }
@@ -29,6 +31,28 @@ class JeuTest extends Fixture
     public function __construct(UserPasswordHasherInterface $hasher){
         $this->hasher = $hasher;
     }
+
+    //gen Date
+    function date_gen_ant($DateJ)   {
+
+        // $date_gen = clone $DateJ;
+        $rdn = rand(1,3);
+
+        $date_retourn = $DateJ->sub(new DateInterval("P" . $rdn . "W"));
+
+        return $date_retourn;
+    }
+
+    function date_gen_sup($DateJ)
+    {
+        $date_gen = clone $DateJ;
+        $rdn = rand(1,3);
+
+        $date_retourn = $date_gen->add(new DateInterval("P" . $rdn . "W"));
+
+        return $date_retourn;
+    }
+
     //Data
     public function load(ObjectManager $manager): void
     {
@@ -751,6 +775,278 @@ class JeuTest extends Fixture
                         $product27->setSuppliers($supplier2);
                         $manager->persist($product27);
 
+        // Ajout categorie
+
+        $categoryVents = new Category();
+        $categoryVents->setCatName('Vents');
+        $categoryVents->setCatPictureName('vents.jpg');
+
+        $manager->persist($categoryVents);
+
+                //Sous categorie
+
+                $subcategorySaxophones = new SubCategory();
+                $subcategorySaxophones->setSubName('Saxophones');
+                $subcategorySaxophones->setSubPictureName('saxophones.jpg');
+                $subcategorySaxophones->setCategorys($categoryVents);
+                $manager->persist($subcategorySaxophones);
+
+                                //
+
+                                $product28 = new Product();
+
+                                $product28->setProName('Yamaha YAS-280 Alto Sax');
+                                $product28->setProDesc('Corps et mécanique en laiton. Admission du bocal améliorée, bascule Si-Do# grave améliorée. Clé de Fa# aigu, clé de Fa avant, repose-pouce réglable. Protection des clés continue. Poids : 2,4 kg. Finition : Vernis doré. Étui souple avec sangles sac à dos, bec Yamaha 4C, sangle et graisse pour liège incl.');
+                                $product28->setProPriceHT(998);
+                                $product28->setProActive(true); 
+                                $product28->setProRef('yyas548'); 
+                                $product28->setProPictureName('Yamaha_280_Alto_Sax.jpg');
+                                $product28->setSubcategory($subcategorySaxophones);
+                                $product28->setSuppliers($supplier2);
+                                $manager->persist($product28);
+
+                                $product29 = new Product();
+
+                                $product29->setProName('Startone SAS-75 Alto Sax');
+                                $product29->setProDesc('Admission du bocal améliorée, bascule Si-Do# grave améliorée. Clé de Fa# aigu, clé de Fa avant, repose-pouce réglable. Protection des clés continue. Poids : 2,4 kg. Finition : Vernis doré. Étui souple avec sangles sac à dos, bec Yamaha 4C, sangle et graisse pour liège incl.');
+                                $product29->setProPriceHT(289);
+                                $product29->setProActive(true); 
+                                $product29->setProRef('ssadt51200'); 
+                                $product29->setProPictureName('Startone_SAS_75_Alto_Sax.jpg');
+                                $product29->setSubcategory($subcategorySaxophones);
+                                $product29->setSuppliers($supplier1);
+                                $manager->persist($product29);
+
+                                $product30 = new Product();
+
+                                $product30->setProName('Selmer SE-A2L Goldlac SA80 II AltoSax');
+                                $product30->setProDesc('Jubilée Design. Corps gravé. Clé de Fa# aigu. Résonateurs en métal. Finition : Vernis doré. Bec S80 C* et étui souple inclus.');
+                                $product30->setProPriceHT(5298);
+                                $product30->setProActive(true); 
+                                $product30->setProRef('segsa5412'); 
+                                $product30->setProPictureName('Selmer_Goldlac_SA80_II_AltoSax.jpg');
+                                $product30->setSubcategory($subcategorySaxophones);
+                                $product30->setSuppliers($supplier1);
+                                $manager->persist($product30);
+
+                $subcategoryClarinettes = new SubCategory();
+                $subcategoryClarinettes->setSubName('Clarinettes');
+                $subcategoryClarinettes->setSubPictureName('clarinettes.jpg');
+                $subcategoryClarinettes->setCategorys($categoryVents);
+                $manager->persist($subcategoryClarinettes);
+
+                                //
+
+
+                        $product31 = new product();
+                        $product31->setProName('Buffet Crampon R13 Clarinet');
+                        $product31->setProDesc('Corps en grenadille sélectionnée. Clé de Mi grave. Finition : Argenté. Bec Vandoren B45 et étui rigide inclus.');
+                        $product31->setProPriceHT(2345);
+                        $product31->setProActive(true);
+                        $product31->setProRef('bcra6890');
+                        $product31->setProPictureName('Buffet_Crampon_R13_Clarinet.jpg');
+                        $product31->setSubcategory($subcategoryClarinettes);
+                        $product31->setSuppliers($supplier3);
+                        $manager->persist($product31);
+
+                        $product32 = new product();
+                        $product32->setProName('Yamaha YCL-650 Clarinet');
+                        $product32->setProDesc('Corps en grenadille sélectionnée. Clé de Mi grave. Finition : Argenté. Bec Yamaha 4C et étui rigide inclus.');
+                        $product32->setProPriceHT(1499);
+                        $product32->setProActive(true);
+                        $product32->setProRef('yycl5012');
+                        $product32->setProPictureName('Yamaha_YCL_650_Clarinet.jpg');
+                        $product32->setSubcategory($subcategoryClarinettes);
+                        $product32->setSuppliers($supplier2);
+                        $manager->persist($product32);
+
+                        $product33 = new product();
+                        $product33->setProName('Selmer CL211 Clarinet');
+                        $product33->setProDesc('Corps en grenadille sélectionnée. Clé de Mi grave. Finition : Argenté. Bec Selmer HS* et étui rigide inclus.');
+                        $product33->setProPriceHT(1890);
+                        $product33->setProActive(true);
+                        $product33->setProRef('scls891');
+                        $product33->setProPictureName('Selmer_CL211_Clarinet.jpg');
+                        $product33->setSubcategory($subcategoryClarinettes);
+                        $product33->setSuppliers($supplier1);
+                        $manager->persist($product33);
+
+                $subcategoryTrombones = new SubCategory();
+                $subcategoryTrombones->setSubName('Trombones');
+                $subcategoryTrombones->setSubPictureName('trombones.jpg');
+                $subcategoryTrombones->setCategorys($categoryVents);
+                $manager->persist($subcategoryTrombones);
+
+                                //
+                                $product34 = new Product();
+                                $product34->setProName('Yamaha YSL-354 Trombone');
+                                $product34->setProDesc('Trombone à coulisse standard. Finition : Laiton. Embouchure Yamaha 48 et étui rigide inclus.');
+                                $product34->setProPriceHT(899);
+                                $product34->setProActive(true);
+                                $product34->setProRef('yysl354');
+                                $product34->setProPictureName('Yamaha_YSL_354_Trombone.jpg');
+                                $product34->setSubcategory($subcategoryTrombones);
+                                $product34->setSuppliers($supplier2);
+                                $manager->persist($product34);
+
+                                $product35 = new Product();
+                                $product35->setProName('Jupiter JSL-432 Trombone');
+                                $product35->setProDesc('Trombone à coulisse standard. Finition : Laiton. Embouchure Jupiter 12C et étui rigide inclus.');
+                                $product35->setProPriceHT(689);
+                                $product35->setProActive(true);
+                                $product35->setProRef('jjsl432');
+                                $product35->setProPictureName('Jupiter_JSL_432_Trombone.jpg');
+                                $product35->setSubcategory($subcategoryTrombones);
+                                $product35->setSuppliers($supplier1);
+                                $manager->persist($product35);
+
+                                $product36 = new Product();
+                                $product36->setProName('Bach TB301 Trombone');
+                                $product36->setProDesc('Trombone à coulisse standard. Finition : Laiton. Embouchure Bach 12C et étui rigide inclus.');
+                                $product36->setProPriceHT(799);
+                                $product36->setProActive(true);
+                                $product36->setProRef('bbach301');
+                                $product36->setProPictureName('Bach_TB301_Trombone.jpg');
+                                $product36->setSubcategory($subcategoryTrombones);
+                                $product36->setSuppliers($supplier3);
+                                $manager->persist($product36);
+
+                // category
+                $categorySono = new Category();
+                $categorySono->setCatName('Sono');
+                $categorySono->setCatPictureName('sono.jpg');
+                $manager->persist($categorySono);
+
+                        //subcategories
+                        $subcategoryMicro = new SubCategory();
+                        $subcategoryMicro->setSubName('Micro');
+                        $subcategoryMicro->setSubPictureName('micro.jpg');
+                        $subcategoryMicro->setCategorys($categorySono);
+                        $manager->persist($subcategoryMicro);
+
+                        //
+                            $product37 = new Product();
+
+                            $product37->setProName('Microphone Professionnel Studio XYZ-1000');
+                            $product37->setProDesc('Microphone de studio haut de gamme avec une réponse en fréquence étendue et une sensibilité élevée. Idéal pour l\'enregistrement vocal et instrumental en studio professionnel.');
+                            $product37->setProPriceHT(499.99);
+                            $product37->setProActive(true);
+                            $product37->setProRef('MSXYZ1000');
+                            $product37->setProPictureName('microphone_xyz_1000.jpg');
+                            $product37->setSubcategory($subcategoryMicro);
+                            $product37->setSuppliers($supplier1);
+                            $manager->persist($product37);
+                        
+                            $product38 = new Product();
+                        
+                            $product38->setProName('Microphone à Condensateur StudioPro-2000');
+                            $product38->setProDesc('Un microphone à condensateur de qualité professionnelle offrant une clarté exceptionnelle et une reproduction sonore précise. Parfait pour les enregistrements vocaux et les instruments acoustiques.');
+                            $product38->setProPriceHT(349.99);
+                            $product38->setProActive(true);
+                            $product38->setProRef('MSCP2000');
+                            $product38->setProPictureName('microphone_studiopro_2000.jpg');
+                            $product38->setSubcategory($subcategoryMicro);
+                            $product38->setSuppliers($supplier2);
+                            $manager->persist($product38);
+                        
+                            $product39 = new Product();
+                        
+                            $product39->setProName('Microphone Dynamique StudioTech-500');
+                            $product39->setProDesc('Un microphone dynamique robuste conçu pour capturer des performances vocales et instrumentales avec une excellente isolation des bruits environnants. Idéal pour les studios de musique et les environnements d\'enregistrement professionnels.');
+                            $product39->setProPriceHT(199.99);
+                            $product39->setProActive(true);
+                            $product39->setProRef('MSDT500');
+                            $product39->setProPictureName('microphone_studiotech_500.jpg');
+                            $product39->setSubcategory($subcategoryMicro);
+                            $product39->setSuppliers($supplier3);
+                            $manager->persist($product39);
+
+                        $subcategoryEnceintes = new SubCategory();
+                        $subcategoryEnceintes->setSubName('Enceintes de sonorisation');
+                        $subcategoryEnceintes->setSubPictureName('enceintes.jpg');
+                        $subcategoryEnceintes->setCategorys($categorySono);
+                        $manager->persist($subcategoryEnceintes);
+
+                                //
+
+                            $product40 = new Product();
+                            
+                            $product40->setProName('Enceinte de Studio Professionnelle ProSound-1000');
+                            $product40->setProDesc('Enceinte de studio professionnelle offrant une reproduction sonore haute fidélité avec une réponse en fréquence étendue. Parfaite pour le mixage et la production musicale en studio.');
+                            $product40->setProPriceHT(799.99);
+                            $product40->setProActive(true);
+                            $product40->setProRef('ESPP1000');
+                            $product40->setProPictureName('enceinte_prosound_1000.jpg');
+                            $product40->setSubcategory($subcategoryEnceintes);
+                            $product40->setSuppliers($supplier1);
+                            $manager->persist($product40);
+                            
+                            $product41 = new Product();
+                            
+                            $product41->setProName('Enceinte de Monitoring StudioTech-2000');
+                            $product41->setProDesc('Enceinte de monitoring professionnelle dotée d\'une conception bi-amplifiée et de transducteurs de qualité supérieure pour une reproduction sonore précise. Idéale pour le mixage et la production en studio.');
+                            $product41->setProPriceHT(1199.99);
+                            $product41->setProActive(true);
+                            $product41->setProRef('EMST2000');
+                            $product41->setProPictureName('enceinte_studiotech_2000.jpg');
+                            $product41->setSubcategory($subcategoryEnceintes);
+                            $product41->setSuppliers($supplier2);
+                            $manager->persist($product41);
+                            
+                            $product42 = new Product();
+                            
+                            $product42->setProName('Enceinte de Monitoring StudioPro-3000');
+                            $product42->setProDesc('Enceinte de monitoring professionnelle haut de gamme offrant une reproduction sonore exceptionnelle et une réponse en fréquence précise. Parfaite pour le mastering et la post-production en studio.');
+                            $product42->setProPriceHT(1699.99);
+                            $product42->setProActive(true);
+                            $product42->setProRef('EMSP3000');
+                            $product42->setProPictureName('enceinte_studiopro_3000.jpg');
+                            $product42->setSubcategory($subcategoryEnceintes);
+                            $product42->setSuppliers($supplier3);
+                            $manager->persist($product42);
+
+                        $subcategoryTables = new SubCategory();
+                        $subcategoryTables->setSubName('Tables de mixage');
+                        $subcategoryTables->setSubPictureName('tables.jpg');
+                        $subcategoryTables->setCategorys($categorySono);
+                        $manager->persist($subcategoryTables);
+
+                            $product43 = new Product();
+
+                            $product43->setProName('Table de Mixage StudioPro-3000');
+                            $product43->setProDesc('Table de mixage professionnelle dotée de fonctionnalités avancées pour un contrôle précis du mixage en studio. Offre une qualité audio exceptionnelle et une fiabilité accrue pour répondre aux besoins des professionnels.');
+                            $product43->setProPriceHT(1799.99);
+                            $product43->setProActive(true);
+                            $product43->setProRef('TMSRP3000');
+                            $product43->setProPictureName('table_mixage_studiopro_3000.jpg');
+                            $product43->setSubcategory($subcategoryTables);
+                            $product43->setSuppliers($supplier1);
+                            $manager->persist($product43);
+                            
+                            $product44 = new Product();
+                            
+                            $product44->setProName('Table de Mixage Numérique StudioTech-4000');
+                            $product44->setProDesc('Table de mixage numérique professionnelle avec une interface conviviale et des fonctionnalités avancées pour une production musicale créative. Dispose de nombreuses entrées/sorties et de capacités de routage flexibles.');
+                            $product44->setProPriceHT(2999.99);
+                            $product44->setProActive(true);
+                            $product44->setProRef('TMNST4000');
+                            $product44->setProPictureName('table_mixage_studiotech_4000.jpg');
+                            $product44->setSubcategory($subcategoryTables);
+                            $product44->setSuppliers($supplier2);
+                            $manager->persist($product44);
+                            
+                            $product45 = new Product();
+                            
+                            $product45->setProName('Table de Mixage Analogique ProSound-5000');
+                            $product45->setProDesc('Table de mixage analogique professionnelle avec une conception robuste et des composants de haute qualité pour une performance audio exceptionnelle. Idéale pour les studios d\'enregistrement et les environnements de production.');
+                            $product45->setProPriceHT(1299.99);
+                            $product45->setProActive(true);
+                            $product45->setProRef('TMAPS5000');
+                            $product45->setProPictureName('table_mixage_prosound_5000.jpg');
+                            $product45->setSubcategory($subcategoryTables);
+                            $product45->setSuppliers($supplier3);
+                            $manager->persist($product45);
+
                                                                     //add relation user/adress
                                                                         $user1->addYe($adress1);
                                                                         $user2->addYe($adress2);
@@ -763,13 +1059,34 @@ class JeuTest extends Fixture
                                                                     //
 
                         //generation commande client particulier
-                        for ($i = 1; $i <= 20; $i++) {
+
+                        //
+
+                        for ($i = 1; $i <= 80; $i++) {
 
                             $userset = [$user1,$user2,$user3];
-                            $productset = [$product1, $product2, $product3, $product4, $product5, $product6, $product7, $product8, $product9, $product10, $product11, $product12, $product13, $product14, $product15, $product16, $product17, $product18, $product19, $product20, $product21, $product22, $product23, $product24, $product25, $product26, $product27];
+                            $productset = [
+                                $product1, $product2, $product3, $product4, $product5,
+                                $product6, $product7, $product8, $product9, $product10,
+                                $product11, $product12, $product13, $product14, $product15,
+                                $product16, $product17, $product18, $product19, $product20,
+                                $product21, $product22, $product23, $product24, $product25,
+                                $product26, $product27, $product28, $product29, $product30,
+                                $product31, $product32, $product33, $product34, $product35,
+                                $product36, $product37, $product38, $product39, $product40,
+                                $product41, $product42, $product43, $product44, $product45
+                            ];
                             $usernombre = rand(0,2);
                             $productnombre = rand(0,26);
                             $quantityboucle = rand(1,5);
+
+                            $date_j = new \DateTime();
+
+                            $date_client_commande = $this->date_gen_ant($date_j);
+                            // $date_client_facturation = $date_client_commande;
+                            $date_client_expediction = $this->date_gen_sup($date_client_commande);
+                            $date_client_livraison_estime = $this->date_gen_sup($date_client_expediction);
+                            $date_client_livraison = $this->date_gen_sup($date_client_livraison_estime);
 
                             $adress_get = $userset[$usernombre]->getYes();
 
@@ -789,22 +1106,23 @@ class JeuTest extends Fixture
                                 $order[$i]->setOrdAdressDelivery($adress_user_get);
                                 $order[$i]->setOrdAdressBilling($adress_user_get);
                                 $order[$i]->setOrdRebBill("Fact00" . $i);
-                                $order[$i]->setOrdDateBill(new \DateTime());
+                                $order[$i]->setOrdDateBill($date_client_commande);
                                 $order[$i]->setOrdStatusBill(rand(1, 3));
-                                $order[$i]->setUsers($userset[$usernombre]); //$userset[$usernombre]
+                                $order[$i]->setUsers($userset[$usernombre]);
                             
                             $delivery[$i] = new Delivery();
                             
-                                $delivery[$i]->setDelDateExped(new \DateTime());
-                                $delivery[$i]->setDelDatePlannedDelivery(new \DateTime());
-                                $delivery[$i]->setDelDateDeliveryClient(new \DateTime());
+                                $delivery[$i]->setDelDateExped($date_client_expediction);
+                                $delivery[$i]->setDelDatePlannedDelivery($date_client_livraison_estime);
+                                $delivery[$i]->setDelDateDeliveryClient($date_client_livraison);
+                                $delivery[$i]->setOrders($order[$i]);
                             
                             $productorder[$i] = new ProductOrders();
                             
                                     $productorder[$i]->setProOrdProductQuantity($quantityboucle);
-                                    $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName()); //$productset[$productnombre]->getProName()
-                                    $productorder[$i]->setProOrdPriceUht($productset[$productnombre]->getProPriceHT()); //$productset[$productnombre]->getProPriceHT()
-                                    $productorder[$i]->setProduct($product1); //$productset[$productnombre]
+                                    $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName());
+                                    $productorder[$i]->setProOrdPriceUht($productset[$productnombre]->getProPriceHT()); 
+                                    $productorder[$i]->setProduct($product1);
                                     $productorder[$i]->setOrders($order[$i]);
                             
                             $productdelivery[$i] = new ProductDelivery();
@@ -826,13 +1144,32 @@ class JeuTest extends Fixture
 
                         //generation commande client pro
                                         
-                        for ($i = 1; $i <= 20; $i++) {
+                        for ($i = 1; $i <= 160; $i++) {
 
                             $userset = [$prouser1,$prouser2,$prouser3];
-                            $productset = [$product1, $product2, $product3, $product4, $product5, $product6, $product7, $product8, $product9, $product10, $product11, $product12, $product13, $product14, $product15, $product16, $product17, $product18, $product19, $product20, $product21, $product22, $product23, $product24, $product25, $product26, $product27];
+                            $productset = [
+                                $product1, $product2, $product3, $product4, $product5,
+                                $product6, $product7, $product8, $product9, $product10,
+                                $product11, $product12, $product13, $product14, $product15,
+                                $product16, $product17, $product18, $product19, $product20,
+                                $product21, $product22, $product23, $product24, $product25,
+                                $product26, $product27, $product28, $product29, $product30,
+                                $product31, $product32, $product33, $product34, $product35,
+                                $product36, $product37, $product38, $product39, $product40,
+                                $product41, $product42, $product43, $product44, $product45
+                            ];
                             $usernombre = rand(0,2);
                             $productnombre = rand(0,26);
                             $quantityboucle = rand(1,12);
+
+
+                            $date_j = new \DateTime();
+
+                        $date_client_commande = $this->date_gen_ant($date_j);
+                            $date_client_expediction = $this->date_gen_sup($date_client_commande);
+                                $date_client_livraison_estime = $this->date_gen_sup($date_client_expediction);
+                                    $date_client_livraison = $this->date_gen_sup($date_client_livraison_estime);
+                                        $date_client_facturation = $this->date_gen_sup($date_client_livraison);
 
                             $adress_get = $userset[$usernombre]->getYes();
 
@@ -848,26 +1185,27 @@ class JeuTest extends Fixture
                             
                                 $order[$i]->setOrdRef(0000 . $i);
                                 $order[$i]->setOrdReduction(rand(0, 10));
-                                $order[$i]->setOrdClientCoefficient($userset[$usernombre]->getUserCompanyCoefficient());
+                                $order[$i]->setOrdClientCoefficient($coeficient_base);
                                 $order[$i]->setOrdAdressDelivery($adress_user_get);
                                 $order[$i]->setOrdAdressBilling($adress_user_get);
                                 $order[$i]->setOrdRebBill("Fact00" . $i);
-                                $order[$i]->setOrdDateBill(new \DateTime());
+                                $order[$i]->setOrdDateBill($date_client_facturation);
                                 $order[$i]->setOrdStatusBill(rand(1, 3));
-                                $order[$i]->setUsers($userset[$usernombre]); //$userset[$usernombre]
+                                $order[$i]->setUsers($userset[$usernombre]);
                             
                             $delivery[$i] = new Delivery();
                             
-                                $delivery[$i]->setDelDateExped(new \DateTime());
-                                $delivery[$i]->setDelDatePlannedDelivery(new \DateTime());
-                                $delivery[$i]->setDelDateDeliveryClient(new \DateTime());
+                                $delivery[$i]->setDelDateExped($date_client_expediction);
+                                $delivery[$i]->setDelDatePlannedDelivery($date_client_livraison_estime);
+                                $delivery[$i]->setDelDateDeliveryClient($date_client_livraison);
+                                $delivery[$i]->setOrders($order[$i]);
                             
                             $productorder[$i] = new ProductOrders();
                             
                                     $productorder[$i]->setProOrdProductQuantity($quantityboucle);
-                                    $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName()); //$productset[$productnombre]->getProName()
-                                    $productorder[$i]->setProOrdPriceUht($productset[$productnombre]->getProPriceHT()); //$productset[$productnombre]->getProPriceHT()
-                                    $productorder[$i]->setProduct($product1); //$productset[$productnombre]
+                                    $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName()); 
+                                    $productorder[$i]->setProOrdPriceUht($productset[$productnombre]->getProPriceHT()); 
+                                    $productorder[$i]->setProduct($product1);
                                     $productorder[$i]->setOrders($order[$i]);
                             
                             $productdelivery[$i] = new ProductDelivery();
@@ -887,7 +1225,7 @@ class JeuTest extends Fixture
                                     $manager->persist($productorder[$i]);
                                     $manager->persist($productdelivery[$i]);
                                 }
-        
+  
         // Send data
         $manager->flush();
     }
