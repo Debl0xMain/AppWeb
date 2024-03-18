@@ -73,6 +73,7 @@ class JeuTest extends Fixture
             $comuser1->setUserFristName('Brian');
             $comuser1->setUserRef('combria8457');
             $comuser1->setUserPhone('123456789');
+            $comuser1->setIsVerified('1');
             $comuser1->setUserCoefficient($coeficient_base);
 
             $manager->persist($comuser1);
@@ -87,6 +88,7 @@ class JeuTest extends Fixture
             $comuser2->setUserFristName('Bastian');
             $comuser2->setUserRef('combas8452');
             $comuser2->setUserPhone('123456789');
+            $comuser2->setIsVerified('1');
             $comuser2->setUserCoefficient($coeficient_base);
 
             $manager->persist($comuser2);
@@ -101,6 +103,7 @@ class JeuTest extends Fixture
             $comuser3->setUserFristName('Zoé');
             $comuser3->setUserRef('comzoe8452');
             $comuser3->setUserPhone('123456789');
+            $comuser3->setIsVerified('1');
             $comuser3->setUserCoefficient($coeficient_base);
 
             $manager->persist($comuser3);
@@ -118,6 +121,7 @@ class JeuTest extends Fixture
             $user[1]->setUserRef('clijohn1486');
             $user[1]->setUserPhone('123456789');
             $user[1]->setUserCoefficient($coeficient_base);
+            $user[1]->setIsVerified('1');
             $user[1]->setCommercialRef($comuser1);
 
             $manager->persist($user[1]);
@@ -145,6 +149,7 @@ class JeuTest extends Fixture
             $user[2]->setUserRef('clikim1524');
             $user[2]->setUserPhone('123456789');
             $user[2]->setUserCoefficient($coeficient_base);
+            $user[2]->setIsVerified('1');
             $user[2]->setCommercialRef($comuser1);
 
             $manager->persist($user[2]);
@@ -171,6 +176,7 @@ class JeuTest extends Fixture
             $user[3]->setUserRef('clilou6482');
             $user[3]->setUserPhone('123456789');
             $user[3]->setUserCoefficient($coeficient_base);
+            $user[3]->setIsVerified('1');
             $user[3]->setCommercialRef($comuser3);
 
             $manager->persist($user[3]);
@@ -202,6 +208,7 @@ class JeuTest extends Fixture
                 $prouser[1]->setUserCompanyName('OrchestreLe1');
                 $prouser[1]->setUserCompanySiret('84521569854758');
                 $prouser[1]->setUserCompanyCoefficient(1.6);
+                $prouser[1]->setIsVerified('1');
                 $prouser[1]->setCommercialRef($comuser2);
 
                 $manager->persist($prouser[1]);
@@ -233,6 +240,7 @@ class JeuTest extends Fixture
                 $prouser[2]->setUserCompanyName('InstumentNet');
                 $prouser[2]->setUserCompanySiret('84265789525684');
                 $prouser[2]->setUserCompanyCoefficient(1.2);
+                $prouser[2]->setIsVerified('1');
                 $prouser[2]->setCommercialRef($comuser2);
 
                 $manager->persist($prouser[2]);
@@ -263,6 +271,7 @@ class JeuTest extends Fixture
                 $prouser[3]->setUserCompanyName('BuyCorde');
                 $prouser[3]->setUserCompanySiret('85412569874525');
                 $prouser[3]->setUserCompanyCoefficient(1.3);
+                $prouser[3]->setIsVerified('1');
                 $prouser[3]->setCommercialRef($comuser3);
 
                 $manager->persist($prouser[3]);
@@ -292,6 +301,7 @@ class JeuTest extends Fixture
                         $user[$i]->setUserRef("clijohn{$i}");
                         $user[$i]->setUserPhone("12345678{$i}");
                         $user[$i]->setUserCoefficient($coeficient_base);
+                        $user[$i]->setIsVerified('1');
                         $user[$i]->setCommercialRef($comuser1);
                     
                         $manager->persist($user[$i]);
@@ -323,6 +333,7 @@ class JeuTest extends Fixture
                         $prouser[$i]->setUserCompanyName("Company{$i}");
                         $prouser[$i]->setUserCompanySiret(mt_rand(10000000000000, 99999999999999));
                         $prouser[$i]->setUserCompanyCoefficient(mt_rand(110, 150) / 100);
+                        $prouser[$i]->setIsVerified('1');
                         $prouser[$i]->setCommercialRef($comuser3);
                         
                         $manager->persist($prouser[$i]);

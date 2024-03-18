@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\CategoryRepository;
-
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Entity\Users;
 use App\Form\RegistrationFormType;
 use App\Repository\UsersRepository;
@@ -33,9 +33,11 @@ class HomeController extends AbstractController
     }
 
     #[Route('/', name: 'app_home')]
-    public function index(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager,AuthenticationUtils $authenticationUtils): Response
     {
         $user = new Users();
+        $lastUsername = $authenticationUtils->getLastUsername();
+        $error = $authenticationUtils->getLastAuthenticationError();
         $form_register = $this->createForm(RegistrationFormType::class, $user);
         $form_register->handleRequest($request);
 
@@ -70,6 +72,8 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
             'navbar_category' => $category,
             'registrationForm' => $form_register,
+            'error' => $error,
+            'last_username' => $lastUsername,
         ]);
     }
 
@@ -101,10 +105,9 @@ class HomeController extends AbstractController
     #[Route('/login', name: 'app_login')]
     public function login(): Response
     {
-        return $this->render('login/index.html.twig', [
-            'controller_name' => 'LoginController',
-        ]);
+        return $this->redirectToRoute('app_home');
     }
+
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {

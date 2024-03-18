@@ -27,7 +27,6 @@
                 <img class="navbar_logo_reponsive" src={{asset('assets/logo/logogv.png')}} alt="logo"/>
             </button>
             <div class="collapse navbar-collapse navbar_bg row" id="navbarSupportedContent">
-{#  #}
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                     <section class="mx-3 col-1 my-2">
@@ -54,11 +53,11 @@
                         </div>
                    </section>
 
-                    <section class="col-2 my-2">
+                    <section class="col-1 my-2">
                         <article class="row">
 
                             <div class="navbar_case">
-                                <button type="button" class="btn btn btn-outline-success btnicon" id="logincharge" data-bs-toggle="modal" data-bs-target="#basket-shopping">
+                                <button type="button" class="btn btn btn-outline-success" id="shopbtn" data-bs-toggle="modal" data-bs-target="#basket-shopping">
                                     <i class="fa-sharp fa-solid fa-basket-shopping"></i>
                                     <p class="btnlogintext" id="btnlogintext">Panier</p>
                                 </button>
@@ -67,9 +66,9 @@
                                     {# login/inscription #}
                                     {% if app.user == null %}
                                     <div class="btnlogin">
-                                        <button type="button" class="btn btn btn-outline-success btnicon" id="logincharge" data-bs-toggle="modal" data-bs-target="#login">
+                                        <button type="button" class="btn btn-outline-success btnicon" id="logincharge" data-bs-toggle="modal" data-bs-target="#login">
                                         <i class="fa-solid fa-user"></i>
-                                        <p class="btnlogintext" id="btnlogintext"> Login <br> Inscription </p>
+                                        <p class="btnlogintext" id="btnlogintext">Login <br> Inscription</p>
                                         </button>
                                     </div>
                                     {% endif %}
@@ -93,76 +92,73 @@
         </div>
     </nav>
 </div>
+<pre>
+    {{ dump(app.user) }}
+</pre>
 {#  Modal #}
 {% if app.user == null %}
 {# modal login #}
 
 <div class="modal" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-  <div class="modal-content loginmodal">
-    <div class="modal-header mx-auto">
-      <h5 class="modal-title" id="exampleModalLabel">Login<label class="switch">
-      <input type="checkbox" id="changemodal" checked>
-      <span class="slider round"></span>
-      </label> Inscription</h5>
-    </div>
-        <div class="modal-body container text-center">
-
-            <div class="text-center login" id="loginchange">
-
-                                <form method="post" action="{{ path('app_login')}}">
-                                    {# {% if error %}
-                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                                    {% endif %} #}
-
-                                    <h1 class="h3 mb-3 font-weight-normal">Login</h1>
-                                    <label class='form-label' for="inputEmail">Email</label>
-                                    <input type="email" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                                    <label class='form-label' for="inputPassword">Password</label>
-                                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-                                    <input type="hidden" name="_csrf_token"
-                                        value="{{ csrf_token('authenticate') }}">
-                                        <div class="checkbox mb-3">
-                                            <label>
-                                                <input type="checkbox" name="_remember_me"> Se souvenir de moi
-                                            </label>
-                                        </div>
-                                    <button class="btn btn-lg btn-primary" type="submit">
-                                        Login
-                                    </button>
-                                </form>
+    <div class="modal-dialog">
+        <div class="modal-content loginmodal">
+            <div class="modal-header mx-auto">
+                <h5 class="modal-title" id="exampleModalLabel">Login<label class="switch">
+                <input type="checkbox" id="changemodal" checked>
+                <span class="slider round"></span>
+                </label> Inscription</h5>
             </div>
-    
-              <div class=" text-center inscription" id="inscription">
+                <div class="modal-body container text-center">
+                    <div class="text-center login" id="loginchange">
+                        <form method="post" action="{{ path('app_login')}}">
+                            {% if error %}
+                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}
+                                </div>
+                            {% endif %}
+                            <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+                            <label class='form-label' for="inputEmail">Email</label>
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                            <label class='form-label' for="inputPassword">Password</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                            <input type="hidden" name="_csrf_token"
+                            value="{{ csrf_token('authenticate') }}">
+                            <div class="checkbox mb-3">
+                                <label>
+                                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                                </label>
+                            </div>
+                            <button class="btn btn-lg btn-primary" type="submit">Login</button>
+                        </form>
+                    </div>
+                </div>
+                    <div class=" text-center inscription" id="inscription">
 {# <form method="post" action="{{ path('app_accueil')}}"> #}
+                            <div class="content row">
+                                {% for flash_error in app.flashes('verify_email_error') %}
+                                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                                {% endfor %}
 
-                    <div class="content row">
-                    {% for flash_error in app.flashes('verify_email_error') %}
-                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-                    {% endfor %}
+                                <h1>Inscription</h1>
 
-                    <h1>Inscription</h1>
+                                {{ form_errors(registrationForm) }}
 
-                    {{ form_errors(registrationForm) }}
+                                {{ form_start(registrationForm) }}
+                                {{ form_row(registrationForm.userEmail) }}
+                                {{ form_row(registrationForm.plainPassword, {
+                                    label: 'Password'
+                                }) }}
+                                {{ form_row(registrationForm.agreeTerms) }}
 
-                    {{ form_start(registrationForm) }}
-                    {{ form_row(registrationForm.userEmail) }}
-                    {{ form_row(registrationForm.plainPassword, {
-                        label: 'Password'
-                    }) }}
-                    {{ form_row(registrationForm.agreeTerms) }}
-
-                    <button type="submit" class="btn">Register</button>
-                    {{ form_end(registrationForm) }}
+                                <button type="submit" class="btn">Register</button>
+                                {{ form_end(registrationForm) }}
 {# </form> #}
-                        </div>
-  
+                            </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                </div>
         </div>
-    <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
     </div>
-</div>
-</div>
 </div>
 {% endif %}
 
