@@ -1,17 +1,376 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {# Meta #}
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+        <meta name="title" content="Green Village" />
+	    <meta name="description" content= "Magasin de musique !" />
+    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="theme-color" content="#3c790a" media="(prefers-color-scheme: dark)">
+        <meta name="color-scheme" content="dark light">
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        <title>{% block title %}Welcome!{% endblock %}</title>
+
+        {# links #}
+        <link rel="stylesheet" href={{asset('assets/css/navbar.css')}}>
+        <link rel="icon" type="image/png" href={{asset('assets/logo/logogv.png')}} />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        {% block stylesheets %}
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+    
+    <nav class="navbar navbar-expand-lg navbar_bg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <img class="navbar_logo_reponsive" src={{asset('assets/logo/logogv.png')}} alt="logo"/>
+            </button>
+            <div class="collapse navbar-collapse navbar_bg row" id="navbarSupportedContent">
+{#  #}
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <section class="mx-3 col-1 my-2">
+                        <a class="" href="/">
+                            <img class="navbar_logo" src={{asset('assets/logo/logogv.png')}} alt="logo">
+                        </a>
+                    </section>
+
+                   <section class="row col-5 w-75 mx-3">
+                        <div class="row">
+                        {# SearchBar #}
+                            <form class="d-flex" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </form>
+                        </div>
+
+                        <div class="row mt-2">
+                            {% for navbar_category in navbar_category %}
+                                <li class="nav-item col mx-1">
+                                    <a class="nav-link navbar_item_css text-center" href="#">{{ navbar_category.catName }}</a>
+                                </li>
+                            {% endfor %}
+                        </div>
+                   </section>
+
+                    <section class="col-2 my-2">
+                        <article class="row">
+
+                            <div class="navbar_case">
+                                <button type="button" class="btn btn btn-outline-success btnicon" id="logincharge" data-bs-toggle="modal" data-bs-target="#basket-shopping">
+                                    <i class="fa-sharp fa-solid fa-basket-shopping"></i>
+                                    <p class="btnlogintext" id="btnlogintext">Panier</p>
+                                </button>
+                            </div>
+
+                            {# login/inscription #}
+                            <div class="navbar_case">
+                                <div class="btnlogin">
+                                    <button type="button" class="btn btn btn-outline-light btnicon" id="logincharge" data-bs-toggle="modal" data-bs-target="#login">
+                                    <i class="fa-solid fa-user"></i>
+                                    <p class="btnlogintext" id="btnlogintext"> Login <br> Inscription </p>
+                                    </button>
+                                </div>
+                            </div>
+                            </article>
+                    </section>
+                </ul>
+{#  #}
+            </div>
+        </div>
+    </nav>
+</div>
+{#  Modal #}
+
+
+{# modal login #}
+
+<div class="modal" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content loginmodal">
+    <div class="modal-header mx-auto">
+      <h5 class="modal-title" id="exampleModalLabel">Login<label class="switch">
+      <input type="checkbox" id="changemodal">
+      <span class="slider round"></span>
+      </label> Inscription</h5>
+    </div>
+        <div class="modal-body container text-center">
+
+            <div class="text-center login" id="loginchange">
+
+                                <form method="post" action="{{ path('app_login')}}">
+                                    {% if error %}
+                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                    {% endif %}
+
+                                    <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+                                    <label class='form-label' for="inputEmail">Email</label>
+                                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                                    <label class='form-label' for="inputPassword">Password</label>
+                                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+                                    <input type="hidden" name="_csrf_token"
+                                        value="{{ csrf_token('authenticate') }}"
+                                    >
+
+                                        <div class="checkbox mb-3">
+                                            <label>
+                                                <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                                            </label>
+                                        </div>
+                                    
+
+                                    <button class="btn btn-lg btn-primary" type="submit">
+                                        Login
+                                    </button>
+                                </form>
+            </div>
+        
+              <div class=" text-center inscription" id="inscription">
+              <form method="post" action="{{ path('app_accueil')}}">
+
+    <div class="content row">
+            {{ form_start(registrationForm) }}
+
+            <div class="col-9 mx-auto mb-2">
+            {{ form_row(registrationForm.email, { label: 'Adresse email :' }) }}
+            </div>
+
+            <div class="col-9 mx-auto mb-2">
+            {{ form_row(registrationForm.nom, { label: 'Nom :' }) }}
+            </div>
+            <div class="col-9 mx-auto mb-2">
+            {{ form_row(registrationForm.prenom, { label: 'Prenom :' }) }}
+            </div>
+            <div class="col-9 mx-auto mb-2">
+            {{ form_row(registrationForm.ville, { label: 'Ville:' }) }}
+            </div>
+            <div class="col-9 mx-auto mb-2">
+            {{ form_row(registrationForm.cp, { label: 'Code postal :' }) }}
+            </div>
+            <div class="col-9 mx-auto mb-2">
+            {{ form_row(registrationForm.adresse, { label: 'Adresse :' }) }}
+            </div>
+            <div class="col-9 mx-auto mb-2">
+            {{ form_row(registrationForm.telephone, { label: 'Telephone :' }) }}
+            </div>
+            <div class="col-9 mx-auto mb-2">
+            {{ form_row(registrationForm.plainPassword.first, { label: 'Mot de passe :' }) }}
+            </div>
+            <div class="col-9 mx-auto mb-2">
+            {{ form_row(registrationForm.plainPassword.second, { label: 'Confirmez le mot de passe :' }) }}
+
+            </div>
+        </div>
+            <div class="col-9 mx-auto mb-2">
+                        <div class="form-group">
+                        {{ form_widget(registrationForm.agreeTerms) }}
+                        <a href="{{ path("app_cgu") }}"> link</a>
+                         </div>
+
+                <button type="submit" class="button btn btn-primary">Inscription</button>
+            </div>
+            {{ form_end(registrationForm) }}
+
+                    </form>
+              </div>
+  
+
+        </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+    </div>
+</div>
+</div>
+</div>
+
+{# Modal Panier#}
+
+<div class="modal fade" id="basket-shopping" tabindex="-1" aria-labelledby="basket-shoppingLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content shopmodal">
+      <div class="modal-header text-center mx-auto">
+      <i class="fa-sharp fa-solid fa-basket-shopping mx-2"></i>
+        <h5 class="modal-title" id="basket-shoppingLabel">
+        Panier
+        </h5>
+        <i class="fa-sharp fa-solid fa-basket-shopping mx-2"></i>
+      </div>
+      <div class="modal-body text-center">
+{# exmaple #}
+            <div class="row rows-col-4 panierrow${id}" id='panierrow${id}'>
+                <div class="col my-auto imgpaniercol${id}">
+                    <img class="panierimg" src={{ asset('assets/product/arrangeur.jpg')}} alt="Image" height="32px" width="32px">
+                </div>
+                <div class="col my-auto col my-auto panierlibelle${id}">
+                <p>Arrangeur</p>
+                </div>
+                <div class="col my-auto col my-auto panierprixu${id}">
+                <p>250.952 €/u</p>
+                </div>
+                <div class="col my-auto col my-auto panierprixt${id}">
+                <p>250.952 €/t</p>
+                </div>
+                <div class="col my-auto col my-auto panierqte${id}">
+                    <select name="${id}" class="changeqte bg-white text-dark" id="qteselect${id}">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                </div>
+                <div class="col my-auto col my-auto panierpaniersup${id}">
+                    <button onclick="dlton(${id})" type="submit" class="btn deletepanierbtn" id='deletepanierbtn' data-id="${id}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <hr class="mx-5 my-0">
+{# exmaple #}
+{# exmaple #}
+            <div class="row rows-col-4 panierrow${id}" id='panierrow${id}'>
+                <div class="col my-auto imgpaniercol${id}">
+                    <img class="panierimg" src={{ asset('assets/product/arrangeur.jpg')}} alt="Image" height="32px" width="32px">
+                </div>
+                <div class="col my-auto col my-auto panierlibelle${id}">
+                <p>Arrangeur</p>
+                </div>
+                <div class="col my-auto col my-auto panierprixu${id}">
+                <p>250.952 €/u</p>
+                </div>
+                <div class="col my-auto col my-auto panierprixt${id}">
+                <p>250.952 €/t</p>
+                </div>
+                <div class="col my-auto col my-auto panierqte${id}">
+                    <select name="${id}" class="changeqte bg-white text-dark" id="qteselect${id}">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                </div>
+                <div class="col my-auto col my-auto panierpaniersup${id}">
+                    <button onclick="dlton(${id})" type="submit" class="btn deletepanierbtn" id='deletepanierbtn' data-id="${id}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <hr class="mx-5 my-0">
+{# exmaple #}
+      <div class="modal-footer my-1 row">
+        <p class="col">Montant du panier</p>
+        <div class="col bg-white text-center text-uppercase panier_montant">
+        <p class="my-1">250.952€</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">Close</button>
+        <a href="" type="submit" class="btn btn-outline-primary">Paiement</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+        {% block body %}
+        {% endblock %}
+        {# Link Script #}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/3fd2d451cc.js" crossorigin="anonymous"></script>
     </body>
 </html>
+
+
+{# script panier
+<div class="panierbody"></div>
+
+        {% for panier in panier %}
+
+<script>
+
+var id = {{panier.id}};
+var qtevalue = {{panier.qte}};
+var prix = {{panier.prix}};
+var newprix = prix*qtevalue;
+
+
+
+var recup_valeur_input_html = $('#recupvaleur').val()
+if(recup_valeur_input_html == undefined || recup_valeur_input_html == 0 || recup_valeur_input_html == null){
+  recup_valeur_input_html = 0;
+}
+var prix_total_panier = newprix + parseInt(recup_valeur_input_html);
+$('.paniertotal').replaceWith(`<div class="paniertotal">${prix_total_panier}</div>`);
+$('.paniertotal').append(`<input type='text' hidden class='paniertotalinput' id='recupvaleur' value="${prix_total_panier}" readonly>`);
+                                                   
+                                                   
+
+    var img = '{{panier.img}}';
+    var libelle = '{{panier.libelle}}';
+        
+        $('.panierbody').append(`<div class="row rows-col-4 panierrow${id}" id='panierrow${id}'></div>`);
+
+        $('.panierrow'+id).append(`<div class="col my-auto imgpaniercol${id}"></div>`);
+        $('.imgpaniercol'+id).append(`<img class="panierimg" src="src/img/plat/${img}" alt="${img}" height="32px" width="32px">`);
+        
+        $('.panierrow'+id).append(`<div class="col my-auto col my-auto panierlibelle${id}"></div>`);
+        $('.panierlibelle'+id).append(`${libelle}`);
+
+        $('.panierrow'+id).append(`<div class="col my-auto col my-auto panierprixu${id}"></div>`);
+        $('.panierprixu'+id).append(`prix/u${prix}`);
+
+        $('.panierrow'+id).append(`<div class="col my-auto col my-auto panierprixt${id}"></div>`);
+        $('.panierprixt'+id).append(`Prix/t${newprix}`);
+
+        $('.panierrow'+id).append(`<div class="col my-auto col my-auto panierqte${id}"></div>`);
+        $('.panierqte'+id).append(`<select name="${id}" class="changeqte" id="qteselect${id}"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select>`);
+
+        $('.panierrow'+id).append(`<div class="col my-auto col my-auto panierpaniersup${id}"></div>`);
+        $('.panierpaniersup'+id).append(`<button onclick="dlton(${id})" type="submit" class="btn deletepanierbtn" id='deletepanierbtn' data-id="${id}"><i class="fa-solid fa-trash"></i></button>`);
+
+              if(qtevalue == 2){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+                }
+               if(qtevalue == 3){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               }
+               if(qtevalue == 4){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);   
+               } 
+               if(qtevalue == 5){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               }
+               if(qtevalue == 6){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               } 
+               if(qtevalue == '7'){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               } 
+               if(qtevalue == '8'){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               } 
+               if(qtevalue == '9'){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               }
+    
+</script>
+        {% endfor %}
+ #}
