@@ -78,7 +78,7 @@
                                     <div class="position-fixed btnlogin">
                                     <button type="button" class="btn btn-outline-success btnprofil">
                                     <i class="fa-solid fa-user"></i>
-                                    <p class="btnlogintext">{{ app.user.Nom }}</p>
+                                    <p class="btnlogintext">{{ app.user.UserName }}</p>
                                     </button></a>
                                     <a href="{{ path('app_logout') }}" class="profildeco btn btn-outline-danger"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #ff0000;"></i></a>
                                     </div>
@@ -110,29 +110,37 @@
             </div>
                 <div class="modal-body container text-center">
                     <div class="text-center login" id="loginchange">
+
                         <form method="post" action="{{ path('app_login')}}">
                             {% if error %}
-                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}
-                                </div>
+                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                             {% endif %}
-                            <h1 class="h3 mb-3 font-weight-normal">Login</h1>
-                            <label class='form-label' for="inputEmail">Email</label>
-                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                            <label class='form-label' for="inputPassword">Password</label>
+
+
+                            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                            <label for="inputUserEmail">Email</label>
+                            <input type="email" value="{{ last_username }}" name="userEmail" id="inputUserEmail" class="form-control" autocomplete="email" required autofocus>
+                            <label for="inputPassword">Password</label>
                             <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
                             <input type="hidden" name="_csrf_token"
-                            value="{{ csrf_token('authenticate') }}">
+                                value="{{ csrf_token('authenticate') }}"
+                            >
+
                             <div class="checkbox mb-3">
                                 <label>
-                                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                                    <input type="checkbox" name="_remember_me"> Remember me
                                 </label>
                             </div>
-                            <button class="btn btn-lg btn-primary" type="submit">Login</button>
+
+                            <button class="btn btn-lg btn-primary" type="submit">
+                                Sign in
+                            </button>
                         </form>
                     </div>
                 </div>
                     <div class=" text-center inscription" id="inscription">
-{# <form method="post" action="{{ path('app_accueil')}}"> #}
+                        <form method="post" action="{{ path('app_home')}}">
                             <div class="content row">
                                 {% for flash_error in app.flashes('verify_email_error') %}
                                 <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
@@ -143,15 +151,24 @@
                                 {{ form_errors(registrationForm) }}
 
                                 {{ form_start(registrationForm) }}
+                                <hr>
+                                <p>Email</p>
                                 {{ form_row(registrationForm.userEmail) }}
-                                {{ form_row(registrationForm.plainPassword, {
+                                <hr>
+                                <p>Password</p>
+                                {{ form_row(registrationForm.Password, {
                                     label: 'Password'
                                 }) }}
+                                <hr>
+                                <p>Coordonnés</p>
+                                {{ form_row(registrationForm.userName) }}
+                                {{ form_row(registrationForm.userFristName) }}
+                                {{ form_row(registrationForm.UserPhone) }}
                                 {{ form_row(registrationForm.agreeTerms) }}
 
                                 <button type="submit" class="btn">Register</button>
                                 {{ form_end(registrationForm) }}
-{# </form> #}
+                                </form>
                             </div>
                 </div>
                 <div class="modal-footer">

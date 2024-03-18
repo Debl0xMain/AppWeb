@@ -42,18 +42,14 @@ class HomeController extends AbstractController
         $form_register->handleRequest($request);
 
         if ($form_register->isSubmitted() && $form_register->isValid()) {
-            // encode the plain password
             $user->setPassword(
                     $userPasswordHasher->hashPassword(
                     $user,
                     $form_register->get('plainPassword')->getData()
                 )
             );
-
             $entityManager->persist($user);
             $entityManager->flush();
-
-            // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('contact@greenvillage.fr', 'Green Village'))
@@ -61,9 +57,6 @@ class HomeController extends AbstractController
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-
-            // do anything else you need here, like send an email
-
             return $this->redirectToRoute('app_home');
         }
         $category = $this->CategoryRepo->findAll();
@@ -100,12 +93,6 @@ class HomeController extends AbstractController
        $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_register');
-    }
-
-    #[Route('/login', name: 'app_login')]
-    public function login(): Response
-    {
-        return $this->redirectToRoute('app_home');
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
