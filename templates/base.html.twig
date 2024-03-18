@@ -87,15 +87,60 @@
                             </article>
                     </section>
                 </ul>
-{#  #}
             </div>
         </div>
     </nav>
 </div>
-<pre>
-    {{ dump(app.user) }}
-</pre>
+
+        {% block body %}
+        {% endblock %}
+
+
+ {# footer  #}
+
+<article class="mb-1 navbar_bg row mx-auto text w-25 h-1 center row fixed-bottom rounded py-2">
+    <button class="btn col">
+        <a href="facebook.com" target="_blank">
+            <i class="fa-brands fa-facebook icon_footer"></i>
+        </a>
+    </button>
+    <button class="btn col">
+        <a href="instagram.com" target="_blank">
+            <i class="fa-brands fa-instagram icon_footer"></i>
+        </a>
+    </button>
+    <button type="button" class="btn col " data-bs-toggle="modal" data-bs-target="#mlegal">
+        <i class="fa-solid fa-scale-unbalanced"></i>
+    </button>
+    <button class="btn col">
+        <a href="phone:06xxxxxx41">
+            <i class="fa-solid fa-phone icon_footer"></i>
+        </a>
+    </button>
+    <button class="btn col">
+        <a href="mailto:adressmail@contact.fr">
+            <i class="fa-solid fa-envelope icon_footer"></i>
+        </a>
+    </button>
+</article>
+
+
 {#  Modal #}
+{# modal mention legal #}
+<div class="modal fade" id="mlegal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+    LES MENTIONs LEGALs !!!!
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
 {% if app.user == null %}
 {# modal login #}
 
@@ -170,7 +215,7 @@
                                 {{ form_end(registrationForm) }}
                                 </form>
                             </div>
-                </div>
+                    </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
                 </div>
@@ -277,8 +322,6 @@
   </div>
 </div>
 
-        {% block body %}
-        {% endblock %}
         {# Link Script #}
         {% if app.user == null %}
         <script src={{asset('assets/js/switchmodal.js')}}></script>
