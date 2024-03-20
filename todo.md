@@ -6,6 +6,7 @@
     -catalogue react
     -profil
     -panier function
+    -formulaire inscription
 # Fait :
     -template base
     -entity
