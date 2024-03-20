@@ -61,8 +61,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
     private ?string $userCompanyCoefficient = null;
 
-    #[ORM\ManyToMany(targetEntity: Adress::class, mappedBy: 'users')]
-    private Collection $yes;
+    #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: 'users')]
+    private Collection $Adress;
+
 
     #[ORM\OneToMany(targetEntity: Orders::class, mappedBy: 'users')]
     private Collection $orders;
