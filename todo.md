@@ -1,5 +1,4 @@
 # En cours :
-    -reponsive mobile (navbar footer)
     -
 # A faire :
     -Accueil ??
@@ -13,3 +12,5 @@
     -fixture
     -login
     -register
+    -logout
+    -reponsive mobile (navbar footer)
