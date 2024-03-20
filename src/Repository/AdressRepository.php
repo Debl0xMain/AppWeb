@@ -34,6 +34,16 @@ class AdressRepository extends ServiceEntityRepository
            ->getQuery()
            ->getResult();
    }
+   public function AdressUserId($userId)
+   {
+       return $this->createQueryBuilder('a')
+           ->select('a.id', 'u.id')
+           ->join('a.users', 'u')
+           ->where('u.id = :userId')
+           ->setParameter('userId', $userId)
+           ->getQuery()
+           ->getResult();
+   }
    public function AssemblyAdress($recup_adress)
    {
         $lenght_table = count($recup_adress);

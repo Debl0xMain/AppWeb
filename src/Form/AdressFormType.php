@@ -22,7 +22,7 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ',
-                    'value'=> '{{ adress_select.AdrNumber }}'
+                    // //  'value'=> '{{ adress_select.AdrNumber }}'
                     ]
         ])
             ->add('adrStreet',TextType::class,[
@@ -31,7 +31,7 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ',
-                    'value'=> '{{ adress_select.adrStreet }}'
+                    //  'value'=> '{{ adress_select.adrStreet }}'
                     ]
         ])
             ->add('adrZipCode',TextType::class,[
@@ -40,7 +40,7 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ' ,
-                    'value'=> '{{ adress_select.adrZipCode }}'
+                    //  'value'=> '{{ adress_select.adrZipCode }}'
                     ]
         ])
             ->add('adrCity',TextType::class,[
@@ -49,7 +49,7 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ' ,
-                    'value'=> '{{ adress_select.adrCity }}'
+                    //  'value'=> '{{ adress_select.adrCity }}'
                     ]
         ])
             ->add('adrAddInfo',TextType::class,[
@@ -58,7 +58,7 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ' ,
-                    'value'=> '{{ adress_select.adrAddInfo }}'
+                    //  'value'=> '{{ adress_select.adrAddInfo }}'
                     ]
         ])
         ;
