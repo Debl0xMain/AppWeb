@@ -13,13 +13,12 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 class RegistrationFormType extends AbstractType
 {
@@ -36,7 +35,7 @@ class RegistrationFormType extends AbstractType
                 "class" =>"register_label"
                 ],
             'attr'=> [
-                    'class'=>'register_input my-2' 
+                    'class'=>'register_input '
                     ]
         ])
     
@@ -45,7 +44,7 @@ class RegistrationFormType extends AbstractType
                 "class" =>"register_label"
                 ],
             'attr'=> [
-                    'class'=>'register_input my-2' 
+                    'class'=>'register_input ' 
             ],
             'type' => PasswordType::class,
             'invalid_message' => 'Les mots de passe ne correspondent pas.',
@@ -78,7 +77,7 @@ class RegistrationFormType extends AbstractType
                 "class" =>"register_label"
                 ],
             'attr'=> [
-                    'class'=>'register_input my-2' 
+                    'class'=>'register_input ' 
                     ]
         ])
         ->add('userFristName', TextType::class, [
@@ -100,7 +99,7 @@ class RegistrationFormType extends AbstractType
                 "class" =>"register_label"
                 ],
             'attr'=> [
-                    'class'=>'register_input my-2' 
+                    'class'=>'register_input ' 
                     ]
         ])
         ->add('UserPhone',TextType::class,[
@@ -108,7 +107,7 @@ class RegistrationFormType extends AbstractType
                 "class" =>"register_label"
                 ],
             'attr'=> [
-                    'class'=>'register_input my-2' 
+                    'class'=>'register_input ' 
                     ]
         ])
         ->add('agreeTerms', CheckboxType::class, [
@@ -119,12 +118,21 @@ class RegistrationFormType extends AbstractType
                 ]),
             ],
             'label_attr' => [
-                "class" =>"rcheck"
+                "class" =>"rcheck text-center"
                 ],
         ])
+        ->add('save', SubmitType::class, [
+            'attr'=> 
+           [
+            'class'=>'btn btn-primary btn_modif_inscription' ],
+            'label' => 'Inscription'])
             
         ;
     }
+    #[UniqueEntity(
+        fields: ['email'],
+        message: 'Cette adresse email est déjà utilisée.',
+    )]
 
     public function configureOptions(OptionsResolver $resolver): void
     {

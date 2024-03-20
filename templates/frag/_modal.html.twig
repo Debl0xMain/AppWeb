@@ -1,0 +1,289 @@
+{# modal mention legal #}
+<div class="modal fade" id="mlegal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+    LES MENTIONs LEGALs !!!!
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+{# modal login #}
+ {% if app.user == null %}
+<div class="modal" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content loginmodal">
+            <div class="modal-header mx-auto">
+                <h5 class="modal-title" id="exampleModalLabel">Login<label class="switch">
+                <input type="checkbox" id="changemodal" checked>
+                <span class="slider round"></span>
+                </label> Inscription</h5>
+            </div>
+                <div class="modal-body container text-center">
+                    <div class="text-center login" id="loginchange">
+
+                        <form method="post" action="{{ path('app_login')}}">
+                            {% if error %}
+                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
+
+
+                            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                            <label for="inputUserEmail">Email</label>
+                            <input type="email" value="{{ last_username }}" name="userEmail" id="inputUserEmail" class="form-control" autocomplete="email" required autofocus>
+                            <label for="inputPassword">Password</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+                            <input type="hidden" name="_csrf_token"
+                                value="{{ csrf_token('authenticate') }}"
+                            >
+
+                            <div class="checkbox mb-3">
+                                <label>
+                                    <input type="checkbox" name="_remember_me"> Remember me
+                                </label>
+                            </div>
+
+                            <button class="btn btn-lg btn-primary" type="submit">
+                                Sign in
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                    <div class=" text-center inscription" id="inscription">
+                        <form method="post" action="{{ path('app_register')}}">
+                            <div class="content row mx-auto">
+                                {% for flash_error in app.flashes('verify_email_error') %}
+                                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                                {% endfor %}
+
+                                <h1 class="font-weight-bold">Inscription</h1>
+
+                                {{ form_errors(registrationForm) }}
+
+                                {{ form_start(registrationForm) }}
+                                <hr class="w-25 mx-auto">
+                                <p style="font-size: 125%;font-weight: bolder;">Email</p>
+                                {{ form_row(registrationForm.userEmail) }}
+                                <hr class="w-25 mx-auto">
+                                <p style="font-size: 125%;font-weight: bolder;">Password</p>
+                                {{ form_row(registrationForm.Password, {
+                                    label: 'Password'
+                                }) }}
+                                <hr class="w-25 mx-auto">
+                                <p style="font-size: 125%;font-weight: bolder;">Coordonnés</p>
+                                <div class='row text-center mx-1'>
+                                    <div class="col">
+                                        {{ form_row(registrationForm.userName) }}
+                                    </div>
+                                    <div class="col">
+                                         {{ form_row(registrationForm.userFristName) }}
+                                    </div>
+                                </div>
+                                <div class="row text-center mx-1">
+                                    <div class="col">
+                                        {{ form_row(registrationForm.UserPhone) }}
+                                    </div>
+                                    <div class="col py-5 ">
+                                        {{ form_row(registrationForm.agreeTerms) }}
+                                    </div>
+                                </div>
+                                {{ form_end(registrationForm) }}
+                                </form>
+                            </div>
+                    </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{# Modal Panier#}
+
+<div class="modal fade" id="basket-shopping" tabindex="-1" aria-labelledby="basket-shoppingLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content shopmodal">
+      <div class="modal-header text-center mx-auto">
+      <i class="fa-sharp fa-solid fa-basket-shopping mx-2"></i>
+        <h5 class="modal-title" id="basket-shoppingLabel">
+        Panier
+        </h5>
+        <i class="fa-sharp fa-solid fa-basket-shopping mx-2"></i>
+      </div>
+      <div class="modal-body text-center">
+{# exmaple #}
+            <div class="row rows-col-4 panierrow${id}" id='panierrow${id}'>
+                <div class="col my-auto imgpaniercol${id}">
+                    <img class="panierimg" src={{ asset('assets/product/arrangeur.jpg')}} alt="Image" height="32px" width="32px">
+                </div>
+                <div class="col my-auto col my-auto panierlibelle${id}">
+                <p>Arrangeur</p>
+                </div>
+                <div class="col my-auto col my-auto panierprixu${id}">
+                <p>250.952 €/u</p>
+                </div>
+                <div class="col my-auto col my-auto panierprixt${id}">
+                <p>250.952 €/t</p>
+                </div>
+                <div class="col my-auto col my-auto panierqte${id}">
+                    <select name="${id}" class="changeqte bg-white text-dark" id="qteselect${id}">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                </div>
+                <div class="col my-auto col my-auto panierpaniersup${id}">
+                    <button onclick="dlton(${id})" type="submit" class="btn deletepanierbtn" id='deletepanierbtn' data-id="${id}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <hr class="mx-5 my-0">
+{# exmaple #}
+{# exmaple #}
+            <div class="row rows-col-4 panierrow${id}" id='panierrow${id}'>
+                <div class="col my-auto imgpaniercol${id}">
+                    <img class="panierimg" src={{ asset('assets/product/arrangeur.jpg')}} alt="Image" height="32px" width="32px">
+                </div>
+                <div class="col my-auto col my-auto panierlibelle${id}">
+                <p>Arrangeur</p>
+                </div>
+                <div class="col my-auto col my-auto panierprixu${id}">
+                <p>250.952 €/u</p>
+                </div>
+                <div class="col my-auto col my-auto panierprixt${id}">
+                <p>250.952 €/t</p>
+                </div>
+                <div class="col my-auto col my-auto panierqte${id}">
+                    <select name="${id}" class="changeqte bg-white text-dark" id="qteselect${id}">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                </div>
+                <div class="col my-auto col my-auto panierpaniersup${id}">
+                    <button onclick="dlton(${id})" type="submit" class="btn deletepanierbtn" id='deletepanierbtn' data-id="${id}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <hr class="mx-5 my-0">
+{# exmaple #}
+      <div class="modal-footer my-1 row">
+        <p class="col">Montant du panier</p>
+        <div class="col bg-white text-center text-uppercase panier_montant">
+        <p class="my-1">250.952€</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">Close</button>
+        <a href="" type="submit" class="btn btn-outline-primary">Paiement</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# script panier
+<div class="panierbody"></div>
+
+        {% for panier in panier %}
+
+<script>
+
+var id = {{panier.id}};
+var qtevalue = {{panier.qte}};
+var prix = {{panier.prix}};
+var newprix = prix*qtevalue;
+
+
+
+var recup_valeur_input_html = $('#recupvaleur').val()
+if(recup_valeur_input_html == undefined || recup_valeur_input_html == 0 || recup_valeur_input_html == null){
+  recup_valeur_input_html = 0;
+}
+var prix_total_panier = newprix + parseInt(recup_valeur_input_html);
+$('.paniertotal').replaceWith(`<div class="paniertotal">${prix_total_panier}</div>`);
+$('.paniertotal').append(`<input type='text' hidden class='paniertotalinput' id='recupvaleur' value="${prix_total_panier}" readonly>`);
+                                                   
+                                                   
+
+    var img = '{{panier.img}}';
+    var libelle = '{{panier.libelle}}';
+        
+        $('.panierbody').append(`<div class="row rows-col-4 panierrow${id}" id='panierrow${id}'></div>`);
+
+        $('.panierrow'+id).append(`<div class="col my-auto imgpaniercol${id}"></div>`);
+        $('.imgpaniercol'+id).append(`<img class="panierimg" src="src/img/plat/${img}" alt="${img}" height="32px" width="32px">`);
+        
+        $('.panierrow'+id).append(`<div class="col my-auto col my-auto panierlibelle${id}"></div>`);
+        $('.panierlibelle'+id).append(`${libelle}`);
+
+        $('.panierrow'+id).append(`<div class="col my-auto col my-auto panierprixu${id}"></div>`);
+        $('.panierprixu'+id).append(`prix/u${prix}`);
+
+        $('.panierrow'+id).append(`<div class="col my-auto col my-auto panierprixt${id}"></div>`);
+        $('.panierprixt'+id).append(`Prix/t${newprix}`);
+
+        $('.panierrow'+id).append(`<div class="col my-auto col my-auto panierqte${id}"></div>`);
+        $('.panierqte'+id).append(`<select name="${id}" class="changeqte" id="qteselect${id}"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select>`);
+
+        $('.panierrow'+id).append(`<div class="col my-auto col my-auto panierpaniersup${id}"></div>`);
+        $('.panierpaniersup'+id).append(`<button onclick="dlton(${id})" type="submit" class="btn deletepanierbtn" id='deletepanierbtn' data-id="${id}"><i class="fa-solid fa-trash"></i></button>`);
+
+              if(qtevalue == 2){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+                }
+               if(qtevalue == 3){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               }
+               if(qtevalue == 4){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);   
+               } 
+               if(qtevalue == 5){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               }
+               if(qtevalue == 6){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               } 
+               if(qtevalue == '7'){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               } 
+               if(qtevalue == '8'){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               } 
+               if(qtevalue == '9'){
+                $(`#qteselect${id} option[value="${qtevalue}"]`).prop('selected', true);
+                $('.panierprix'+id).append(`${newprix}`);
+               }
+    
+</script>
+        {% endfor %}
+ #}
+

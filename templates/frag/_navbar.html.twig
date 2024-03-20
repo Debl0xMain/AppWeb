@@ -1,0 +1,142 @@
+
+<nav class="navbar navbar-expand-lg navbar_bg navbar_maxwidht">
+        <div class="container-fluid navbar_maxwidht">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <img class="navbar_logo_reponsive" src={{asset('assets/logo/logogv.png')}} alt="logo"/>
+            </button>
+            <div class="collapse navbar-collapse navbar_bg row" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <section class="mx-3 col-1 my-2">
+                        <a class="" href="/">
+                            <img class="navbar_logo" src={{asset('assets/logo/logogv.png')}} alt="logo">
+                        </a>
+                    </section>
+
+                   <section class="row col-5 w-75 mx-3 search_bar">
+                        <div class="row">
+                        {# SearchBar #}
+                            <form class="d-flex" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </form>
+                        </div>
+
+                        <div class="row mt-2">
+                            {% for navbar_category in navbar_category %}
+                                <li class="nav-item col mx-1">
+                                    <a class="nav-link navbar_item_css text-center" href="#">{{ navbar_category.catName }}</a>
+                                </li>
+                            {% endfor %}
+                        </div>
+                   </section>
+
+                    <section class="col my-2">
+                        <article class="row">
+
+                            <div class="navbar_case">
+                                <button type="button" class="btn btn btn-outline-success" id="shopbtn" data-bs-toggle="modal" data-bs-target="#basket-shopping">
+                                    <i class="fa-sharp fa-solid fa-basket-shopping"></i>
+                                    <p class="resp_text" id="btnlogintext">Panier</p>
+                                </button>
+                            </div>
+                            <div class="navbar_case">
+                                    {# login/inscription #}
+                                    {% if app.user == null %}
+                                    <div class="btnlogin">
+                                        <button type="button" class="btn btn-outline-success btnicon" id="logincharge" data-bs-toggle="modal" data-bs-target="#login">
+                                        <i class="fa-solid fa-user"></i>
+                                        <p class="resp_text" id="btnlogintext">Login <br> Inscription</p>
+                                        </button>
+                                    </div>
+                                    {% endif %}
+                                    {# Profils #}
+                                    {% if app.user %}
+                                    <a href=" {{ path("app_profile") }}">
+                                    <div class="position-fixed btnlogin">
+                                    <button type="button" class="btn btn-outline-success btnprofil">
+                                    <i class="fa-solid fa-user"></i>
+                                    <p class="btnlogintext">{{ app.user.UserName }}</p>
+                                    </button></a>
+                                    <a href="{{ path('app_logout') }}" class="profildeco btn btn-outline-danger"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #ff0000;"></i></a>
+                                    </div>
+                                    {% endif %}
+                            </div>
+                            </article>
+                    </section>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+<nav class="navbar navbar-expand-lg navbar_phone position-absolute">
+        <div class="container-fluid navbar_phone">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <img class="navbar_logo_reponsive" src={{asset('assets/logo/logogv.png')}} alt="logo"/>
+            </button>
+            <div class="collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav navbar_bg w-50 rounded_navbar_phone mx-2">
+
+                   <section class="row mt-3 mx-1">
+                        <div class="">
+                        {# SearchBar #}
+                            <form class="d-flex" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </form>
+                        </div>
+
+                        <div class="mt-2">
+                            {% for navbar_category in navbar_category %}
+                                <li class="nav-item my-1 row mx-1">
+                                    <a class="nav-link navbar_item_css text-center" href="#">{{ navbar_category.catName }}</a>
+                                </li>
+                            {% endfor %}
+                        </div>
+                   </section>
+
+                    <section class="my-2 mx-2">
+                        <article class="row">
+
+                            <div class="navbar_case col text-end">
+                                <button type="button" class="btn btn btn-outline-success" id="shopbtn" data-bs-toggle="modal" data-bs-target="#basket-shopping">
+                                    <i class="fa-sharp fa-solid fa-basket-shopping"></i>
+                                    <p class="resp_text" id="btnlogintext">Panier</p>
+                                </button>
+                            </div>
+                            <div class="navbar_case col">
+                                    {# login/inscription #}
+                                    {% if app.user == null %}
+                                    <div class="btnlogin">
+                                        <button type="button" class="btn btn-outline-success btnicon" id="logincharge" data-bs-toggle="modal" data-bs-target="#login">
+                                        <i class="fa-solid fa-user"></i>
+                                        <p class="resp_text" id="btnlogintext">Login <br> Inscription</p>
+                                        </button>
+                                    </div>
+                                    {% endif %}
+                                    {# Profils #}
+                                    {% if app.user %}
+                                    <div class="position-fixed btnlogin row">
+                                    <a href=" {{ path("app_profile") }}">
+                                        <button type="button" class="btn btn-outline-success btnprofil col">
+                                            <i class="fa-solid fa-user"></i>
+                                            <p class="resp_text">{{ app.user.UserName }}</p>
+                                        </button>
+                                    </a>
+                                    <a class="col text-center" href="{{ path('app_logout') }}" class="profildeco btn btn-outline-danger">
+                                        <i class="fa-solid fa-arrow-right-from-bracket" style="color: #ff0000;">
+                                        </i>
+                                    </a>
+                                    </div>
+                                    {% endif %}
+                            </div>
+                            </article>
+                    </section>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+

@@ -138,6 +138,16 @@ class JeuTest extends Fixture
         
                 $manager->persist($adress1);
 
+                $testadress1 = new Adress();
+                $testadress1->setAdrNumber('13');
+                $testadress1->setAdrStreet('rue de la croissade bleu');
+                $testadress1->setAdrZipCode('80100');
+                $testadress1->setAdrCity('Abbeville');
+                $testadress1->setAdrAddInfo('ceci est un test');
+                $testadress1->addUser($user[1]);
+        
+                $manager->persist($testadress1);
+
             //2
 
             $user[2] = new Users();
