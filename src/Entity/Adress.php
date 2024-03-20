@@ -33,6 +33,9 @@ class Adress
     #[ORM\ManyToMany(targetEntity: Users::class, inversedBy: 'yes')]
     private Collection $users;
 
+    #[ORM\ManyToOne(inversedBy: 'User')]
+    private ?Adress $Adress = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
