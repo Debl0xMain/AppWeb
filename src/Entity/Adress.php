@@ -114,18 +114,9 @@ class Adress
         return $this->users;
     }
 
-    public function addUser(Users $user): static
+    public function setUser(?Adress $Adress): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(Users $user): static
-    {
-        $this->users->removeElement($user);
+        $this->Adress = $Adress;
 
         return $this;
     }
