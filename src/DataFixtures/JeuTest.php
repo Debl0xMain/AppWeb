@@ -134,7 +134,7 @@ class JeuTest extends Fixture
                 $adress1->setAdrZipCode('12345');
                 $adress1->setAdrCity('Cityville');
                 $adress1->setAdrAddInfo('2eme etage');
-                $adress1->addUser($user[1]);
+                $adress1->setUser($user[1]);
         
                 $manager->persist($adress1);
 
@@ -144,7 +144,7 @@ class JeuTest extends Fixture
                 $testadress1->setAdrZipCode('80100');
                 $testadress1->setAdrCity('Abbeville');
                 $testadress1->setAdrAddInfo('ceci est un test');
-                $testadress1->addUser($user[1]);
+                $testadress1->setUser($user[1]);
         
                 $manager->persist($testadress1);
 
@@ -171,7 +171,7 @@ class JeuTest extends Fixture
                 $adress2->setAdrStreet('rue pierre');
                 $adress2->setAdrZipCode('80514');
                 $adress2->setAdrCity('Villetest');
-                $adress2->addUser($user[2]);
+                $adress2->setUser($user[2]);
         
                 $manager->persist($adress2);
 
@@ -198,7 +198,7 @@ class JeuTest extends Fixture
                 $adress3->setAdrStreet('avenue charle');
                 $adress3->setAdrZipCode('80554');
                 $adress3->setAdrCity('testCity');
-                $adress3->addUser($user[3]);
+                $adress3->setUser($user[3]);
         
                 $manager->persist($adress3);
             
@@ -231,7 +231,7 @@ class JeuTest extends Fixture
                     $adress4->setAdrZipCode('12345');
                     $adress4->setAdrCity('Cityville');
                     $adress4->setAdrAddInfo('Batiment avec la grande baie vitre');
-                    $adress4->addUser($prouser[1]);
+                    $adress4->setUser($prouser[1]);
                     
                     $manager->persist($adress4);
 
@@ -263,7 +263,7 @@ class JeuTest extends Fixture
                     $adress5->setAdrZipCode('12345');
                     $adress5->setAdrCity('Cityville');
                     $adress5->setAdrAddInfo('batiment2');
-                    $adress5->addUser($prouser[2]);
+                    $adress5->setUser($prouser[2]);
             
                     $manager->persist($adress5);
 
@@ -294,7 +294,7 @@ class JeuTest extends Fixture
                     $adress6->setAdrStreet('rue de la guerre');
                     $adress6->setAdrZipCode('12345');
                     $adress6->setAdrCity('Cityville');
-                    $adress6->addUser($prouser[3]);
+                    $adress6->setUser($prouser[3]);
             
                     $manager->persist($adress6);
 
@@ -323,7 +323,7 @@ class JeuTest extends Fixture
                         $address[$i]->setAdrZipCode("$i.2345");
                         $address[$i]->setAdrCity('Cityville');
                         $address[$i]->setAdrAddInfo("$i eme etage");
-                        $address[$i]->addUser($user[$i]);
+                        $address[$i]->setUser($user[$i]);
                     
                         $manager->persist($address[$i]);
                     }
@@ -355,7 +355,7 @@ class JeuTest extends Fixture
                         $proaddress[$i]->setAdrZipCode("12345");
                         $proaddress[$i]->setAdrCity('Cityville');
                         $proaddress[$i]->setAdrAddInfo("$i eme floor");
-                        $proaddress[$i]->addUser($prouser[$i]);
+                        $proaddress[$i]->setUser($prouser[$i]);
                     
                         $manager->persist($proaddress[$i]);
                     }
@@ -1130,6 +1130,7 @@ class JeuTest extends Fixture
                             $manager->persist($product45);
 
                                                                     //add relation user/adress
+        /*
                                                                         $user[1]->addYe($adress1);
                                                                         $user[2]->addYe($adress2);
                                                                         $user[3]->addYe($adress3);
@@ -1143,7 +1144,7 @@ class JeuTest extends Fixture
                                                                         for ($i = 4; $i <= 25; $i++) {
                                                                             $prouser[$i]->addYe($proaddress[$i]);
                                                                         }
-
+*/
                                                                     //
 
                         //generation commande client particulier
