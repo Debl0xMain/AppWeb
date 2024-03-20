@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use App\Repository\AdressRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -257,25 +258,25 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Adress>
      */
-    public function getYes(): Collection
+    public function getAdress(): ?Adress
     {
-        return $this->yes;
+        return $this->categorys;
     }
 
-    public function addYe(Adress $ye): static
+    public function setAdress(?Adress $Adress): static
     {
-        if (!$this->yes->contains($ye)) {
-            $this->yes->add($ye);
-            $ye->addUser($this);
-        }
+        $this->categorys = $categorys;
 
         return $this;
     }
 
-    public function removeYe(Adress $ye): static
+        public function removeAdress(Adress $Adress): static
     {
-        if ($this->yes->removeElement($ye)) {
-            $ye->removeUser($this);
+        if ($this->Adress->removeElement($Adress)) {
+            // set the owning side to null (unless already changed)
+            if ($Adress->getUsers() === $this) {
+                $Adress->setUsers(null);
+            }
         }
 
         return $this;
