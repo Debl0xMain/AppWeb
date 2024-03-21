@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
-use App\Repository\AdressRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -61,10 +60,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
     private ?string $userCompanyCoefficient = null;
 
-    #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: 'users')]
-    private Collection $Adress;
-
-
     #[ORM\OneToMany(targetEntity: Orders::class, mappedBy: 'users')]
     private Collection $orders;
 
@@ -79,7 +74,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->yes = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->ref_commercial = new ArrayCollection();
     }
@@ -255,34 +249,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Adress>
-     */
-    public function getAdress(): ?Adress
-    {
-        return $this->categorys;
-    }
-
-    public function setAdress(?Adress $Adress): static
-    {
-        $this->categorys = $categorys;
-
-        return $this;
-    }
-
-        public function removeAdress(Adress $Adress): static
-    {
-        if ($this->Adress->removeElement($Adress)) {
-            // set the owning side to null (unless already changed)
-            if ($Adress->getUsers() === $this) {
-                $Adress->setUsers(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Orders>
      */

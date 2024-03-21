@@ -30,15 +30,8 @@ class Adress
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adrAddInfo = null;
 
-    #[ORM\ManyToMany(targetEntity: Users::class, inversedBy: 'yes')]
-    private Collection $users;
-
-    #[ORM\ManyToOne(inversedBy: 'User')]
-    private ?Adress $Adress = null;
-
     public function __construct()
     {
-        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,21 +95,6 @@ class Adress
     public function setAdrAddInfo(?string $adrAddInfo): static
     {
         $this->adrAddInfo = $adrAddInfo;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Users>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function setUser(?Adress $Adress): static
-    {
-        $this->Adress = $Adress;
 
         return $this;
     }
