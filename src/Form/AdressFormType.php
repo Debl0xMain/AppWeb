@@ -18,44 +18,49 @@ class AdressFormType extends AbstractType
         $builder
             ->add('adrNumber',TextType::class,[
             'label_attr' => [
-                "class" =>"register_label"
+                "class" =>" adress_label"
                 ],
             'attr'=> [
-                    'class'=>'register_input ',
+                    'class'=>' adress_input ',
                     ]
         ])
             ->add('adrStreet',TextType::class,[
             'label_attr' => [
-                "class" =>"register_label"
+                "class" =>" adress_label"
                 ],
             'attr'=> [
-                    'class'=>'register_input ',
+                    'class'=>' adress_input ',
                     ]
         ])
             ->add('adrZipCode',TextType::class,[
             'label_attr' => [
-                "class" =>"register_label"
+                "class" =>" adress_label"
                 ],
             'attr'=> [
-                    'class'=>'register_input ' ,
+                    'class'=>' adress_input ' ,
                     ]
         ])
             ->add('adrCity',TextType::class,[
             'label_attr' => [
-                "class" =>"register_label"
+                "class" =>" adress_label"
                 ],
             'attr'=> [
-                    'class'=>'register_input ' ,
+                    'class'=>' adress_input ' ,
                     ]
         ])
             ->add('adrAddInfo',TextType::class,[
             'label_attr' => [
-                "class" =>"register_label"
+                "class" =>" adress_label"
                 ],
             'attr'=> [
-                    'class'=>'register_input ' ,
+                    'class'=>' adress_input ' ,
                     ]
         ])
+        ->add('users', EntityType::class, [
+            'class' => Users::class,
+            'choice_label' => 'id',
+        ])
+
         ->add('save', SubmitType::class, [
             'attr'=> 
            [

@@ -7,9 +7,14 @@
 {% endblock %}
 
 {% block body %}
-
+{# succes #}
+{% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+{% endfor %}
 {# Form Modif profile #}
-{# 
+
 <div class="col">
     <form method="post" action="{{ path('app_profile')}}">
         <div class="content row mx-auto">
@@ -50,7 +55,7 @@
 
 <script>
 $('.btn_modif_inscription').html("Modification");
-</script>#}
+</script>
 
 
 
@@ -68,13 +73,21 @@ $('.btn_modif_inscription').html("Modification");
              </option>
     {% endfor %}
 </select>
+<form method="post" action="{{ path('app_profile')}}">
+    {{ form_errors(formAdress) }}
+    {{ form_start(formAdress) }}
+        {{ form_row(formAdress.adrNumber) }}
+        {{ form_row(formAdress.adrStreet) }}
+        {{ form_row(formAdress.adrCity) }}
+        {{ form_row(formAdress.adrZipCode) }}
+        {{ form_row(formAdress.adrAddInfo) }}
+        <pre>
+            {{ dump(formAdress) }}
+        </pre>
+        {{ form_row(formAdress.users) }}
+    {{ form_end(formAdress) }}
+<form>
 
-
-{% for adress_user_selected in adress_user_selected %}
-     
-{% endfor %} 
-
- {{ form(formAdress) }}
 
 
 

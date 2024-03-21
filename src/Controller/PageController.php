@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Form\RegistrationFormType;
 use App\Form\AdressFormType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Security\AppCustomAuthenticator;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,51 +42,65 @@ class PageController extends AbstractController
     }
 
     #[Route('/profil', name: 'app_profile')]
-    public function profile(AuthenticationUtils $authenticationUtils,Request $request,UserPasswordHasherInterface $passwordHasher,EntityManagerInterface $entityManager): Response
+    public function profile(RegistrationFormType $formUser,AdressFormType $formAdress,AuthenticationUtils $authenticationUtils,Request $request,UserPasswordHasherInterface $passwordHasher,EntityManagerInterface $entityManager): Response
     {
         $userid = $this->getUser()->getId();
-        if($userid){
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-        $identifiant = $this->getUser()->getUserIdentifier();
+        if ($userid)
+        {
+            $error = $authenticationUtils->getLastAuthenticationError();
+            $lastUsername = $authenticationUtils->getLastUsername();
+            $identifiant = $this->getUser()->getUserIdentifier();
+            $formUser = $this->createForm(RegistrationFormType::class, $this->getUser());
+            $formUser->handleRequest($request);
 
-        $formUser = $this->createForm(RegistrationFormType::class, $this->getUser());
-        $formUser->handleRequest($request);
-    
-        if ($formUser->isSubmitted() && $formUser->isValid()) {
-            /** @var User $user */
-            $user = $formUser->getData();
-            $plainPassword = $formUser->get('Password')->getData();
-            
-            // if (null !== $plainPassword) {
-            //     $user->setPassword($passwordHasher->hashPassword($user, $plainPassword));
-            // }
-            $entityManager->flush();
-            $this->addFlash('success', 'Votre profil a été mis à jour');
-    
-        }
+                if ($formUser->isSubmitted() && $formUser->isValid()) {
+                    /** @var Users $users */                    
+                    // if (null !== $plainPassword) {
+                    //     $user->setPassword($passwordHasher->hashPassword($user, $plainPassword));
+                    // }
+                    $entityManager->flush();
+                    $this->addFlash('success', 'Votre profil a été mis à jour');
+                    return $this->redirectToRoute('app_profile');
+                }
 
-        $adress_user_selected = $this->AdressRepo->findBy(array('users' => $userid));
-        $New_Adress = New Adress;
+            $adress_user_selected = $this->AdressRepo->findBy(array('users' => $userid));
 
-        if($request->isXmlHttpRequest()) {
+                if($request->isXmlHttpRequest()) {
 
-            $userid = $this->getUser()->getId();
-            $idform = $request->request->get('setform');
-            $adress_ajax = $this->AdressRepo->recupinfo($idform,$userid);
-            return new JsonResponse($adress_ajax);
-        }
+                    $userid = $this->getUser()->getId();
+                    $idform = $request->request->get('setform');
+                    $adress_ajax = $this->AdressRepo->recupinfo($idform,$userid);
+                    return new JsonResponse($adress_ajax);
+                }
+            $newAdress = new Adress;
+            $user_verif = $this->getUser();
+            $formAdress = $this->createForm(AdressFormType::class,$newAdress); 
+            $formAdress->handleRequest($request);
 
-        $formAdress = $this->createForm(AdressFormType::class,$New_Adress);
-        $formAdress->handleRequest($request);
+                if ($formAdress->isSubmitted() && $formAdress->isValid()) {
 
-        return $this->render('page/profile.html.twig', [
-            'controller_name' => 'HomeController',
-            'formUser' => $formUser->createView(),
-            'formAdress' => $formAdress->createView(),
-            'adress_user_selected' => $adress_user_selected,
-        ]);
+                    $user_found = $formAdress->get('users')->getData();
+
+                    if ($user_found->getId() === $userid) {
+                        /** @var Adress $Adress */
+
+                        // dd($formAdress->getData());
+                        $entityManager->flush();
+                        $this->addFlash('success', 'Votre Adresse a été mis à jour');
+                        return $this->redirectToRoute('app_profile');
+                    }
+                }
+
+            $user_verif = $this->getUser();
+            $formAdress->get("users")->setData($user_verif);
+
+            return $this->render('page/profile.html.twig', [
+                'controller_name' => 'HomeController',
+                'formUser' => $formUser->createView(),
+                'formAdress' => $formAdress->createView(),
+                'adress_user_selected' => $adress_user_selected,
+            ]);}
         
     }
 }
-}
+

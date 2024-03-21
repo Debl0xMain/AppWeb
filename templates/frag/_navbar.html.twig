@@ -52,14 +52,24 @@
                                     {% endif %}
                                     {# Profils #}
                                     {% if app.user %}
-                                    <a href=" {{ path("app_profile") }}">
-                                    <div class="position-fixed btnlogin">
+                                    <div class="row">
+                                        <a class="col" href=" {{ path("app_profile") }}">
+                                                <button type="button" class="btn btn-outline-success btnprofil">
+                                                    <i class="fa-solid fa-user"></i>
+                                                    <p class="btnlogintext">{{ app.user.UserName }}</p>
+                                                </button>
+                                        </a>
+                                        <a class="col text-end" href="{{ path('app_logout') }}" class="profildeco btn btn-outline-danger"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #ff0000;"></i></a>
+                                        </div>
+                                    </div>
+                                    {# <a href=" {{ path("app_profile") }}">
+                                    <div class="btnlogin">
                                     <button type="button" class="btn btn-outline-success btnprofil">
                                     <i class="fa-solid fa-user"></i>
                                     <p class="btnlogintext">{{ app.user.UserName }}</p>
                                     </button></a>
                                     <a href="{{ path('app_logout') }}" class="profildeco btn btn-outline-danger"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #ff0000;"></i></a>
-                                    </div>
+                                    </div> #}
                                     {% endif %}
                             </div>
                             </article>
