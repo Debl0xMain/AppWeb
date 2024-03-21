@@ -23,4 +23,18 @@ class AdressRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Adress::class);
     }
+
+   public function recupinfo($adressId,$userid)
+   {
+       return $this->createQueryBuilder('a')
+           ->select('a.adrNumber','a.adrZipCode','a.adrCity','a.adrAddInfo','a.adrStreet')
+           ->join('a.users', 'u')
+           ->where('a.id = :adressId')
+           ->setParameter('adressId', $adressId)
+           ->andwhere('u.id = :userId')
+           ->setParameter('userId', $userid)
+           ->getQuery()
+           ->getResult();
+   }
+   
 }

@@ -16,6 +16,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Form\RegistrationFormType;
 use App\Form\AdressFormType;
 use App\Security\AppCustomAuthenticator;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 
@@ -41,7 +43,6 @@ class PageController extends AbstractController
     #[Route('/profil', name: 'app_profile')]
     public function profile(AuthenticationUtils $authenticationUtils,Request $request,UserPasswordHasherInterface $passwordHasher,EntityManagerInterface $entityManager): Response
     {
-
         $userid = $this->getUser()->getId();
         if($userid){
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -65,12 +66,18 @@ class PageController extends AbstractController
         }
 
         $adress_user_selected = $this->AdressRepo->findBy(array('users' => $userid));
-        
-        $formAdress = $this->createForm(AdressFormType::class);
+        $New_Adress = New Adress;
+
+        if($request->isXmlHttpRequest()) {
+
+            $userid = $this->getUser()->getId();
+            $idform = $request->request->get('setform');
+            $adress_ajax = $this->AdressRepo->recupinfo($idform,$userid);
+            return new JsonResponse($adress_ajax);
+        }
+
+        $formAdress = $this->createForm(AdressFormType::class,$New_Adress);
         $formAdress->handleRequest($request);
-
-
-
 
         return $this->render('page/profile.html.twig', [
             'controller_name' => 'HomeController',

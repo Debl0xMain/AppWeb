@@ -11,7 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
 class AdressFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -23,7 +22,6 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ',
-                    // //  'value'=> '{{ adress_user_selected.AdrNumber }}'
                     ]
         ])
             ->add('adrStreet',TextType::class,[
@@ -32,7 +30,6 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ',
-                    //  'value'=> '{{ adress_user_selected.adrStreet }}'
                     ]
         ])
             ->add('adrZipCode',TextType::class,[
@@ -41,7 +38,6 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ' ,
-                    //  'value'=> '{{ adress_user_selected.adrZipCode }}'
                     ]
         ])
             ->add('adrCity',TextType::class,[
@@ -50,7 +46,6 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ' ,
-                    //  'value'=> '{{ adress_user_selected.adrCity }}'
                     ]
         ])
             ->add('adrAddInfo',TextType::class,[
@@ -59,7 +54,6 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ' ,
-                    //  'value'=> '{{ adress_user_selected.adrAddInfo }}'
                     ]
         ])
         ->add('save', SubmitType::class, [

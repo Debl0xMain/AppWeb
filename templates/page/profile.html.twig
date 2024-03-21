@@ -58,9 +58,12 @@ $('.btn_modif_inscription').html("Modification");
 <pre>
     {{ dump(adress_user_selected) }}
 </pre>
-<select class="form-select" aria-label="Default select example">
+<select class="form-select" aria-label="0" id="adress_input_select">
+  <option value="0">
+  Nouvelle Adresse
+ </option>
      {% for adress_user_selected in adress_user_selected %}
-            <option value="{{ adress_user_selected.id}} ">
+            <option value="{{ adress_user_selected.id }}" id="adress_option">
              {{ adress_user_selected.adrNumber}}  {{ adress_user_selected.adrStreet}}  {{ adress_user_selected.adrCity}} {{ adress_user_selected.adrZipCode}}
              </option>
     {% endfor %}
@@ -73,4 +76,10 @@ $('.btn_modif_inscription').html("Modification");
 
  {{ form(formAdress) }}
 
+
+
+
+<script src={{asset('assets/js/adress.js')}}></script>
 {% endblock %}
+
+
