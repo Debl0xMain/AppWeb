@@ -72,10 +72,14 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: 'users')]
+    private Collection $adresses;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->ref_commercial = new ArrayCollection();
+        $this->adresses = new ArrayCollection();
     }
 
 
@@ -329,6 +333,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Adress>
+     */
+    public function getAdresses(): Collection
+    {
+        return $this->adresses;
+    }
+
+    public function addAdress(Adress $adress): static
+    {
+        if (!$this->adresses->contains($adress)) {
+            $this->adresses->add($adress);
+            $adress->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdress(Adress $adress): static
+    {
+        if ($this->adresses->removeElement($adress)) {
+            // set the owning side to null (unless already changed)
+            if ($adress->getUsers() === $this) {
+                $adress->setUsers(null);
+            }
+        }
 
         return $this;
     }

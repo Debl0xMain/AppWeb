@@ -64,10 +64,9 @@ class PageController extends AbstractController
     
         }
 
-        $recup_adress = $this->AdressRepo->AdressUser($userid);
-        $assembly_adress = $this->AdressRepo->AssemblyAdress($recup_adress);
-
-        $formAdress = $this->createForm(AdressFormType::class,$this->AdressRepo->getYes(1));
+        $adress_user_selected = $this->AdressRepo->findBy(array('users' => $userid));
+        
+        $formAdress = $this->createForm(AdressFormType::class);
         $formAdress->handleRequest($request);
 
 
@@ -76,9 +75,8 @@ class PageController extends AbstractController
         return $this->render('page/profile.html.twig', [
             'controller_name' => 'HomeController',
             'formUser' => $formUser->createView(),
-            'adress_select' => $assembly_adress,
-            'adress_detail' => $recup_adress,
             'formAdress' => $formAdress->createView(),
+            'adress_user_selected' => $adress_user_selected,
         ]);
         
     }

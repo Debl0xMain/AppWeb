@@ -52,27 +52,25 @@
 $('.btn_modif_inscription').html("Modification");
 </script>#}
 
-<pre>
-    {{ dump(adress_select) }}
-</pre>
-<pre>
-    {{ dump(adress_detail) }}
-</pre>
+
 
 {# Selection adress existante #}
+<pre>
+    {{ dump(adress_user_selected) }}
+</pre>
 <select class="form-select" aria-label="Default select example">
-     {% for adress_select in adress_select %}
-            <option value="0">{{adress_select}}</option>
+     {% for adress_user_selected in adress_user_selected %}
+            <option value="{{ adress_user_selected.id}} ">
+             {{ adress_user_selected.adrNumber}}  {{ adress_user_selected.adrStreet}}  {{ adress_user_selected.adrCity}} {{ adress_user_selected.adrZipCode}}
+             </option>
     {% endfor %}
 </select>
-<pre>
-    {{ dump(formAdress) }}
-</pre>
 
-{% for adress_select in adress_select %}
-     {{ form(formAdress) }}
+
+{% for adress_user_selected in adress_user_selected %}
+     
 {% endfor %} 
 
-
+ {{ form(formAdress) }}
 
 {% endblock %}

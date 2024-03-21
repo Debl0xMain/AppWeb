@@ -30,6 +30,9 @@ class Adress
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adrAddInfo = null;
 
+    #[ORM\ManyToOne(inversedBy: 'adresses')]
+    private ?Users $users = null;
+
     public function __construct()
     {
     }
@@ -95,6 +98,18 @@ class Adress
     public function setAdrAddInfo(?string $adrAddInfo): static
     {
         $this->adrAddInfo = $adrAddInfo;
+
+        return $this;
+    }
+
+    public function getUsers(): ?Users
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?Users $users): static
+    {
+        $this->users = $users;
 
         return $this;
     }

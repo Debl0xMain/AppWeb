@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Valid;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AdressFormType extends AbstractType
 {
@@ -22,7 +23,7 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ',
-                    // //  'value'=> '{{ adress_select.AdrNumber }}'
+                    // //  'value'=> '{{ adress_user_selected.AdrNumber }}'
                     ]
         ])
             ->add('adrStreet',TextType::class,[
@@ -31,7 +32,7 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ',
-                    //  'value'=> '{{ adress_select.adrStreet }}'
+                    //  'value'=> '{{ adress_user_selected.adrStreet }}'
                     ]
         ])
             ->add('adrZipCode',TextType::class,[
@@ -40,7 +41,7 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ' ,
-                    //  'value'=> '{{ adress_select.adrZipCode }}'
+                    //  'value'=> '{{ adress_user_selected.adrZipCode }}'
                     ]
         ])
             ->add('adrCity',TextType::class,[
@@ -49,7 +50,7 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ' ,
-                    //  'value'=> '{{ adress_select.adrCity }}'
+                    //  'value'=> '{{ adress_user_selected.adrCity }}'
                     ]
         ])
             ->add('adrAddInfo',TextType::class,[
@@ -58,9 +59,14 @@ class AdressFormType extends AbstractType
                 ],
             'attr'=> [
                     'class'=>'register_input ' ,
-                    //  'value'=> '{{ adress_select.adrAddInfo }}'
+                    //  'value'=> '{{ adress_user_selected.adrAddInfo }}'
                     ]
         ])
+        ->add('save', SubmitType::class, [
+            'attr'=> 
+           [
+            'class'=>'btn btn-primary btn_modif_inscription' ],
+            'label' => 'Enregistrer'])
         ;
     }
 
