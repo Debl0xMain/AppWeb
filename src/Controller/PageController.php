@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\UsersRepository;
 use App\Repository\AdressRepository;
+use App\Repository\OrdersRepository;
 use App\Entity\Adress;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +22,12 @@ class PageController extends AbstractController
 
     private $userRepo;
     private $AdressRepo;
+    private $OrdersRepo;
 
-    public function __construct(UsersRepository $userRepo,AdressRepository $AdressRepo){
+    public function __construct(UsersRepository $userRepo,AdressRepository $AdressRepo,OrdersRepository $OrdersRepo){
         $this->userRepo = $userRepo;
         $this->AdressRepo = $AdressRepo;
+        $this->OrdersRepo = $OrdersRepo;
     }
 
     #[Route('/', name: 'app_home')]
@@ -38,12 +41,14 @@ class PageController extends AbstractController
     #[Route('/profil', name: 'app_profile')]
     public function profile(RegistrationFormType $formUser,AdressFormType $formAdress,AuthenticationUtils $authenticationUtils,Request $request,UserPasswordHasherInterface $passwordHasher,EntityManagerInterface $entityManager): Response
     {
+        // recup id user
         $userid = $this->getUser()->getId();
         if ($userid)
         {
-            // Create Form
+            // Create Form Modif Profil
             $formUser = $this->createForm(RegistrationFormType::class, $this->getUser());
             $formUser->handleRequest($request);
+            // Create Form Add/Modif Adress
             $newAdress = new Adress;
             $formAdress = $this->createForm(AdressFormType::class,$newAdress); 
             $formAdress->handleRequest($request);
@@ -59,12 +64,17 @@ class PageController extends AbstractController
                     $adress_ajax = $this->AdressRepo->recupinfo($idform,$userid);
                     return new JsonResponse($adress_ajax);
                 }
+            //Historique cmd 
+            // histo_cmd($userId)
+            // $user_cmd_list = $this->userRepo->histo_cmd($userid);
+            $user_cmd_list = $this->OrdersRepo->findBy(array('users' => $userid));
 
             return $this->render('page/profile.html.twig', [
                 'controller_name' => 'HomeController',
                 'formUser' => $formUser->createView(),
                 'formAdress' => $formAdress->createView(),
                 'adress_user_selected' => $adress_user_selected,
+                'histo_cmd' => $user_cmd_list,
             ]);}
         
     }

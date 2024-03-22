@@ -3,11 +3,16 @@
 namespace App\Repository;
 
 use App\Entity\Users;
+use App\Entity\Orders;
+use App\Entity\Delivery;
+use App\Entity\productOrders;
+use App\Entity\productDelivery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<Users>
@@ -19,9 +24,12 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UsersRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    private $entityManager;
+    public function __construct(ManagerRegistry $registry,EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Users::class);
+        $this->entityManager = $entityManager;
+        
     }
 
     /**
@@ -37,29 +45,18 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
-
-//    /**
-//     * @return Users[] Returns an array of Users objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Users
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    // public function histo_cmd($userId)
+    // {
+    //     return $this->createQueryBuilder('u')
+    //     ->select('o.ordRef', 'o.ordReduction', 'o.ordAdressDelivery', 'o.ordAdressBilling', 'o.ordStatusBill', 'o.ordPrixTotal', 'd.delDateExped', 'd.delDatePlannedDelivery', 'd.delDateDeliveryClient', 'po.pro_ordNameProduct', 'po.pro_ordProductQuantity', 'po.pro_ordPriceUht', 'u.userCoefficient')
+    //     // ->Join(Users::class, 'u')
+    //     ->join(Orders::class, 'o')
+    //     ->join(delivery::class, 'd')
+    //     ->join(productOrders::class, 'po')
+    //     ->join(productDelivery::class, 'pd')
+    //     ->where('u.id = :userId')
+    //     ->setParameter('userId', $userId)
+    //     ->getQuery()
+    //     ->getResult();
+    // }
 }

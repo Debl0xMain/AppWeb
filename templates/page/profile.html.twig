@@ -18,38 +18,38 @@
 <div class="col">
     <form method="post" action="{{ path('app_formuser')}}">
         <div class="content row mx-auto">
-    {% for flash_error in app.flashes('verify_email_error') %}
-    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-    {{ form_errors(formUser) }}
-    {{ form_start(formUser) }}
-    <hr class="w-25 mx-auto">
-    <p style="font-size: 125%;font-weight: bolder;">Email</p>
-    {{ form_row(formUser.userEmail) }}
-    <hr class="w-25 mx-auto">
-    <hr class="w-25 mx-auto">
-    <p style="font-size: 125%;font-weight: bolder;">Coordonnés</p>
-    <div class='row text-center mx-1'>
-        <div class="col">
-            {{ form_row(formUser.userName) }}
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+            {% endfor %}
+            {{ form_errors(formUser) }}
+            {{ form_start(formUser) }}
+            <hr class="w-25 mx-auto">
+            <p style="font-size: 125%;font-weight: bolder;">Email</p>
+            {{ form_row(formUser.userEmail) }}
+            <hr class="w-25 mx-auto">
+            <hr class="w-25 mx-auto">
+            <p style="font-size: 125%;font-weight: bolder;">Coordonnés</p>
+            <div class='row text-center mx-1'>
+                <div class="col">
+                    {{ form_row(formUser.userName) }}
+                </div>
+                <div class="col">
+                    {{ form_row(formUser.userFristName) }}
+                </div>
+            </div>
+            <div class="row text-center mx-1">
+                <div class="col">
+                    {{ form_row(formUser.UserPhone) }}
+                </div>
+                <div class="col py-5 ">
+                    {{ form_row(formUser.agreeTerms) }}
+                </div>
         </div>
-        <div class="col">
-            {{ form_row(formUser.userFristName) }}
-        </div>
-    </div>
-    <div class="row text-center mx-1">
-        <div class="col">
-            {{ form_row(formUser.UserPhone) }}
-        </div>
-        <div class="col py-5 ">
-            {{ form_row(formUser.agreeTerms) }}
-        </div>
-    </div>
-    <p style="font-size: 125%;font-weight: bolder;">Password</p>
-    {{ form_row(formUser.Password, {
-        label: 'Password'
-    }) }}
-    {{ form_end(formUser) }}
+            <p style="font-size: 125%;font-weight: bolder;">Password</p>
+            {{ form_row(formUser.Password, {
+                label: 'Password'
+            }) }}
+            {{ form_end(formUser) }}
     </form>
 </div> 
 
@@ -60,13 +60,10 @@ $('.btn_modif_inscription').html("Modification");
 
 
 {# Selection adress existante #}
-<pre>
-    {{ dump(adress_user_selected) }}
-</pre>
 <select class="form-select" aria-label="0" id="adress_input_select">
-  <option value="0">
-  Nouvelle Adresse
- </option>
+    <option value="0">
+    Nouvelle Adresse
+    </option>
      {% for adress_user_selected in adress_user_selected %}
             <option value="{{ adress_user_selected.id }}" id="adress_option">
              {{ adress_user_selected.adrNumber}}  {{ adress_user_selected.adrStreet}}  {{ adress_user_selected.adrCity}} {{ adress_user_selected.adrZipCode}}
@@ -81,13 +78,29 @@ $('.btn_modif_inscription').html("Modification");
         {{ form_row(formAdress.adrCity) }}
         {{ form_row(formAdress.adrZipCode) }}
         {{ form_row(formAdress.adrAddInfo) }}
-        <pre>
-            {{ dump(formAdress) }}
-        </pre>
         <p>Hidden</p>
         {{ form_row(formAdress.users) }}
     {{ form_end(formAdress) }}
 <form>
+
+{# Historique command #}
+
+<pre>
+    {{ dump(histo_cmd) }}
+</pre>
+
+{% for histo_cmd in histo_cmd %}
+<hr>
+    <p>ref {{ histo_cmd.ordref }}</p>
+    <p>reduction {{ histo_cmd.ordReduction }}</p>
+    <p>coef {{ histo_cmd.ordClientCoefficient }}</p>
+    <p>livraison {{ histo_cmd.ordAdressDelivery }}</p>
+    <p>facturation {{ histo_cmd.ordAdressBilling }}</p>
+    <p>prix total {{ histo_cmd.ordPrixTotal}}</p>
+    <p>date paiement {{ histo_cmd.ordDateBill|date("m/d/Y") }}</p>
+    <hr>
+
+{% endfor %}
 
 
 
