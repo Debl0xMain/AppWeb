@@ -16,7 +16,7 @@
 {# Form Modif profile #}
 
 <div class="col">
-    <form method="post" action="{{ path('app_profile')}}">
+    <form method="post" action="{{ path('app_formuser')}}">
         <div class="content row mx-auto">
     {% for flash_error in app.flashes('verify_email_error') %}
     <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
@@ -73,7 +73,7 @@ $('.btn_modif_inscription').html("Modification");
              </option>
     {% endfor %}
 </select>
-<form method="post" action="{{ path('app_profile')}}">
+<form method="post" action="{{ path('app_formadress')}}">
     {{ form_errors(formAdress) }}
     {{ form_start(formAdress) }}
         {{ form_row(formAdress.adrNumber) }}
@@ -84,6 +84,7 @@ $('.btn_modif_inscription').html("Modification");
         <pre>
             {{ dump(formAdress) }}
         </pre>
+        <p>Hidden</p>
         {{ form_row(formAdress.users) }}
     {{ form_end(formAdress) }}
 <form>

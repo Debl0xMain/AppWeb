@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Repository\UsersRepository;
 use App\Repository\AdressRepository;
-use App\Entity\Users;
 use App\Entity\Adress;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,12 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Form\RegistrationFormType;
 use App\Form\AdressFormType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Security\AppCustomAuthenticator;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
-
 
 class PageController extends AbstractController
 {
@@ -47,24 +41,17 @@ class PageController extends AbstractController
         $userid = $this->getUser()->getId();
         if ($userid)
         {
-            $error = $authenticationUtils->getLastAuthenticationError();
-            $lastUsername = $authenticationUtils->getLastUsername();
-            $identifiant = $this->getUser()->getUserIdentifier();
+            // Create Form
             $formUser = $this->createForm(RegistrationFormType::class, $this->getUser());
             $formUser->handleRequest($request);
-
-                if ($formUser->isSubmitted() && $formUser->isValid()) {
-                    /** @var Users $users */                    
-                    // if (null !== $plainPassword) {
-                    //     $user->setPassword($passwordHasher->hashPassword($user, $plainPassword));
-                    // }
-                    $entityManager->flush();
-                    $this->addFlash('success', 'Votre profil a été mis à jour');
-                    return $this->redirectToRoute('app_profile');
-                }
-
+            $newAdress = new Adress;
+            $formAdress = $this->createForm(AdressFormType::class,$newAdress); 
+            $formAdress->handleRequest($request);
+            // Set Variable
             $adress_user_selected = $this->AdressRepo->findBy(array('users' => $userid));
-
+            $user_verif = $this->getUser();
+            $formAdress->get("users")->setData($user_verif);
+                //Ajax request
                 if($request->isXmlHttpRequest()) {
 
                     $userid = $this->getUser()->getId();
@@ -72,27 +59,6 @@ class PageController extends AbstractController
                     $adress_ajax = $this->AdressRepo->recupinfo($idform,$userid);
                     return new JsonResponse($adress_ajax);
                 }
-            $newAdress = new Adress;
-            $user_verif = $this->getUser();
-            $formAdress = $this->createForm(AdressFormType::class,$newAdress); 
-            $formAdress->handleRequest($request);
-
-                if ($formAdress->isSubmitted() && $formAdress->isValid()) {
-
-                    $user_found = $formAdress->get('users')->getData();
-
-                    if ($user_found->getId() === $userid) {
-                        /** @var Adress $Adress */
-
-                        // dd($formAdress->getData());
-                        $entityManager->flush();
-                        $this->addFlash('success', 'Votre Adresse a été mis à jour');
-                        return $this->redirectToRoute('app_profile');
-                    }
-                }
-
-            $user_verif = $this->getUser();
-            $formAdress->get("users")->setData($user_verif);
 
             return $this->render('page/profile.html.twig', [
                 'controller_name' => 'HomeController',
@@ -102,5 +68,7 @@ class PageController extends AbstractController
             ]);}
         
     }
+
+   
 }
 

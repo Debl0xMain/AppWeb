@@ -26,9 +26,11 @@ class FragementController extends AbstractController
     //#[Route('/_navbar', name: 'app_navbar')]
     public function navbar(AuthenticationUtils $authenticationUtils): Response
     {
+        // Create Form
         $user = new Users();
         $lastUsername = $authenticationUtils->getLastUsername();
         $error = $authenticationUtils->getLastAuthenticationError();
+        // Find Category
         $category = $this->CategoryRepo->findAll();
 
         return $this->render('frag/_navbar.html.twig', [
@@ -41,17 +43,15 @@ class FragementController extends AbstractController
 
     public function modal(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager,AuthenticationUtils $authenticationUtils): Response
     {
+        // Create Form
         $user = new Users();
         $lastUsername = $authenticationUtils->getLastUsername();
         $error = $authenticationUtils->getLastAuthenticationError();
         $form_register = $this->createForm(RegistrationFormType::class, $user);
         $form_register->handleRequest($request);
 
-        $category = $this->CategoryRepo->findAll();
-
         return $this->render('frag/_modal.html.twig', [
             'controller_name' => 'HomeController',
-            'navbar_category' => $category,
             'registrationForm' => $form_register,
             'error' => $error,
             'last_username' => $lastUsername,
