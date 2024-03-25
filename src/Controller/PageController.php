@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\UsersRepository;
 use App\Repository\AdressRepository;
 use App\Repository\OrdersRepository;
+use App\Repository\DeliveryRepository;
 use App\Entity\Adress;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,12 +23,14 @@ class PageController extends AbstractController
 
     private $userRepo;
     private $AdressRepo;
+    private $DeliveryRepo;
     private $OrdersRepo;
 
-    public function __construct(UsersRepository $userRepo,AdressRepository $AdressRepo,OrdersRepository $OrdersRepo){
+    public function __construct(UsersRepository $userRepo,AdressRepository $AdressRepo,OrdersRepository $OrdersRepo,DeliveryRepository $DeliveryRepo){
         $this->userRepo = $userRepo;
         $this->AdressRepo = $AdressRepo;
         $this->OrdersRepo = $OrdersRepo;
+        $this->DeliveryRepo = $DeliveryRepo;
     }
 
     #[Route('/', name: 'app_home')]
@@ -67,14 +70,16 @@ class PageController extends AbstractController
             //Historique cmd 
             // histo_cmd($userId)
             // $user_cmd_list = $this->userRepo->histo_cmd($userid);
-            $user_cmd_list = $this->OrdersRepo->findBy(array('users' => $userid));
+            $user_cmd_orders = $this->OrdersRepo->findBy(array('users' => $userid));
+            $user_cmd_delivery = $this->DeliveryRepo->findBy(array('orders' => $user_cmd_orders));
 
             return $this->render('page/profile.html.twig', [
                 'controller_name' => 'HomeController',
                 'formUser' => $formUser->createView(),
                 'formAdress' => $formAdress->createView(),
                 'adress_user_selected' => $adress_user_selected,
-                'histo_cmd' => $user_cmd_list,
+                'histo_cmd' => $user_cmd_orders,
+                'histo_delivery' => $user_cmd_delivery,
             ]);}
         
     }

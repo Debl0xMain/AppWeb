@@ -1,11 +1,13 @@
 # En cours :
     -profil
+     -finir historique de commande
+     -finir front
+     -verif information envoye sur le front
 # A faire :
     -Accueil ??
     -catalogue react
-    -profil
     -panier function
-    -formulaire inscription
+    -verif formulaire inscription + mail
 # Fait :
     -template base
     -entity

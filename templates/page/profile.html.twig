@@ -88,9 +88,26 @@ $('.btn_modif_inscription').html("Modification");
 <pre>
     {{ dump(histo_cmd) }}
 </pre>
-
+<pre>
+    {{ dump(histo_delivery) }}
+</pre>
 {% for histo_cmd in histo_cmd %}
 <hr>
+{# Donne delivery link orders #}
+{% for histo_delivery in histo_delivery %}
+    {% if histo_delivery.orders == histo_cmd %}
+    <p>date expedition {{ histo_delivery.delDateExped|date("m/d/Y") }}</p>
+    {# Planified Date Not Hidden #}
+        {% if histo_delivery.delDateDeliveryClient == null %}
+            <p>Date livraison planifie {{ histo_delivery.delDatePlannedDelivery|date("m/d/Y") }}</p>
+        {% endif %}
+    {# Delivery Date #}
+        {% if histo_delivery.delDateDeliveryClient != null %}
+            <p>Date livraison {{ histo_delivery.delDateDeliveryClient|date("m/d/Y") }}</p>
+        {% endif %}
+    {% endif %}
+{% endfor %}
+{# donne Orders #}
     <p>ref {{ histo_cmd.ordref }}</p>
     <p>reduction {{ histo_cmd.ordReduction }}</p>
     <p>coef {{ histo_cmd.ordClientCoefficient }}</p>
@@ -98,6 +115,12 @@ $('.btn_modif_inscription').html("Modification");
     <p>facturation {{ histo_cmd.ordAdressBilling }}</p>
     <p>prix total {{ histo_cmd.ordPrixTotal}}</p>
     <p>date paiement {{ histo_cmd.ordDateBill|date("m/d/Y") }}</p>
+{# produit #}
+
+{% set prixUht = 54  %}
+{% set client_coef = histo_cmd.ordClientCoefficient %}
+    {% set resultat_prix_u = (prixUht * client_coef)*1.20 %}
+{{resultat_prix_u}}
     <hr>
 
 {% endfor %}

@@ -1204,7 +1204,9 @@ class JeuTest extends Fixture
                             
                                 $delivery[$i]->setDelDateExped($date_client_expediction);
                                 $delivery[$i]->setDelDatePlannedDelivery($date_client_livraison_estime);
-                                $delivery[$i]->setDelDateDeliveryClient($date_client_livraison);
+                                if($i % 2 != 0){
+                                    $delivery[$i]->setDelDateDeliveryClient($date_client_livraison);
+                                }
                                 $delivery[$i]->setOrders($order[$i]);
                             
                             $productorder[$i] = new ProductOrders();
