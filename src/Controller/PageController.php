@@ -52,6 +52,7 @@ class PageController extends AbstractController
     {
         // recup id user
         $userid = $this->getUser()->getId();
+
         if ($userid)
         {
             $user_co = $this->getUser();
