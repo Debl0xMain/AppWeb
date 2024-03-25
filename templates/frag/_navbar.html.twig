@@ -1,4 +1,34 @@
-
+{% if app.user %}
+<pre>
+    {{ dump(app.user.Roles) }}
+    </pre>
+{#  #}
+    {# particulier #}
+    {% if 'ROLE_USER' == app.user.Roles %}
+    <style>
+    :root {
+            --color_background:#C8FF83 !important;
+    }
+    </style>
+    {% endif %}
+    {# employe #}
+    {% if 2 == app.user.getRoles() %}
+    <style>
+    :root {
+            --color_background:#0cb8ec !important;
+    }
+    </style>
+    {% endif %}
+    {# pro #}
+    {% if 'ROLE_PRO' in app.user.getRoles() %}
+    <style>
+    :root {
+            --color_background:#12eb98 !important;
+    }
+    </style>
+    {% endif %}
+{#  #}
+{% endif %}
 <nav class="navbar navbar-expand-lg navbar_bg navbar_maxwidht">
         <div class="container-fluid navbar_maxwidht">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +86,12 @@
                                         <a class="col" href=" {{ path("app_profile") }}">
                                                 <button type="button" class="btn btn-outline-success btnprofil">
                                                     <i class="fa-solid fa-user"></i>
-                                                    <p class="btnlogintext">{{ app.user.UserName }}</p>
+                                                    {% if app.user.userCompanySiret == null %}
+                                                        <p class="btnlogintext">{{ app.user.UserName }}</p>
+                                                    {% endif %}
+                                                    {% if app.user.userCompanySiret != null %}
+                                                        <p class="btnlogintext">{{ app.user.userCompanyName }}</p>
+                                                    {% endif %}
                                                 </button>
                                         </a>
                                         <a class="col text-end" href="{{ path('app_logout') }}" class="profildeco btn btn-outline-danger"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #ff0000;"></i></a>

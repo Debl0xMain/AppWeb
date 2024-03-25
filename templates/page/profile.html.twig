@@ -13,123 +13,180 @@
                 {{ message }}
             </div>
 {% endfor %}
+<h1 class="my-4 text-center">Profil</h1>
+<article class="row my-2 mx-2">
 {# Form Modif profile #}
-
-<div class="col">
-    <form method="post" action="{{ path('app_formuser')}}">
-        <div class="content row mx-auto">
-            {% for flash_error in app.flashes('verify_email_error') %}
-                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-            {% endfor %}
-            {{ form_errors(formUser) }}
-            {{ form_start(formUser) }}
-            <hr class="w-25 mx-auto">
-            <p style="font-size: 125%;font-weight: bolder;">Email</p>
-            {{ form_row(formUser.userEmail) }}
-            <hr class="w-25 mx-auto">
-            <hr class="w-25 mx-auto">
-            <p style="font-size: 125%;font-weight: bolder;">Coordonnés</p>
-            <div class='row text-center mx-1'>
-                <div class="col">
-                    {{ form_row(formUser.userName) }}
+    <section class="col text-center">
+        <form method="post" action="{{ path('app_formuser')}}">
+            <div class="content row mx-auto">
+                {% for flash_error in app.flashes('verify_email_error') %}
+                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                {% endfor %}
+                {{ form_errors(formUser) }}
+                {{ form_start(formUser) }}
+                <p style="font-size: 125%;font-weight: bolder;">Email</p>
+                {{ form_row(formUser.userEmail) }}
+                <hr class="w-25 mx-auto">
+                <hr class="w-25 mx-auto">
+                <p style="font-size: 125%;font-weight: bolder;">Coordonnés</p>
+                <div class='row text-center mx-1'>
+                    <div class="col">
+                        {{ form_row(formUser.userName) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(formUser.userFristName) }}
+                    </div>
                 </div>
-                <div class="col">
-                    {{ form_row(formUser.userFristName) }}
-                </div>
+                <div class="row text-center mx-1">
+                    <div class="col">
+                        {{ form_row(formUser.UserPhone) }}
+                    </div>
+                    <div class="col py-5 ">
+                        {{ form_row(formUser.agreeTerms) }}
+                    </div>
             </div>
-            <div class="row text-center mx-1">
-                <div class="col">
-                    {{ form_row(formUser.UserPhone) }}
+            <hr class="w-25 mx-auto">
+                <p style="font-size: 125%;font-weight: bolder;">Password</p>
+                {{ form_row(formUser.Password, {
+                    label: 'Password'
+                }) }}
+                <div class="text-center">
+                    {{ form_end(formUser) }}
                 </div>
-                <div class="col py-5 ">
-                    {{ form_row(formUser.agreeTerms) }}
-                </div>
-        </div>
-            <p style="font-size: 125%;font-weight: bolder;">Password</p>
-            {{ form_row(formUser.Password, {
-                label: 'Password'
-            }) }}
-            {{ form_end(formUser) }}
-    </form>
-</div> 
-
-<script>
-$('.btn_modif_inscription').html("Modification");
-</script>
-
-
-
+        </form>
+            <script>
+            $('.btn_modif_inscription').html("Modification");
+            </script>
+    </section> 
 {# Selection adress existante #}
-<select class="form-select" aria-label="0" id="adress_input_select">
-    <option value="0">
-    Nouvelle Adresse
-    </option>
-     {% for adress_user_selected in adress_user_selected %}
-            <option value="{{ adress_user_selected.id }}" id="adress_option">
-             {{ adress_user_selected.adrNumber}}  {{ adress_user_selected.adrStreet}}  {{ adress_user_selected.adrCity}} {{ adress_user_selected.adrZipCode}}
-             </option>
-    {% endfor %}
-</select>
-<form method="post" action="{{ path('app_formadress')}}">
-    {{ form_errors(formAdress) }}
-    {{ form_start(formAdress) }}
-        {{ form_row(formAdress.adrNumber) }}
-        {{ form_row(formAdress.adrStreet) }}
-        {{ form_row(formAdress.adrCity) }}
-        {{ form_row(formAdress.adrZipCode) }}
-        {{ form_row(formAdress.adrAddInfo) }}
-        <p>Hidden</p>
-        {{ form_row(formAdress.users) }}
-    {{ form_end(formAdress) }}
-<form>
+   <section class="col mx-3 mt-5 pt-5 text-center">
+        <select class="form-select mt-2" aria-label="0" id="adress_input_select">
+            <option value="0">
+            Nouvelle Adresse
+            </option>
+            {% for adress_user_selected in adress_user_selected %}
+                    <option value="{{ adress_user_selected.id }}" id="adress_option">
+                    {{ adress_user_selected.adrNumber}}  {{ adress_user_selected.adrStreet}}  {{ adress_user_selected.adrCity}} {{ adress_user_selected.adrZipCode}}
+                    </option>
+            {% endfor %}
+        </select>
+        <form method="post" action="{{ path('app_formadress')}}">
+            {{ form_errors(formAdress) }}
+            {{ form_start(formAdress) }}
+                {{ form_row(formAdress.adrNumber) }}
+                {{ form_row(formAdress.adrStreet) }}
+                {{ form_row(formAdress.adrCity) }}
+                {{ form_row(formAdress.adrZipCode) }}
+                {{ form_row(formAdress.adrAddInfo) }}
+                <p>Hidden</p>
+                <div Hidden>
+                {{ form_row(formAdress.users) }}</div>
+            {{ form_end(formAdress) }}
+        <form>
+    </section>
+</article>
 
 {# Historique command #}
-
-<pre>
-    {{ dump(histo_cmd) }}
-</pre>
-<pre>
-    {{ dump(histo_delivery) }}
-</pre>
+<h2 class="text-center">Commandes</h2>
 {% for histo_cmd in histo_cmd %}
-<hr>
-{# Donne delivery link orders #}
-{% for histo_delivery in histo_delivery %}
-    {% if histo_delivery.orders == histo_cmd %}
-    <p>date expedition {{ histo_delivery.delDateExped|date("m/d/Y") }}</p>
-    {# Planified Date Not Hidden #}
-        {% if histo_delivery.delDateDeliveryClient == null %}
-            <p>Date livraison planifie {{ histo_delivery.delDatePlannedDelivery|date("m/d/Y") }}</p>
-        {% endif %}
-    {# Delivery Date #}
-        {% if histo_delivery.delDateDeliveryClient != null %}
-            <p>Date livraison {{ histo_delivery.delDateDeliveryClient|date("m/d/Y") }}</p>
-        {% endif %}
-    {% endif %}
+{# Btn Histo Cmd #}
+<div class="mx-auto text-center">
+    <button class="btn mx-auto text-center justify-content-center" type="button" data-bs-toggle="collapse" data-bs-target="#open_detail_{{ histo_cmd.ordref }}" aria-expanded="false" aria-controls="collapseExample">
+        <hr>
+        <div class='row text-center'>
+            <div class="col mx-5">
+                <p class="row">ref</p>
+                <p class="row">{{ histo_cmd.ordref }}</p>
+            </div>
+            <div class="col mx-5">
+                <p class="row">Status</p>
+                    {% if histo_cmd.ordStatusBill  == 1 %}
+                    <p class="row">Attente</p>
+                    {% endif %}
+                    {% if histo_cmd.ordStatusBill  == 2 %}
+                    <p class="row">Payé</p>
+                    {% endif %}
+                    {% if histo_cmd.ordStatusBill  == 3 %}
+                    <p class="row">Retard</p>
+                    {% endif %}
+            </div>
+            <div class="col mx-5">
+                <p class="row">Date</p>
+                <p class="row">{{ histo_cmd.ordDateBill|date("m/d/Y") }}</p>
+            </div>
+            <div class="col mx-5">
+                <p class="row">Prix</p>
+                <p class="row">{{ histo_cmd.ordPrixTotal}}€</p>
+            </div>
+        </div>
+    </button>
+    <div class="collapse mx-5 px-5" id="open_detail_{{ histo_cmd.ordref }}">
+        <div class="card card-body text-center">
+            <div class="row">
+                <p>Livraison : {{ histo_cmd.ordAdressDelivery }}</p>
+                <p>Facturation : {{ histo_cmd.ordAdressBilling }}</p>
+            </div>
+             <hr>
+            {# produit #}
+            <div class="row">
+                {% for product_orders in product_orders %}
+                    {% if product_orders.orders.id == histo_cmd.id %}
+                        <div class="col">
+                            <p class="row">Nom :</p>
+                            <p class="row">{{ product_orders.ProOrdNameProduct }}</p>
+                        </div>
+                        <div class="col">
+                            <p class="row">Quantité :</p>
+                            <p class="row">{{ product_orders.ProOrdProductQuantity }}</p>
+                        </div>
+                        <div class="col">
+                            {% set resultat_prix_u = (((product_orders.ProOrdPriceUht)* histo_cmd.ordClientCoefficient )*1.20)|round(2, 'floor') %}
+                            <p class="row">Prix/u:</p>
+                            <p class="row">{{ resultat_prix_u }}€</p>
+                        </div>
+                        <div class="col">
+                        {% if user.userCompanySiret != null %}
+                            {% set resultat_prix_u = ((((product_orders.ProOrdPriceUht)* histo_cmd.ordClientCoefficient ))* product_orders.ProOrdProductQuantity)|round(2, 'floor') %}
+                            <p class="row">Prix/Quantité :</p>
+                            <p class="row">{{ resultat_prix_u }}€</p>      
+                        {% endif %}
+                        {% if user.userCompanySiret == null %}
+                            {% set resultat_prix_u = ((((product_orders.ProOrdPriceUht)* histo_cmd.ordClientCoefficient )*1.20)* product_orders.ProOrdProductQuantity)|round(2, 'floor') %}
+                            <p class="row">Prix/Quantité :</p>
+                            <p class="row">{{ resultat_prix_u }}€</p>
+                        {% endif %}
+                        </div>
+                    {# product_delivery #}
+                    {% for histo_delivery in histo_delivery %}
+                    {% for product_delivery in product_delivery %}
+                            {% if (histo_delivery.orders.id == histo_cmd.id) and (histo_delivery.id == product_delivery.delivery.id) %}
+                                <div class="col mx-2">
+                                    <p class="row">Expedition </p>
+                                    <p class="row">{{ histo_delivery.delDateExped|date("m/d/Y") }}</p>
+                                </div>
+                                <div class="col mx-2">
+                                        {# Planified Date Not Hidden #}
+                                            {% if histo_delivery.delDateDeliveryClient == null %}
+                                    <p class="row">En cours</p>
+                                    <p class="row">{{ histo_delivery.delDatePlannedDelivery|date("m/d/Y") }}</p>
+                                            {% endif %}
+                                        {# Delivery Date #}
+                                            {% if histo_delivery.delDateDeliveryClient != null %}
+                                    <p class="row">Livré</p>
+                                    <p class="row">{{ histo_delivery.delDateDeliveryClient|date("m/d/Y") }}</p>
+                            {% endif %}
+                                </div>
+                            {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endfor %}
-{# donne Orders #}
-    <p>ref {{ histo_cmd.ordref }}</p>
-    <p>reduction {{ histo_cmd.ordReduction }}</p>
-    <p>coef {{ histo_cmd.ordClientCoefficient }}</p>
-    <p>livraison {{ histo_cmd.ordAdressDelivery }}</p>
-    <p>facturation {{ histo_cmd.ordAdressBilling }}</p>
-    <p>prix total {{ histo_cmd.ordPrixTotal}}</p>
-    <p>date paiement {{ histo_cmd.ordDateBill|date("m/d/Y") }}</p>
-{# produit #}
 
-{% set prixUht = 54  %}
-{% set client_coef = histo_cmd.ordClientCoefficient %}
-    {% set resultat_prix_u = (prixUht * client_coef)*1.20 %}
-{{resultat_prix_u}}
-    <hr>
-
-{% endfor %}
-
-
-
-
-
+<div class="my-5 text-white">y</div>
 <script src={{asset('assets/js/adress.js')}}></script>
 {% endblock %}
-
-

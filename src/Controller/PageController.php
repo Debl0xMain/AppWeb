@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Repository\UsersRepository;
 use App\Repository\AdressRepository;
 use App\Repository\OrdersRepository;
+use App\Repository\ProductDeliveryRepository;
+use App\Repository\ProductOrdersRepository;
 use App\Repository\DeliveryRepository;
 use App\Entity\Adress;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,11 +27,15 @@ class PageController extends AbstractController
     private $AdressRepo;
     private $DeliveryRepo;
     private $OrdersRepo;
+    private $ProductOrders;
+    private $ProductDelivery;
 
-    public function __construct(UsersRepository $userRepo,AdressRepository $AdressRepo,OrdersRepository $OrdersRepo,DeliveryRepository $DeliveryRepo){
+    public function __construct(ProductDeliveryRepository $ProductDelivery,ProductOrdersRepository $ProductOrders, UsersRepository $userRepo,AdressRepository $AdressRepo,OrdersRepository $OrdersRepo,DeliveryRepository $DeliveryRepo){
         $this->userRepo = $userRepo;
         $this->AdressRepo = $AdressRepo;
         $this->OrdersRepo = $OrdersRepo;
+        $this->ProductOrders = $ProductOrders;
+        $this->ProductDelivery = $ProductDelivery;
         $this->DeliveryRepo = $DeliveryRepo;
     }
 
@@ -48,12 +54,13 @@ class PageController extends AbstractController
         $userid = $this->getUser()->getId();
         if ($userid)
         {
+            $user_co = $this->getUser();
             // Create Form Modif Profil
             $formUser = $this->createForm(RegistrationFormType::class, $this->getUser());
             $formUser->handleRequest($request);
             // Create Form Add/Modif Adress
             $newAdress = new Adress;
-            $formAdress = $this->createForm(AdressFormType::class,$newAdress); 
+            $formAdress = $this->createForm(AdressFormType::class,$newAdress);
             $formAdress->handleRequest($request);
             // Set Variable
             $adress_user_selected = $this->AdressRepo->findBy(array('users' => $userid));
@@ -68,10 +75,10 @@ class PageController extends AbstractController
                     return new JsonResponse($adress_ajax);
                 }
             //Historique cmd 
-            // histo_cmd($userId)
-            // $user_cmd_list = $this->userRepo->histo_cmd($userid);
             $user_cmd_orders = $this->OrdersRepo->findBy(array('users' => $userid));
             $user_cmd_delivery = $this->DeliveryRepo->findBy(array('orders' => $user_cmd_orders));
+            $user_cmd_ProductOrders = $this->ProductOrders->findBy(array('orders' => $user_cmd_orders));
+            $user_cmd_ProductDelivery = $this->ProductDelivery->findBy(array('delivery' => $user_cmd_delivery));
 
             return $this->render('page/profile.html.twig', [
                 'controller_name' => 'HomeController',
@@ -80,6 +87,9 @@ class PageController extends AbstractController
                 'adress_user_selected' => $adress_user_selected,
                 'histo_cmd' => $user_cmd_orders,
                 'histo_delivery' => $user_cmd_delivery,
+                'product_orders' => $user_cmd_ProductOrders,
+                'product_delivery' => $user_cmd_ProductDelivery,
+                'user' => $user_co
             ]);}
         
     }
