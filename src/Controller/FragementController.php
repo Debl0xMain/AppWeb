@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Repository\CategoryRepository;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Entity\Users;
+use App\Repository\UsersRepository;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,18 +17,21 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class FragementController extends AbstractController
 {
     private $CategoryRepo;
+    private $userRepo;
 
-    public function __construct(CategoryRepository $CategoryRepo)
+    public function __construct(CategoryRepository $CategoryRepo,UsersRepository $userRepo)
     {   
+        $this->userRepo = $userRepo;
         $this->CategoryRepo = $CategoryRepo;
 
     }
 
     //#[Route('/_navbar', name: 'app_navbar')]
-    public function navbar(AuthenticationUtils $authenticationUtils): Response
+    public function navbar(AuthenticationUtils $authenticationUtils,Request $request): Response
     {
         // Create Form
         $user = new Users();
+        // $user_identif = $this->getUsers;
         $lastUsername = $authenticationUtils->getLastUsername();
         $error = $authenticationUtils->getLastAuthenticationError();
         // Find Category

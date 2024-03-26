@@ -12,7 +12,7 @@
     </style>
     {% endif %}
     {# employe #}
-    {% if 2 == app.user.getRoles() %}
+    {% if 'ROLE_USER' == app.user.getRoles() %}
     <style>
     :root {
             --color_background:#0cb8ec !important;
