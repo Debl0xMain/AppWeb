@@ -3,7 +3,7 @@
 {% block title %}Profile{% endblock %}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="{{asset('assets/css/profile.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/profile.css')}}">
 {% endblock %}
 
 {% block body %}
@@ -145,16 +145,16 @@
                             <p class="row">{{ resultat_prix_u }}€</p>
                         </div>
                         <div class="col">
-                        {% if user.userCompanySiret != null %}
-                            {% set resultat_prix_u = ((((product_orders.ProOrdPriceUht)* histo_cmd.ordClientCoefficient ))* product_orders.ProOrdProductQuantity)|round(2, 'floor') %}
-                            <p class="row">Prix/Quantité :</p>
-                            <p class="row">{{ resultat_prix_u }}€</p>      
-                        {% endif %}
-                        {% if user.userCompanySiret == null %}
-                            {% set resultat_prix_u = ((((product_orders.ProOrdPriceUht)* histo_cmd.ordClientCoefficient )*1.20)* product_orders.ProOrdProductQuantity)|round(2, 'floor') %}
-                            <p class="row">Prix/Quantité :</p>
-                            <p class="row">{{ resultat_prix_u }}€</p>
-                        {% endif %}
+                            {% if 'ROLE_PRO' in user.Roles[0] %}
+                                {% set resultat_prix_u = ((((product_orders.ProOrdPriceUht)* histo_cmd.ordClientCoefficient ))* product_orders.ProOrdProductQuantity)|round(2, 'floor') %}
+                                <p class="row">Prix/Quantité :</p>
+                                <p class="row">{{ resultat_prix_u }}€</p>   
+                            {% endif %}
+                            {% if 'ROLE_USER' in user.Roles[0] %}
+                                {% set resultat_prix_u = ((((product_orders.ProOrdPriceUht)* histo_cmd.ordClientCoefficient )*1.20)* product_orders.ProOrdProductQuantity)|round(2, 'floor') %}
+                                <p class="row">Prix/Quantité :</p>
+                                <p class="row">{{ resultat_prix_u }}€</p>
+                            {% endif %}
                         </div>
                     {# product_delivery #}
                     {% for histo_delivery in histo_delivery %}

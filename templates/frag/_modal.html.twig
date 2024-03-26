@@ -18,7 +18,7 @@
 
 {# modal login #}
  {% if app.user == null %}
-<<div class="modal" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content loginmodal">
             <div class="modal-header mx-auto">
@@ -38,8 +38,8 @@
                         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
                         <label for="inputUserEmail">Email</label>
                         <input type="email" value="{{ last_username }}" name="userEmail" id="inputUserEmail" class="form-control" autocomplete="email" required autofocus>
-                        <label for="inputPassword">Password</label>
-                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                        <label for="inputpassword">password</label>
+                        <input type="password" name="password" id="inputpassword" class="form-control" autocomplete="current-password" required>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         <div class="checkbox mb-3">
                             <label>
@@ -57,14 +57,17 @@
                             <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
                         {% endfor %}
                         <h1 class="font-weight-bold">Inscription</h1>
-                        {{ form_errors(registrationForm) }}
+                        {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
+                            {{ form_widget(registrationForm) }}
+                        {{ form_end(registrationForm) }}
+                        {# {{ form_errors(registrationForm) }}
                         {{ form_start(registrationForm) }}
                         <hr class="w-25 mx-auto">
                         <p style="font-size: 125%;font-weight: bolder;">Email</p>
                         {{ form_row(registrationForm.userEmail) }}
                         <hr class="w-25 mx-auto">
                         <p style="font-size: 125%;font-weight: bolder;">Password</p>
-                        {{ form_row(registrationForm.password, { label: 'Password' }) }}
+                        {{ form_row(registrationForm.Password) }}
                         <hr class="w-25 mx-auto">
                         <p style="font-size: 125%;font-weight: bolder;">Coordonnés</p>
                         <div class='row text-center mx-1'>
@@ -83,7 +86,7 @@
                                 {{ form_row(registrationForm.agreeTerms) }}
                             </div>
                         </div>
-                        {{ form_end(registrationForm) }}
+                        {{ form_end(registrationForm) }} #}
                     </div>
                 </form>
             </div>

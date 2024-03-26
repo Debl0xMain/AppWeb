@@ -1,7 +1,4 @@
 {% if app.user %}
-<pre>
-    {{ dump(app.user.Roles) }}
-    </pre>
 {#  #}
     {# particulier #}
     {% if 'ROLE_USER' == app.user.Roles[0] %}
