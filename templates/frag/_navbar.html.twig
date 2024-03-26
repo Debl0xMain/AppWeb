@@ -4,7 +4,7 @@
     </pre>
 {#  #}
     {# particulier #}
-    {% if 'ROLE_USER' == app.user.Roles %}
+    {% if 'ROLE_USER' == app.user.Roles[0] %}
     <style>
     :root {
             --color_background:#C8FF83 !important;
@@ -12,7 +12,7 @@
     </style>
     {% endif %}
     {# employe #}
-    {% if 'ROLE_USER' == app.user.getRoles() %}
+    {% if 'ROLE_COM' == app.user.Roles[0] %}
     <style>
     :root {
             --color_background:#0cb8ec !important;
@@ -20,7 +20,7 @@
     </style>
     {% endif %}
     {# pro #}
-    {% if 'ROLE_PRO' in app.user.getRoles() %}
+    {% if 'ROLE_PRO' in app.user.Roles[0] %}
     <style>
     :root {
             --color_background:#12eb98 !important;
