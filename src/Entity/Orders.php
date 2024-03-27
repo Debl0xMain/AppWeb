@@ -49,7 +49,7 @@ class Orders
     #[ORM\OneToMany(targetEntity: ProductOrders::class, mappedBy: 'orders')]
     private Collection $productOrders;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $ordPrixTotal = null;
 
     public function __construct()

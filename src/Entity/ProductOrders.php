@@ -20,7 +20,7 @@ class ProductOrders
     #[ORM\Column(length: 255)]
     private ?string $pro_ordNameProduct = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 12, scale: 5)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 12, scale: 2)]
     private ?string $pro_ordPriceUht = null;
 
     #[ORM\ManyToOne(inversedBy: 'productOrders')]

@@ -91,8 +91,9 @@
 {% for histo_cmd in histo_cmd %}
 {# Btn Histo Cmd #}
 <div class="mx-auto text-center">
-    <button class="btn mx-auto text-center justify-content-center" type="button" data-bs-toggle="collapse" data-bs-target="#open_detail_{{ histo_cmd.ordref }}" aria-expanded="false" aria-controls="collapseExample">
         <hr>
+<section class="row mx-auto text-center justify-content-center">
+    <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#open_detail_{{ histo_cmd.ordref }}" aria-expanded="false" aria-controls="collapseExample">
         <div class='row text-center'>
             <div class="col mx-5">
                 <p class="row">ref</p>
@@ -118,8 +119,20 @@
                 <p class="row">Prix</p>
                 <p class="row">{{ histo_cmd.ordPrixTotal}}€</p>
             </div>
+            <div class="col mx-5">
+                <p class="row">Facture</p>
+                {# modif id #}
+                <a href='{{path('app_facture',{'id': histo_cmd.id })}}' class="row btn btn-warning" name="facture" id="facture">
+                    <i class="fa-solid fa-file-invoice"></i>
+                </a>
+                </div>
+            </div>
         </div>
     </button>
+</section>
+
+
+
     <div class="collapse mx-5 px-5" id="open_detail_{{ histo_cmd.ordref }}">
         <div class="card card-body text-center">
             <div class="row">
@@ -140,18 +153,25 @@
                             <p class="row">{{ product_orders.ProOrdProductQuantity }}</p>
                         </div>
                         <div class="col">
-                            {% set resultat_prix_u = (((product_orders.ProOrdPriceUht)* histo_cmd.ordClientCoefficient )*1.20)|round(2, 'floor') %}
-                            <p class="row">Prix/u:</p>
-                            <p class="row">{{ resultat_prix_u }}€</p>
+                            {% if 'ROLE_PRO' in user.Roles[0] %}
+                                {% set resultat_prix_u = (((product_orders.ProOrdPriceUht* histo_cmd.ordClientCoefficient )))|round(2, 'floor') %}
+                                <p class="row">Prix/U :</p>
+                                <p class="row">{{ resultat_prix_u }}€</p>   
+                            {% endif %}
+                            {% if 'ROLE_USER' in user.Roles[0] %}
+                                {% set resultat_prix_u = ((((product_orders.ProOrdPriceUht)* histo_cmd.ordClientCoefficient )*1.20))|round(2, 'floor') %}
+                                <p class="row">Prix/U :</p>
+                                <p class="row">{{ resultat_prix_u }}€</p>
+                            {% endif %}
                         </div>
                         <div class="col">
                             {% if 'ROLE_PRO' in user.Roles[0] %}
-                                {% set resultat_prix_u = ((((product_orders.ProOrdPriceUht)* histo_cmd.ordClientCoefficient ))* product_orders.ProOrdProductQuantity)|round(2, 'floor') %}
+                                {% set resultat_prix_u = (product_orders.ProOrdPriceUht * product_orders.ProOrdProductQuantity * histo_cmd.ordClientCoefficient)|round(2, 'floor') %}
                                 <p class="row">Prix/Quantité :</p>
                                 <p class="row">{{ resultat_prix_u }}€</p>   
                             {% endif %}
                             {% if 'ROLE_USER' in user.Roles[0] %}
-                                {% set resultat_prix_u = ((((product_orders.ProOrdPriceUht)* histo_cmd.ordClientCoefficient )*1.20)* product_orders.ProOrdProductQuantity)|round(2, 'floor') %}
+                                {% set resultat_prix_u = (product_orders.ProOrdPriceUht * histo_cmd.ordClientCoefficient *1.20* product_orders.ProOrdProductQuantity)|round(2, 'floor') %}
                                 <p class="row">Prix/Quantité :</p>
                                 <p class="row">{{ resultat_prix_u }}€</p>
                             {% endif %}

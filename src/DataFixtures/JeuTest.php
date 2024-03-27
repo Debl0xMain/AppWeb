@@ -24,10 +24,32 @@ class JeuTest extends Fixture
     //Function
     private $hasher;
     //calcul prix total
-    public function calprixtotal ($quantityboucle,$coeficient_base,$prixarticle,$tva ) {
-        return $prixtotal = ((($prixarticle*$quantityboucle)*$coeficient_base)*$tva);
+    public function calprixtotal ($quantityboucle,$coeficient_base,$prixarticle ) {
+
+        $prix_u_article = ($prixarticle * $coeficient_base);
+        $total_ht = ( $prix_u_article * $quantityboucle);
+        $total_ttc = ($total_ht * 1.20);
+
+        // return $total_ttc;
+        return 1;
     }
-            
+    public function calprixtotalht ($quantityboucle,$coeficient_base,$prixarticle,$id_cmd,$nomarticle ) {
+
+        $prix_u_article = ($prixarticle * $coeficient_base);
+        $total_ht = ( $prix_u_article * $quantityboucle);
+
+        var_dump("___________");
+        var_dump("Id Command :: ".$id_cmd );
+        var_dump("_________");
+        var_dump("prix article :: ".$prix_u_article );
+        var_dump("Quantity :: ".$quantityboucle );
+        var_dump("Nom Produit :: ".$nomarticle );
+        var_dump("total command :: ".$total_ht);
+        var_dump("___________");
+
+        return $total_ht;
+    }
+    
     public function __construct(UserPasswordHasherInterface $hasher){
         $this->hasher = $hasher;
     }
@@ -214,10 +236,10 @@ class JeuTest extends Fixture
                 $prouser[1]->setUserFristName('Jim');
                 $prouser[1]->setUserRef('projim8452');
                 $prouser[1]->setUserPhone('123456789');
-                $prouser[1]->setUserCoefficient($coeficient_base);
                 $prouser[1]->setUserCompanyName('OrchestreLe1');
                 $prouser[1]->setUserCompanySiret('84521569854758');
                 $prouser[1]->setUserCompanyCoefficient(1.6);
+                $prouser[1]->setUserCoefficient($prouser[1]->getUserCompanyCoefficient());
                 $prouser[1]->setIsVerified('1');
                 $prouser[1]->setCommercialRef($comuser2);
 
@@ -246,10 +268,10 @@ class JeuTest extends Fixture
                 $prouser[2]->setUserFristName('Katy');
                 $prouser[2]->setUserRef('proKaty8452');
                 $prouser[2]->setUserPhone('123456789');
-                $prouser[2]->setUserCoefficient($coeficient_base);
                 $prouser[2]->setUserCompanyName('InstumentNet');
                 $prouser[2]->setUserCompanySiret('84265789525684');
                 $prouser[2]->setUserCompanyCoefficient(1.2);
+                $prouser[2]->setUserCoefficient($prouser[2]->getUserCompanyCoefficient());
                 $prouser[2]->setIsVerified('1');
                 $prouser[2]->setCommercialRef($comuser2);
 
@@ -277,10 +299,10 @@ class JeuTest extends Fixture
                 $prouser[3]->setUserFristName('Noe');
                 $prouser[3]->setUserRef('pronoe8431');
                 $prouser[3]->setUserPhone('123456789');
-                $prouser[3]->setUserCoefficient($coeficient_base);
                 $prouser[3]->setUserCompanyName('BuyCorde');
                 $prouser[3]->setUserCompanySiret('85412569874525');
-                $prouser[3]->setUserCompanyCoefficient(1.3);
+                $prouser[3]->setUserCompanyCoefficient(1.6);
+                $prouser[3]->setUserCoefficient($prouser[3]->getUserCompanyCoefficient());
                 $prouser[3]->setIsVerified('1');
                 $prouser[3]->setCommercialRef($comuser3);
 
@@ -339,10 +361,10 @@ class JeuTest extends Fixture
                         $prouser[$i]->setUserFristName("ProFirstName{$i}");
                         $prouser[$i]->setUserRef("pro{$i}");
                         $prouser[$i]->setUserPhone('123456789');
-                        $prouser[$i]->setUserCoefficient($coeficient_base);
                         $prouser[$i]->setUserCompanyName("Company{$i}");
                         $prouser[$i]->setUserCompanySiret(mt_rand(10000000000000, 99999999999999));
                         $prouser[$i]->setUserCompanyCoefficient(mt_rand(110, 150) / 100);
+                        $prouser[$i]->setUserCoefficient($prouser[$i]->getUserCompanyCoefficient());
                         $prouser[$i]->setIsVerified('1');
                         $prouser[$i]->setCommercialRef($comuser3);
                         
@@ -1150,93 +1172,90 @@ class JeuTest extends Fixture
 
                         //generation commande client particulier
 
-                        for ($i = 1; $i <= 226; $i++) {
-                            var_dump("creation commande particulier ". $i);
-                            $userset = [$user[1],$user[2],$user[3],$user[4],$user[5],$user[6],$user[7],$user[8],$user[9],$user[10],$user[11],$user[12],$user[13],$user[14],$user[15],$user[16],$user[17],$user[18],$user[19],$user[20],$user[21],$user[22],$user[23],$user[24]];
-                            $productset = [
-                                $product1, $product2, $product3, $product4, $product5,
-                                $product6, $product7, $product8, $product9, $product10,
-                                $product11, $product12, $product13, $product14, $product15,
-                                $product16, $product17, $product18, $product19, $product20,
-                                $product21, $product22, $product23, $product24, $product25,
-                                $product26, $product27, $product28, $product29, $product30,
-                                $product31, $product32, $product33, $product34, $product35,
-                                $product36, $product37, $product38, $product39, $product40,
-                                $product41, $product42, $product43, $product44, $product45
-                            ];
-                            $usernombre = rand(0,23);
-                            $productnombre = rand(0,44);
-                            $quantityboucle = rand(1,5);
+                        // for ($i = 1; $i <= 250; $i++) {
+                        //     var_dump("creation commande particulier ". $i);
+                        //     $userset = [$user[1],$user[2],$user[3],$user[4],$user[5],$user[6],$user[7],$user[8],$user[9],$user[10],$user[11],$user[12],$user[13],$user[14],$user[15],$user[16],$user[17],$user[18],$user[19],$user[20],$user[21],$user[22],$user[23],$user[24]];
+                        //     $productset = [
+                        //         $product1, $product2, $product3, $product4, $product5,
+                        //         $product6, $product7, $product8, $product9, $product10,
+                        //         $product11, $product12, $product13, $product14, $product15,
+                        //         $product16, $product17, $product18, $product19, $product20,
+                        //         $product21, $product22, $product23, $product24, $product25,
+                        //         $product26, $product27, $product28, $product29, $product30,
+                        //         $product31, $product32, $product33, $product34, $product35,
+                        //         $product36, $product37, $product38, $product39, $product40,
+                        //         $product41, $product42, $product43, $product44, $product45
+                        //     ];
+                        //     $usernombre = rand(0,23);
+                        //     $productnombre = rand(0,44);
+                        //     $quantityboucle = rand(1,5);
 
-                            $date_j = new \DateTime();
+                        //     $date_j = new \DateTime();
 
-                            $date_client_commande = $this->date_gen_ant($date_j);
-                            // $date_client_facturation = $date_client_commande;
-                            $date_client_expediction = $this->date_gen_sup($date_client_commande);
-                            $date_client_livraison_estime = $this->date_gen_sup($date_client_expediction);
-                            $date_client_livraison = $this->date_gen_sup($date_client_livraison_estime);
+                        //     $date_client_commande = $this->date_gen_ant($date_j);
+                        //     // $date_client_facturation = $date_client_commande;
+                        //     $date_client_expediction = $this->date_gen_sup($date_client_commande);
+                        //     $date_client_livraison_estime = $this->date_gen_sup($date_client_expediction);
+                        //     $date_client_livraison = $this->date_gen_sup($date_client_livraison_estime);
 
-                            $adress_get = $userset[$usernombre]->getAdresses();
+                        //     $adress_get = $userset[$usernombre]->getAdresses();
 
-                            dump($adress_get);
+                        //     $num_adress = $adress_get[0]->getAdrNumber();
+                        //     $rue_adress = $adress_get[0]->getAdrStreet();
+                        //     $zip_adress = $adress_get[0]->getAdrZipCode();
+                        //     $city_adress = $adress_get[0]->getAdrCity();
+                        //     $addinfo_adress = $adress_get[0]->getAdrAddInfo();
 
-                            $num_adress = $adress_get[0]->getAdrNumber();
-                            $rue_adress = $adress_get[0]->getAdrStreet();
-                            $zip_adress = $adress_get[0]->getAdrZipCode();
-                            $city_adress = $adress_get[0]->getAdrCity();
-                            $addinfo_adress = $adress_get[0]->getAdrAddInfo();
-
-                            $adress_user_get = "$num_adress $rue_adress $zip_adress $city_adress $addinfo_adress ";
+                        //     $adress_user_get = "$num_adress $rue_adress $zip_adress $city_adress $addinfo_adress ";
                             
-                            $order[$i] = new Orders();
+                        //     $order[$i] = new Orders();
                             
-                                $order[$i]->setOrdRef(0000 . $i);
-                                $order[$i]->setOrdReduction(rand(0, 10));
-                                $order[$i]->setOrdClientCoefficient($coeficient_base);
-                                $order[$i]->setOrdAdressDelivery($adress_user_get);
-                                $order[$i]->setOrdAdressBilling($adress_user_get);
-                                $order[$i]->setOrdRebBill("Fact00" . $i);
-                                $order[$i]->setOrdDateBill($date_client_commande);
-                                $order[$i]->setOrdStatusBill(rand(1, 3));
-                                $order[$i]->setUsers($userset[$usernombre]);
+                        //         $order[$i]->setOrdRef(10000 . $i);
+                        //         $order[$i]->setOrdReduction(rand(0, 10));
+                        //         $order[$i]->setOrdClientCoefficient($coeficient_base);
+                        //         $order[$i]->setOrdAdressDelivery($adress_user_get);
+                        //         $order[$i]->setOrdAdressBilling($adress_user_get);
+                        //         $order[$i]->setOrdRebBill("Fact00" . $i);
+                        //         $order[$i]->setOrdDateBill($date_client_commande);
+                        //         $order[$i]->setOrdStatusBill(rand(1, 3));
+                        //         $order[$i]->setUsers($userset[$usernombre]);
                             
-                            $delivery[$i] = new Delivery();
+                        //     $delivery[$i] = new Delivery();
                             
-                                $delivery[$i]->setDelDateExped($date_client_expediction);
-                                $delivery[$i]->setDelDatePlannedDelivery($date_client_livraison_estime);
-                                if($i % 2 != 0){
-                                    $delivery[$i]->setDelDateDeliveryClient($date_client_livraison);
-                                }
-                                $delivery[$i]->setOrders($order[$i]);
+                        //         $delivery[$i]->setDelDateExped($date_client_expediction);
+                        //         $delivery[$i]->setDelDatePlannedDelivery($date_client_livraison_estime);
+                        //         if($i % 2 != 0){
+                        //             $delivery[$i]->setDelDateDeliveryClient($date_client_livraison);
+                        //         }
+                        //         $delivery[$i]->setOrders($order[$i]);
                             
-                            $productorder[$i] = new ProductOrders();
+                        //     $productorder[$i] = new ProductOrders();
                             
-                                    $productorder[$i]->setProOrdProductQuantity($quantityboucle);
-                                    $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName());
-                                    $productorder[$i]->setProOrdPriceUht($productset[$productnombre]->getProPriceHT()); 
-                                    $productorder[$i]->setProduct($product1);
-                                    $productorder[$i]->setOrders($order[$i]);
+                        //             $productorder[$i]->setProOrdProductQuantity($quantityboucle);
+                        //             $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName());
+                        //             $productorder[$i]->setProOrdPriceUht($productset[$productnombre]->getProPriceHT()); 
+                        //             $productorder[$i]->setProduct($product1);
+                        //             $productorder[$i]->setOrders($order[$i]);
                             
-                            $productdelivery[$i] = new ProductDelivery();
+                        //     $productdelivery[$i] = new ProductDelivery();
                             
-                                    $productdelivery[$i]->setProDelProductQuantity($quantityboucle); 
-                                    $productdelivery[$i]->setProduct($productset[$productnombre]);
-                                    $productdelivery[$i]->setDelivery($delivery[$i]);
+                        //             $productdelivery[$i]->setProDelProductQuantity($quantityboucle); 
+                        //             $productdelivery[$i]->setProduct($productset[$productnombre]);
+                        //             $productdelivery[$i]->setDelivery($delivery[$i]);
                             
-                                    $prixarticle = $productset[$productnombre]->getProPriceHT();
-                                    $tva = 1.20;
+                        //             $prixarticle = $productset[$productnombre]->getProPriceHT();
                             
-                                    $order[$i]->setOrdPrixTotal($this->calprixtotal($quantityboucle,$coeficient_base,$prixarticle,$tva));
+                        //             $order[$i]->setOrdPrixTotal($this->calprixtotal($quantityboucle,$coeficient_base,$prixarticle));
                             
-                                    $manager->persist($order[$i]);
-                                    $manager->persist($delivery[$i]);
-                                    $manager->persist($productorder[$i]);
-                                    $manager->persist($productdelivery[$i]);
-                                }
+                        //             $manager->persist($order[$i]);
+                        //             $manager->persist($delivery[$i]);
+                        //             $manager->persist($productorder[$i]);
+                        //             $manager->persist($productdelivery[$i]);
+                        //         }
 
                         //generation commande client pro
                                         
-                        for ($i = 1; $i <= 845; $i++) {
+                        for ($i = 1; $i <= 500; $i++) {
                             var_dump("creation commande pro ".$i);
                             $userset = [$prouser[1],$prouser[2],$prouser[3],$prouser[4],$prouser[5],$prouser[6],$prouser[7],$prouser[8],$prouser[9],$prouser[10],$prouser[11],$prouser[12],$prouser[13],$prouser[14],$prouser[15],$prouser[16],$prouser[17],$prouser[18],$prouser[19],$prouser[20],$prouser[21],$prouser[22],$prouser[23],$prouser[24],$prouser[25]];
                             $productset = [
@@ -1250,9 +1269,13 @@ class JeuTest extends Fixture
                                 $product36, $product37, $product38, $product39, $product40,
                                 $product41, $product42, $product43, $product44, $product45
                             ];
-                            $usernombre = rand(0,24);
-                            $productnombre = rand(0,44);
-                            $quantityboucle = rand(1,12);
+                            $usernombre_set = rand(0,24);
+                            $productnombre_set = rand(0,44);
+                            $quantityboucle_set = rand(1,8);
+
+                            $usernombre = $usernombre_set;
+                            $productnombre = $productnombre_set;
+                            $quantityboucle = $quantityboucle_set;
 
 
                             $date_j = new \DateTime();
@@ -1275,8 +1298,8 @@ class JeuTest extends Fixture
 
                             $order[$i] = new Orders();
                             
-                                $order[$i]->setOrdRef(0000 . $i);
-                                $order[$i]->setOrdReduction(rand(0, 10));
+                                $order[$i]->setOrdRef(820000 . $i);
+                                $order[$i]->setOrdReduction(0);
                                 $order[$i]->setOrdClientCoefficient($coeficient_base);
                                 $order[$i]->setOrdAdressDelivery($adress_user_get);
                                 $order[$i]->setOrdAdressBilling($adress_user_get);
@@ -1297,7 +1320,7 @@ class JeuTest extends Fixture
                                     $productorder[$i]->setProOrdProductQuantity($quantityboucle);
                                     $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName()); 
                                     $productorder[$i]->setProOrdPriceUht($productset[$productnombre]->getProPriceHT()); 
-                                    $productorder[$i]->setProduct($product1);
+                                    $productorder[$i]->setProduct($productset[$productnombre]);
                                     $productorder[$i]->setOrders($order[$i]);
                             
                             $productdelivery[$i] = new ProductDelivery();
@@ -1308,9 +1331,10 @@ class JeuTest extends Fixture
                             
                                     $coeficient_base = $userset[$usernombre]->getUserCompanyCoefficient();
                                     $prixarticle = $productset[$productnombre]->getProPriceHT();
-                                    $tva = 1.20;
-                            
-                                    $order[$i]->setOrdPrixTotal($this->calprixtotal($quantityboucle,$coeficient_base,$prixarticle,$tva));
+                                    $nomarticle = $productset[$productnombre]->getProName();
+
+                                    $id_cmd = $order[$i]->getOrdRef();
+                                    $order[$i]->setOrdPrixTotal($this->calprixtotalht($quantityboucle,$coeficient_base,$prixarticle,$id_cmd,$nomarticle ));
                             
                                     $manager->persist($order[$i]);
                                     $manager->persist($delivery[$i]);

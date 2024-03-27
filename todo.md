@@ -1,8 +1,6 @@
 # En cours :
-    -profil
-     -finir historique de commande
-     -finir front
-     -verif information envoye sur le front
+    -template pdf facture | Bon de livraison | Devis
+    -modife adress 
 # A faire :
     -Accueil ??
     -catalogue react
@@ -16,3 +14,7 @@
     -register
     -logout
     -reponsive mobile (navbar footer)
+    -profil
+    -finir historique de commande
+    -finir front
+    -verif information envoye sur le front
