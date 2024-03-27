@@ -52,6 +52,12 @@ class Orders
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $ordPrixTotal = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $OrdPrixTotalHT = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $tva_cmd = null;
+
     public function __construct()
     {
         $this->deliveries = new ArrayCollection();
@@ -239,6 +245,30 @@ class Orders
     public function setOrdPrixTotal(?string $ordPrixTotal): static
     {
         $this->ordPrixTotal = $ordPrixTotal;
+
+        return $this;
+    }
+
+    public function getOrdPrixTotalHT(): ?string
+    {
+        return $this->OrdPrixTotalHT;
+    }
+
+    public function setOrdPrixTotalHT(?string $OrdPrixTotalHT): static
+    {
+        $this->OrdPrixTotalHT = $OrdPrixTotalHT;
+
+        return $this;
+    }
+
+    public function getTvaCmd(): ?string
+    {
+        return $this->tva_cmd;
+    }
+
+    public function setTvaCmd(?string $tva_cmd): static
+    {
+        $this->tva_cmd = $tva_cmd;
 
         return $this;
     }

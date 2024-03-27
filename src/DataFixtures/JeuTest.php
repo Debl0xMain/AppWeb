@@ -24,31 +24,6 @@ class JeuTest extends Fixture
     //Function
     private $hasher;
     //calcul prix total
-    public function calprixtotal ($quantityboucle,$coeficient_base,$prixarticle ) {
-
-        $prix_u_article = ($prixarticle * $coeficient_base);
-        $total_ht = ( $prix_u_article * $quantityboucle);
-        $total_ttc = ($total_ht * 1.20);
-
-        // return $total_ttc;
-        return 1;
-    }
-    public function calprixtotalht ($quantityboucle,$coeficient_base,$prixarticle,$id_cmd,$nomarticle ) {
-
-        $prix_u_article = ($prixarticle * $coeficient_base);
-        $total_ht = ( $prix_u_article * $quantityboucle);
-
-        var_dump("___________");
-        var_dump("Id Command :: ".$id_cmd );
-        var_dump("_________");
-        var_dump("prix article :: ".$prix_u_article );
-        var_dump("Quantity :: ".$quantityboucle );
-        var_dump("Nom Produit :: ".$nomarticle );
-        var_dump("total command :: ".$total_ht);
-        var_dump("___________");
-
-        return $total_ht;
-    }
     
     public function __construct(UserPasswordHasherInterface $hasher){
         $this->hasher = $hasher;
@@ -1172,86 +1147,115 @@ class JeuTest extends Fixture
 
                         //generation commande client particulier
 
-                        // for ($i = 1; $i <= 250; $i++) {
-                        //     var_dump("creation commande particulier ". $i);
-                        //     $userset = [$user[1],$user[2],$user[3],$user[4],$user[5],$user[6],$user[7],$user[8],$user[9],$user[10],$user[11],$user[12],$user[13],$user[14],$user[15],$user[16],$user[17],$user[18],$user[19],$user[20],$user[21],$user[22],$user[23],$user[24]];
-                        //     $productset = [
-                        //         $product1, $product2, $product3, $product4, $product5,
-                        //         $product6, $product7, $product8, $product9, $product10,
-                        //         $product11, $product12, $product13, $product14, $product15,
-                        //         $product16, $product17, $product18, $product19, $product20,
-                        //         $product21, $product22, $product23, $product24, $product25,
-                        //         $product26, $product27, $product28, $product29, $product30,
-                        //         $product31, $product32, $product33, $product34, $product35,
-                        //         $product36, $product37, $product38, $product39, $product40,
-                        //         $product41, $product42, $product43, $product44, $product45
-                        //     ];
-                        //     $usernombre = rand(0,23);
-                        //     $productnombre = rand(0,44);
-                        //     $quantityboucle = rand(1,5);
+                        for ($i = 1; $i <= 250; $i++) {
+                            var_dump("creation commande particulier ". $i);
+                            $userset = [$user[1],$user[2],$user[3],$user[4],$user[5],$user[6],$user[7],$user[8],$user[9],$user[10],$user[11],$user[12],$user[13],$user[14],$user[15],$user[16],$user[17],$user[18],$user[19],$user[20],$user[21],$user[22],$user[23],$user[24]];
+                            $productset = [
+                                $product1, $product2, $product3, $product4, $product5,
+                                $product6, $product7, $product8, $product9, $product10,
+                                $product11, $product12, $product13, $product14, $product15,
+                                $product16, $product17, $product18, $product19, $product20,
+                                $product21, $product22, $product23, $product24, $product25,
+                                $product26, $product27, $product28, $product29, $product30,
+                                $product31, $product32, $product33, $product34, $product35,
+                                $product36, $product37, $product38, $product39, $product40,
+                                $product41, $product42, $product43, $product44, $product45
+                            ];
+                            $usernombre = rand(0,23);
+                            $productnombre = rand(0,44);
+                            $quantityboucle = rand(1,5);
 
-                        //     $date_j = new \DateTime();
+                            $date_j = new \DateTime();
 
-                        //     $date_client_commande = $this->date_gen_ant($date_j);
-                        //     // $date_client_facturation = $date_client_commande;
-                        //     $date_client_expediction = $this->date_gen_sup($date_client_commande);
-                        //     $date_client_livraison_estime = $this->date_gen_sup($date_client_expediction);
-                        //     $date_client_livraison = $this->date_gen_sup($date_client_livraison_estime);
+                        
+                            $date_client_commande = $this->date_gen_ant($date_j);
+                            $date_client_expediction = $this->date_gen_sup($date_client_commande);
+                                $date_client_livraison_estime = $this->date_gen_sup($date_client_expediction);
+                                    $date_client_livraison = $this->date_gen_sup($date_client_livraison_estime);
+                                        $date_client_facturation = $this->date_gen_sup($date_client_livraison);
 
-                        //     $adress_get = $userset[$usernombre]->getAdresses();
+                            $adress_get = $userset[$usernombre]->getAdresses();
 
-                        //     $num_adress = $adress_get[0]->getAdrNumber();
-                        //     $rue_adress = $adress_get[0]->getAdrStreet();
-                        //     $zip_adress = $adress_get[0]->getAdrZipCode();
-                        //     $city_adress = $adress_get[0]->getAdrCity();
-                        //     $addinfo_adress = $adress_get[0]->getAdrAddInfo();
+                            $num_adress = $adress_get[0]->getAdrNumber();
+                            $rue_adress = $adress_get[0]->getAdrStreet();
+                            $zip_adress = $adress_get[0]->getAdrZipCode();
+                            $city_adress = $adress_get[0]->getAdrCity();
+                            $addinfo_adress = $adress_get[0]->getAdrAddInfo();
 
-                        //     $adress_user_get = "$num_adress $rue_adress $zip_adress $city_adress $addinfo_adress ";
+                            $adress_user_get = "$num_adress $rue_adress $zip_adress $city_adress $addinfo_adress ";
+
+                            $order[$i] = new Orders();
                             
-                        //     $order[$i] = new Orders();
+                                $order[$i]->setOrdRef(00000 . $i);
+                                $order[$i]->setOrdReduction(1);
+                                $order[$i]->setOrdClientCoefficient($userset[$usernombre]->getUserCoefficient());
+                                $order[$i]->setOrdAdressDelivery($adress_user_get);
+                                $order[$i]->setOrdAdressBilling($adress_user_get);
+                                $order[$i]->setOrdRebBill("Fact00" . $i);
+                                $order[$i]->setOrdDateBill($date_client_facturation);
+                                $order[$i]->setOrdStatusBill(rand(1, 3));
+                                $order[$i]->setUsers($userset[$usernombre]);
                             
-                        //         $order[$i]->setOrdRef(10000 . $i);
-                        //         $order[$i]->setOrdReduction(rand(0, 10));
-                        //         $order[$i]->setOrdClientCoefficient($coeficient_base);
-                        //         $order[$i]->setOrdAdressDelivery($adress_user_get);
-                        //         $order[$i]->setOrdAdressBilling($adress_user_get);
-                        //         $order[$i]->setOrdRebBill("Fact00" . $i);
-                        //         $order[$i]->setOrdDateBill($date_client_commande);
-                        //         $order[$i]->setOrdStatusBill(rand(1, 3));
-                        //         $order[$i]->setUsers($userset[$usernombre]);
+                            $delivery[$i] = new Delivery();
                             
-                        //     $delivery[$i] = new Delivery();
+                                $delivery[$i]->setDelDateExped($date_client_expediction);
+                                $delivery[$i]->setDelDatePlannedDelivery($date_client_livraison_estime);
+                                $delivery[$i]->setDelDateDeliveryClient($date_client_livraison);
+                                $delivery[$i]->setOrders($order[$i]);
+
+                            $prix_client_ht_u = $productset[$productnombre]->getProPriceHT() * $userset[$usernombre]->getUserCompanyCoefficient();
+                            $productorder[$i] = new ProductOrders();
                             
-                        //         $delivery[$i]->setDelDateExped($date_client_expediction);
-                        //         $delivery[$i]->setDelDatePlannedDelivery($date_client_livraison_estime);
-                        //         if($i % 2 != 0){
-                        //             $delivery[$i]->setDelDateDeliveryClient($date_client_livraison);
-                        //         }
-                        //         $delivery[$i]->setOrders($order[$i]);
+                                    $productorder[$i]->setProOrdProductQuantity($quantityboucle);
+                                    $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName()); 
+                                    $productorder[$i]->setProOrdPriceUht($prix_client_ht_u); 
+                                    $productorder[$i]->setProduct($productset[$productnombre]);
+                                    $productorder[$i]->setOrders($order[$i]);
+
+                            $productdelivery[$i] = new ProductDelivery();
                             
-                        //     $productorder[$i] = new ProductOrders();
-                            
-                        //             $productorder[$i]->setProOrdProductQuantity($quantityboucle);
-                        //             $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName());
-                        //             $productorder[$i]->setProOrdPriceUht($productset[$productnombre]->getProPriceHT()); 
-                        //             $productorder[$i]->setProduct($product1);
-                        //             $productorder[$i]->setOrders($order[$i]);
-                            
-                        //     $productdelivery[$i] = new ProductDelivery();
-                            
-                        //             $productdelivery[$i]->setProDelProductQuantity($quantityboucle); 
-                        //             $productdelivery[$i]->setProduct($productset[$productnombre]);
-                        //             $productdelivery[$i]->setDelivery($delivery[$i]);
-                            
-                        //             $prixarticle = $productset[$productnombre]->getProPriceHT();
-                            
-                        //             $order[$i]->setOrdPrixTotal($this->calprixtotal($quantityboucle,$coeficient_base,$prixarticle));
-                            
-                        //             $manager->persist($order[$i]);
-                        //             $manager->persist($delivery[$i]);
-                        //             $manager->persist($productorder[$i]);
-                        //             $manager->persist($productdelivery[$i]);
-                        //         }
+                                    $productdelivery[$i]->setProDelProductQuantity($quantityboucle); 
+                                    $productdelivery[$i]->setProduct($productset[$productnombre]);
+                                    $productdelivery[$i]->setDelivery($delivery[$i]);
+
+                                    $tva = 1.20;
+                                    $reduction = 1;
+                                    $prix_cmd_ht = $prix_client_ht_u * $quantityboucle * $reduction;
+                                    $prix_cmd_ttc = $prix_client_ht_u * $quantityboucle * $tva * $reduction;
+
+                                    $order[$i]->setOrdPrixTotal($prix_cmd_ttc);
+                                    $order[$i]->setOrdPrixTotalHT($prix_cmd_ht);
+                                    $order[$i]->setOrdReduction($reduction);
+                                    $order[$i]->setTvaCmd($tva);
+                                    
+                                    $manager->persist($order[$i]);
+                                    $manager->persist($delivery[$i]);
+                                    $manager->persist($productorder[$i]);
+                                    $manager->persist($productdelivery[$i]);
+                                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                         //generation commande client pro
                                         
@@ -1270,13 +1274,14 @@ class JeuTest extends Fixture
                                 $product41, $product42, $product43, $product44, $product45
                             ];
                             $usernombre_set = rand(0,24);
-                            $productnombre_set = rand(0,44);
+                            $productnombre_set = rand(0,43);
                             $quantityboucle_set = rand(1,8);
 
                             $usernombre = $usernombre_set;
                             $productnombre = $productnombre_set;
                             $quantityboucle = $quantityboucle_set;
-
+                            $tva = 1.20;
+                            $reduction = 1;
 
                             $date_j = new \DateTime();
 
@@ -1299,49 +1304,64 @@ class JeuTest extends Fixture
                             $order[$i] = new Orders();
                             
                                 $order[$i]->setOrdRef(820000 . $i);
-                                $order[$i]->setOrdReduction(0);
-                                $order[$i]->setOrdClientCoefficient($coeficient_base);
+                                $order[$i]->setOrdClientCoefficient($userset[$usernombre]->getUserCoefficient());
                                 $order[$i]->setOrdAdressDelivery($adress_user_get);
                                 $order[$i]->setOrdAdressBilling($adress_user_get);
                                 $order[$i]->setOrdRebBill("Fact00" . $i);
                                 $order[$i]->setOrdDateBill($date_client_facturation);
                                 $order[$i]->setOrdStatusBill(rand(1, 3));
                                 $order[$i]->setUsers($userset[$usernombre]);
-                            
-                            $delivery[$i] = new Delivery();
-                            
-                                $delivery[$i]->setDelDateExped($date_client_expediction);
-                                $delivery[$i]->setDelDatePlannedDelivery($date_client_livraison_estime);
-                                $delivery[$i]->setDelDateDeliveryClient($date_client_livraison);
-                                $delivery[$i]->setOrders($order[$i]);
-                            
-                            $productorder[$i] = new ProductOrders();
-                            
-                                    $productorder[$i]->setProOrdProductQuantity($quantityboucle);
-                                    $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName()); 
-                                    $productorder[$i]->setProOrdPriceUht($productset[$productnombre]->getProPriceHT()); 
-                                    $productorder[$i]->setProduct($productset[$productnombre]);
-                                    $productorder[$i]->setOrders($order[$i]);
-                            
-                            $productdelivery[$i] = new ProductDelivery();
-                            
-                                    $productdelivery[$i]->setProDelProductQuantity($quantityboucle); 
-                                    $productdelivery[$i]->setProduct($productset[$productnombre]);
-                                    $productdelivery[$i]->setDelivery($delivery[$i]);
-                            
-                                    $coeficient_base = $userset[$usernombre]->getUserCompanyCoefficient();
-                                    $prixarticle = $productset[$productnombre]->getProPriceHT();
-                                    $nomarticle = $productset[$productnombre]->getProName();
+                                $order[$i]->setTvaCmd($tva);
+                                $order[$i]->setOrdReduction($reduction);
 
-                                    $id_cmd = $order[$i]->getOrdRef();
-                                    $order[$i]->setOrdPrixTotal($this->calprixtotalht($quantityboucle,$coeficient_base,$prixarticle,$id_cmd,$nomarticle ));
+                        for ($x = 1; $x <= 3; $x++)
+                        {
+                            var_dump("aerticle ajoute");
+                            $delivery[$x] = new Delivery();
                             
+                            $delivery[$x]->setDelDateExped($date_client_expediction);
+                            $delivery[$x]->setDelDatePlannedDelivery($date_client_livraison_estime);
+                            $delivery[$x]->setDelDateDeliveryClient($date_client_livraison);
+                            $delivery[$x]->setOrders($order[$i]);
+
+                        $prix_client_ht_u = $productset[$productnombre]->getProPriceHT() * $userset[$usernombre]->getUserCompanyCoefficient();
+                        
+                        $productorder[$x] = new ProductOrders();
+                        
+                                $productorder[$x]->setProOrdProductQuantity($quantityboucle);
+                                $productorder[$x]->setProOrdNameProduct($productset[$productnombre]->getProName()); 
+                                $productorder[$x]->setProOrdPriceUht($prix_client_ht_u); 
+                                $productorder[$x]->setProduct($productset[$productnombre]);
+                                $productorder[$x]->setOrders($order[$i]);
+
+                        $productdelivery[$x] = new ProductDelivery();
+                        
+                                $productdelivery[$x]->setProDelProductQuantity($quantityboucle); 
+                                $productdelivery[$x]->setProduct($productset[$productnombre]);
+                                $productdelivery[$x]->setDelivery($delivery[$x]);
+
+                                $setPriceLigne = $prix_client_ht_u * $quantityboucle * $reduction;
+                                $setPriceLigneht = $prix_client_ht_u * $quantityboucle * $tva * $reduction;
+
+                                $productorder[$x]->setPriceLigne($setPriceLigne);
+                                $productorder[$x]->setPriceLigneht($setPriceLigneht);
+
+                                $manager->persist($delivery[$x]);
+                                $manager->persist($productorder[$x]);
+                                $manager->persist($productdelivery[$x]);
+                        }
+
+                                    $a = [$productorder[1]->getPriceligne(),$productorder[2]->getPriceligne(),$productorder[3]->getPriceligne()];
+                                    $b = [$productorder[1]->getPriceligneht(),$productorder[2]->getPriceligneht(),$productorder[3]->getPriceligneht()];
+                                    $prix_cmd_ht = array_sum($a);
+                                    $prix_cmd_ttc = array_sum($b);
+
+                                    $order[$i]->setOrdPrixTotal($prix_cmd_ttc);
+                                    $order[$i]->setOrdPrixTotalHT($prix_cmd_ht);
+                                    
                                     $manager->persist($order[$i]);
-                                    $manager->persist($delivery[$i]);
-                                    $manager->persist($productorder[$i]);
-                                    $manager->persist($productdelivery[$i]);
-                                }
-  
+                            }
+                        
         // Send data
         $manager->flush();
     }
