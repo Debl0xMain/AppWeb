@@ -1147,7 +1147,7 @@ class JeuTest extends Fixture
 
                         //generation commande client particulier
 
-                        for ($i = 1; $i <= 250; $i++) {
+                        for ($i = 1; $i <= 150; $i++) {
                             var_dump("creation commande particulier ". $i);
                             $userset = [$user[1],$user[2],$user[3],$user[4],$user[5],$user[6],$user[7],$user[8],$user[9],$user[10],$user[11],$user[12],$user[13],$user[14],$user[15],$user[16],$user[17],$user[18],$user[19],$user[20],$user[21],$user[22],$user[23],$user[24]];
                             $productset = [
@@ -1161,14 +1161,19 @@ class JeuTest extends Fixture
                                 $product36, $product37, $product38, $product39, $product40,
                                 $product41, $product42, $product43, $product44, $product45
                             ];
-                            $usernombre = rand(0,23);
-                            $productnombre = rand(0,44);
-                            $quantityboucle = rand(1,5);
+                            $usernombre_set = rand(0,23);
+                            $productnombre_set = rand(0,43);
+                            $quantityboucle_set = rand(1,8);
+
+                            $usernombre = $usernombre_set;
+                            $productnombre = $productnombre_set;
+                            $quantityboucle = $quantityboucle_set;
+                            $tva = 1.20;
+                            $reduction = 1;
 
                             $date_j = new \DateTime();
 
-                        
-                            $date_client_commande = $this->date_gen_ant($date_j);
+                        $date_client_commande = $this->date_gen_ant($date_j);
                             $date_client_expediction = $this->date_gen_sup($date_client_commande);
                                 $date_client_livraison_estime = $this->date_gen_sup($date_client_expediction);
                                     $date_client_livraison = $this->date_gen_sup($date_client_livraison_estime);
@@ -1186,8 +1191,7 @@ class JeuTest extends Fixture
 
                             $order[$i] = new Orders();
                             
-                                $order[$i]->setOrdRef(00000 . $i);
-                                $order[$i]->setOrdReduction(1);
+                                $order[$i]->setOrdRef(820000 . $i);
                                 $order[$i]->setOrdClientCoefficient($userset[$usernombre]->getUserCoefficient());
                                 $order[$i]->setOrdAdressDelivery($adress_user_get);
                                 $order[$i]->setOrdAdressBilling($adress_user_get);
@@ -1195,71 +1199,63 @@ class JeuTest extends Fixture
                                 $order[$i]->setOrdDateBill($date_client_facturation);
                                 $order[$i]->setOrdStatusBill(rand(1, 3));
                                 $order[$i]->setUsers($userset[$usernombre]);
-                            
-                            $delivery[$i] = new Delivery();
-                            
-                                $delivery[$i]->setDelDateExped($date_client_expediction);
-                                $delivery[$i]->setDelDatePlannedDelivery($date_client_livraison_estime);
-                                $delivery[$i]->setDelDateDeliveryClient($date_client_livraison);
-                                $delivery[$i]->setOrders($order[$i]);
+                                $order[$i]->setTvaCmd($tva);
+                                $order[$i]->setOrdReduction($reduction);
 
-                            $prix_client_ht_u = $productset[$productnombre]->getProPriceHT() * $userset[$usernombre]->getUserCompanyCoefficient();
-                            $productorder[$i] = new ProductOrders();
-                            
-                                    $productorder[$i]->setProOrdProductQuantity($quantityboucle);
-                                    $productorder[$i]->setProOrdNameProduct($productset[$productnombre]->getProName()); 
-                                    $productorder[$i]->setProOrdPriceUht($prix_client_ht_u); 
-                                    $productorder[$i]->setProduct($productset[$productnombre]);
-                                    $productorder[$i]->setOrders($order[$i]);
+                                            for ($x = 1; $x <= 3; $x++)
+                                            {
+                                                $productnombrearticle = rand(0,43);
+                                                $quantityboucle = rand(0,7);
+                                                var_dump("aerticle ajoute");
+                                                $delivery[$x] = new Delivery();
+                                                
+                                                $delivery[$x]->setDelDateExped($date_client_expediction);
+                                                $delivery[$x]->setDelDatePlannedDelivery($date_client_livraison_estime);
+                                                $delivery[$x]->setDelDateDeliveryClient($date_client_livraison);
+                                                $delivery[$x]->setOrders($order[$i]);
 
-                            $productdelivery[$i] = new ProductDelivery();
-                            
-                                    $productdelivery[$i]->setProDelProductQuantity($quantityboucle); 
-                                    $productdelivery[$i]->setProduct($productset[$productnombre]);
-                                    $productdelivery[$i]->setDelivery($delivery[$i]);
+                                            $prix_client_ht_u = $productset[$productnombrearticle]->getProPriceHT() * $userset[$usernombre]->getUserCoefficient();
+                                            
+                                            $productorder[$x] = new ProductOrders();
+                                            
+                                                    $productorder[$x]->setProOrdProductQuantity($quantityboucle);
+                                                    $productorder[$x]->setProOrdNameProduct($productset[$productnombrearticle]->getProName()); 
+                                                    $productorder[$x]->setProOrdPriceUht($prix_client_ht_u); 
+                                                    $productorder[$x]->setProduct($productset[$productnombrearticle]);
+                                                    $productorder[$x]->setOrders($order[$i]);
 
-                                    $tva = 1.20;
-                                    $reduction = 1;
-                                    $prix_cmd_ht = $prix_client_ht_u * $quantityboucle * $reduction;
-                                    $prix_cmd_ttc = $prix_client_ht_u * $quantityboucle * $tva * $reduction;
+                                            $productdelivery[$x] = new ProductDelivery();
+                                            
+                                                    $productdelivery[$x]->setProDelProductQuantity($quantityboucle); 
+                                                    $productdelivery[$x]->setProduct($productset[$productnombrearticle]);
+                                                    $productdelivery[$x]->setDelivery($delivery[$x]);
+
+                                                    $setPriceLigneht = $prix_client_ht_u * $quantityboucle * $reduction;
+                                                    $setPriceLignettc = $prix_client_ht_u * $quantityboucle * $tva * $reduction;
+
+                                                    $productorder[$x]->setPriceLigne($setPriceLignettc);
+                                                    $productorder[$x]->setPriceLigneht($setPriceLigneht);
+
+                                                    $manager->persist($delivery[$x]);
+                                                    $manager->persist($productorder[$x]);
+                                                    $manager->persist($productdelivery[$x]);
+                                            }
+
+                                    $a = [$productorder[1]->getPriceligne(),$productorder[2]->getPriceligne(),$productorder[3]->getPriceligne()];
+                                    $b = [$productorder[1]->getPriceligneht(),$productorder[2]->getPriceligneht(),$productorder[3]->getPriceligneht()];
+                                    
+                                    $prix_cmd_ht = array_sum($b);
+                                    $prix_cmd_ttc = array_sum($a);
 
                                     $order[$i]->setOrdPrixTotal($prix_cmd_ttc);
                                     $order[$i]->setOrdPrixTotalHT($prix_cmd_ht);
-                                    $order[$i]->setOrdReduction($reduction);
-                                    $order[$i]->setTvaCmd($tva);
                                     
                                     $manager->persist($order[$i]);
-                                    $manager->persist($delivery[$i]);
-                                    $manager->persist($productorder[$i]);
-                                    $manager->persist($productdelivery[$i]);
-                                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            }
 
                         //generation commande client pro
                                         
-                        for ($i = 1; $i <= 500; $i++) {
+                        for ($i = 1; $i <= 250; $i++) {
                             var_dump("creation commande pro ".$i);
                             $userset = [$prouser[1],$prouser[2],$prouser[3],$prouser[4],$prouser[5],$prouser[6],$prouser[7],$prouser[8],$prouser[9],$prouser[10],$prouser[11],$prouser[12],$prouser[13],$prouser[14],$prouser[15],$prouser[16],$prouser[17],$prouser[18],$prouser[19],$prouser[20],$prouser[21],$prouser[22],$prouser[23],$prouser[24],$prouser[25]];
                             $productset = [
@@ -1314,47 +1310,50 @@ class JeuTest extends Fixture
                                 $order[$i]->setTvaCmd($tva);
                                 $order[$i]->setOrdReduction($reduction);
 
-                        for ($x = 1; $x <= 3; $x++)
-                        {
-                            var_dump("aerticle ajoute");
-                            $delivery[$x] = new Delivery();
-                            
-                            $delivery[$x]->setDelDateExped($date_client_expediction);
-                            $delivery[$x]->setDelDatePlannedDelivery($date_client_livraison_estime);
-                            $delivery[$x]->setDelDateDeliveryClient($date_client_livraison);
-                            $delivery[$x]->setOrders($order[$i]);
+                                            for ($x = 1; $x <= 3; $x++)
+                                            {
+                                                $productnombrearticle = rand(0,43);
+                                                $quantityboucle = rand(0,7);
+                                                var_dump("aerticle ajoute");
+                                                $delivery[$x] = new Delivery();
+                                                
+                                                $delivery[$x]->setDelDateExped($date_client_expediction);
+                                                $delivery[$x]->setDelDatePlannedDelivery($date_client_livraison_estime);
+                                                $delivery[$x]->setDelDateDeliveryClient($date_client_livraison);
+                                                $delivery[$x]->setOrders($order[$i]);
 
-                        $prix_client_ht_u = $productset[$productnombre]->getProPriceHT() * $userset[$usernombre]->getUserCompanyCoefficient();
-                        
-                        $productorder[$x] = new ProductOrders();
-                        
-                                $productorder[$x]->setProOrdProductQuantity($quantityboucle);
-                                $productorder[$x]->setProOrdNameProduct($productset[$productnombre]->getProName()); 
-                                $productorder[$x]->setProOrdPriceUht($prix_client_ht_u); 
-                                $productorder[$x]->setProduct($productset[$productnombre]);
-                                $productorder[$x]->setOrders($order[$i]);
+                                            $prix_client_ht_u = $productset[$productnombrearticle]->getProPriceHT() * $userset[$usernombre]->getUserCompanyCoefficient();
+                                            
+                                            $productorder[$x] = new ProductOrders();
+                                            
+                                                    $productorder[$x]->setProOrdProductQuantity($quantityboucle);
+                                                    $productorder[$x]->setProOrdNameProduct($productset[$productnombrearticle]->getProName()); 
+                                                    $productorder[$x]->setProOrdPriceUht($prix_client_ht_u); 
+                                                    $productorder[$x]->setProduct($productset[$productnombrearticle]);
+                                                    $productorder[$x]->setOrders($order[$i]);
 
-                        $productdelivery[$x] = new ProductDelivery();
-                        
-                                $productdelivery[$x]->setProDelProductQuantity($quantityboucle); 
-                                $productdelivery[$x]->setProduct($productset[$productnombre]);
-                                $productdelivery[$x]->setDelivery($delivery[$x]);
+                                            $productdelivery[$x] = new ProductDelivery();
+                                            
+                                                    $productdelivery[$x]->setProDelProductQuantity($quantityboucle); 
+                                                    $productdelivery[$x]->setProduct($productset[$productnombrearticle]);
+                                                    $productdelivery[$x]->setDelivery($delivery[$x]);
 
-                                $setPriceLigne = $prix_client_ht_u * $quantityboucle * $reduction;
-                                $setPriceLigneht = $prix_client_ht_u * $quantityboucle * $tva * $reduction;
+                                                    $setPriceLigneht = $prix_client_ht_u * $quantityboucle * $reduction;
+                                                    $setPriceLignettc = $prix_client_ht_u * $quantityboucle * $tva * $reduction;
 
-                                $productorder[$x]->setPriceLigne($setPriceLigne);
-                                $productorder[$x]->setPriceLigneht($setPriceLigneht);
+                                                    $productorder[$x]->setPriceLigne($setPriceLignettc);
+                                                    $productorder[$x]->setPriceLigneht($setPriceLigneht);
 
-                                $manager->persist($delivery[$x]);
-                                $manager->persist($productorder[$x]);
-                                $manager->persist($productdelivery[$x]);
-                        }
+                                                    $manager->persist($delivery[$x]);
+                                                    $manager->persist($productorder[$x]);
+                                                    $manager->persist($productdelivery[$x]);
+                                            }
 
                                     $a = [$productorder[1]->getPriceligne(),$productorder[2]->getPriceligne(),$productorder[3]->getPriceligne()];
                                     $b = [$productorder[1]->getPriceligneht(),$productorder[2]->getPriceligneht(),$productorder[3]->getPriceligneht()];
-                                    $prix_cmd_ht = array_sum($a);
-                                    $prix_cmd_ttc = array_sum($b);
+                                    
+                                    $prix_cmd_ht = array_sum($b);
+                                    $prix_cmd_ttc = array_sum($a);
 
                                     $order[$i]->setOrdPrixTotal($prix_cmd_ttc);
                                     $order[$i]->setOrdPrixTotalHT($prix_cmd_ht);

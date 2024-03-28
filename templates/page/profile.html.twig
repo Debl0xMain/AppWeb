@@ -145,9 +145,10 @@
             </div>
              <hr>
             {# produit #}
-            <div class="row">
                 {% for product_orders in product_orders %}
+                <div class="row">
                     {% if product_orders.orders.id == histo_cmd.id %}
+                    <hr>
                         <div class="col">
                             <p class="row">Nom :</p>
                             <p class="row">{{ product_orders.ProOrdNameProduct }}</p>
@@ -188,8 +189,8 @@
                     {% endfor %}
                     {% endfor %}
                 {% endif %}
+                </div>
             {% endfor %}
-            </div>
         </div>
     </div>
 </div>
