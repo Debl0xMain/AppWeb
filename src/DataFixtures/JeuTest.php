@@ -1202,7 +1202,7 @@ class JeuTest extends Fixture
                                 $order[$i]->setTvaCmd($tva);
                                 $order[$i]->setOrdReduction($reduction);
 
-                                            for ($x = 1; $x <= 3; $x++)
+                                            for ($x = 1; $x <= rand(1,6); $x++)
                                             {
                                                 $productnombrearticle = rand(0,43);
                                                 $quantityboucle = rand(0,7);
@@ -1310,7 +1310,7 @@ class JeuTest extends Fixture
                                 $order[$i]->setTvaCmd($tva);
                                 $order[$i]->setOrdReduction($reduction);
 
-                                            for ($x = 1; $x <= 3; $x++)
+                                            for ($x = 1; $x <= rand(1,6); $x++)
                                             {
                                                 $productnombrearticle = rand(0,43);
                                                 $quantityboucle = rand(0,7);
