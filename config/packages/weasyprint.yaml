@@ -1,0 +1,8 @@
+
+weasyprint:
+    pdf:
+        enabled:    true
+        binary:     /usr/bin/weasyprint
+        options:    []
+    temporary_folder: "%kernel.cache_dir%/pdf_folder"
+    process_timeout: 60 # In seconds

@@ -18,3 +18,6 @@
     -finir historique de commande
     -finir front
     -verif information envoye sur le front
+
+# Install docker :
+-https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#ubuntu-20-04
