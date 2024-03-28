@@ -129,7 +129,21 @@
                 <a href='{{path('app_facture',{'id': histo_cmd.id })}}' class="row btn btn-warning" name="facture" id="facture">
                     <i class="fa-solid fa-file-invoice"></i>
                 </a>
-                </div>
+            </div>
+            <div class="col mx-5">
+                <p class="row">Bon Livraison</p>
+                {# modif id #}
+                <a href='{{path('app_bonlivraison',{'id': histo_cmd.id })}}' class="row btn btn-warning" name="facture" id="facture">
+                    <i class="fa-solid fa-file-invoice"></i>
+                </a>
+            </div>
+            <div class="col mx-5">
+                <p class="row">Bon Commande</p>
+                {# modif id #}
+                <a href='{{path('app_boncmd',{'id': histo_cmd.id })}}' class="row btn btn-warning" name="facture" id="facture">
+                    <i class="fa-solid fa-file-invoice"></i>
+                </a>
+            </div>
             </div>
         </div>
     </button>

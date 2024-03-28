@@ -1205,7 +1205,7 @@ class JeuTest extends Fixture
                                             for ($x = 1; $x <= rand(1,6); $x++)
                                             {
                                                 $productnombrearticle = rand(0,43);
-                                                $quantityboucle = rand(0,7);
+                                                $quantityboucle = rand(1,7);
                                                 var_dump("aerticle ajoute");
                                                 $delivery[$x] = new Delivery();
                                                 
@@ -1313,7 +1313,7 @@ class JeuTest extends Fixture
                                             for ($x = 1; $x <= rand(1,6); $x++)
                                             {
                                                 $productnombrearticle = rand(0,43);
-                                                $quantityboucle = rand(0,7);
+                                                $quantityboucle = rand(1,7);
                                                 var_dump("aerticle ajoute");
                                                 $delivery[$x] = new Delivery();
                                                 

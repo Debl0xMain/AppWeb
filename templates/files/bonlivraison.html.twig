@@ -1,0 +1,83 @@
+{% extends 'base_fils.html.twig' %}
+
+{% block title %}PDF{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block files %}
+<article class="px-4">
+{% for histo_cmd in histo_cmd %}
+{# Entete #}
+<article class="row">
+    <div class="mx-auto text-center">
+        <h2 class="text-center">Bon de Livraison {{ histo_cmd.OrdRef }}</h2>
+    </div>
+</article>
+<hr>
+<article class="text-center">
+    <div class="row mx-auto">
+                <div class="col mx-5">
+                    <p class="row">Adress Facturation</p>
+                    <p class="row">{{histo_cmd.ordAdressBilling}}</p>
+                </div>
+                <div class="col mx-5">
+                    <p class="row">Adress Livraison</p>
+                    <p class="row">{{histo_cmd.OrdAdressDelivery}}</p>
+                </div>
+    </div>
+</article>
+{# Info Client #}
+<article class="row">
+    <section class="col text-center mx-3 border my-auto">
+        <h5 class="my-2 text-bold">Client Info</h5>
+        <p>{{ user[0].userName }} {{ user[0].userFristName }}</p>
+        <p>Ref Client : {{ user[0].userRef }}</p>
+    </section>
+    
+    {% if user[0].userCompanySiret != null %}
+    <section class="col text-center mx-3 border my-auto">
+        <div class="row">
+            <h5 class="my-2">Company Info</h5>
+            <p>Company : {{ user[0].userCompanyName }}</p>
+            <p>Siret : {{ user[0].userCompanySiret }}</p>
+        </div>
+    </section>
+    {% endif %}
+</article>
+<hr>
+{# Information Command #}
+<article class="border px-auto py-2">
+ <div class='row text-center'>
+            <div class="col my-auto mx-5">
+                <p class="row">ref</p>
+                <p class="row">{{ histo_cmd.ordref }}</p>
+            </div>
+</article>
+{# Produits #}
+<hr>
+    {% for product_orders in product_orders %}
+        {% if product_orders.orders.id == histo_cmd.id %}
+<article class="border row py-2">
+        <div class="col">
+            <p class="row">Nom :</p>
+            <p class="row">{{ product_orders.ProOrdNameProduct }}</p>
+        </div>
+        <div class="col">
+            <p>Prix u/ht</p>
+            <p>{{ product_orders.ProOrdPriceUht }}</p>
+        </div>
+        <div class="col">
+            <p class="row">Quantité :</p>
+            <p class="row">{{ product_orders.ProOrdProductQuantity }}</p>
+        </div>
+        {#  #}
+</article>
+        {% endif %}
+    {% endfor %}
+<hr>
+
+{% endfor %}
+</article>
+{% endblock %}

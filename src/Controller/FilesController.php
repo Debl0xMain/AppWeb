@@ -32,7 +32,7 @@ class FilesController extends AbstractController
     }
 
     #[Route('/facture/{id}', name: 'app_facture')]
-    public function index($id,Request $request): Response
+    public function facture($id,Request $request): Response
     {
 
         $user_cmd_orders = $this->OrdersRepo->findBy(array('id' => $id));
@@ -42,9 +42,47 @@ class FilesController extends AbstractController
         $id_user_find = $user_cmd_orders[0]->getUsers();
         $user = $this->userRepo->findBy(array('id' => $id_user_find));
 
-        dump($user);
-
         return $this->render('files/facture.html.twig', [
+            'controller_name' => 'FilesController',
+            'histo_cmd' => $user_cmd_orders,
+            'histo_delivery' => $user_cmd_delivery,
+            'product_orders' => $user_cmd_ProductOrders,
+            'product_delivery' => $user_cmd_ProductDelivery,
+            'user' => $user
+        ]);
+    }
+    #[Route('/bonlivraison/{id}', name: 'app_bonlivraison')]
+    public function bonlivraison($id,Request $request): Response
+    {
+
+        $user_cmd_orders = $this->OrdersRepo->findBy(array('id' => $id));
+        $user_cmd_delivery = $this->DeliveryRepo->findBy(array('orders' => $user_cmd_orders));
+        $user_cmd_ProductOrders = $this->ProductOrders->findBy(array('orders' => $user_cmd_orders));
+        $user_cmd_ProductDelivery = $this->ProductDelivery->findBy(array('delivery' => $user_cmd_delivery));
+        $id_user_find = $user_cmd_orders[0]->getUsers();
+        $user = $this->userRepo->findBy(array('id' => $id_user_find));
+
+        return $this->render('files/bonlivraison.html.twig', [
+            'controller_name' => 'FilesController',
+            'histo_cmd' => $user_cmd_orders,
+            'histo_delivery' => $user_cmd_delivery,
+            'product_orders' => $user_cmd_ProductOrders,
+            'product_delivery' => $user_cmd_ProductDelivery,
+            'user' => $user
+        ]);
+    }
+    #[Route('/boncmd/{id}', name: 'app_boncmd')]
+    public function boncmd($id,Request $request): Response
+    {
+
+        $user_cmd_orders = $this->OrdersRepo->findBy(array('id' => $id));
+        $user_cmd_delivery = $this->DeliveryRepo->findBy(array('orders' => $user_cmd_orders));
+        $user_cmd_ProductOrders = $this->ProductOrders->findBy(array('orders' => $user_cmd_orders));
+        $user_cmd_ProductDelivery = $this->ProductDelivery->findBy(array('delivery' => $user_cmd_delivery));
+        $id_user_find = $user_cmd_orders[0]->getUsers();
+        $user = $this->userRepo->findBy(array('id' => $id_user_find));
+
+        return $this->render('files/boncmd.html.twig', [
             'controller_name' => 'FilesController',
             'histo_cmd' => $user_cmd_orders,
             'histo_delivery' => $user_cmd_delivery,
