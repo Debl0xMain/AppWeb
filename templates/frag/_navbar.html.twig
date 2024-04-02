@@ -26,6 +26,7 @@
     {% endif %}
 {#  #}
 {% endif %}
+
 <nav class="navbar navbar-expand-lg navbar_bg navbar_maxwidht">
         <div class="container-fluid navbar_maxwidht">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,13 +61,35 @@
 
                     <section class="col my-2">
                         <article class="row">
-
+                    {% if app.user == null %}
                             <div class="navbar_case">
                                 <button type="button" class="btn btn btn-outline-success" id="shopbtn" data-bs-toggle="modal" data-bs-target="#basket-shopping">
                                     <i class="fa-sharp fa-solid fa-basket-shopping"></i>
                                     <p class="resp_text" id="btnlogintext">Panier</p>
                                 </button>
                             </div>
+                    {% endif %}
+                    {% if app.user %}
+                        {% if app.user.roles[0]  == 'ROLE_USER' or app.user.roles[0]  == 'ROLE_PRO' %}
+                            <div class="navbar_case">
+                                <button type="button" class="btn btn btn-outline-success" id="shopbtn" data-bs-toggle="modal" data-bs-target="#basket-shopping">
+                                    <i class="fa-sharp fa-solid fa-basket-shopping"></i>
+                                    <p class="resp_text" id="btnlogintext">Panier</p>
+                                </button>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    {% if app.user %}
+                        {% if app.user.roles[0] == 'ROLE_COM' %}
+                            <div class="navbar_case">
+                                <a class="btn btn btn-outline-success" href={{  path("app_config") }}>
+                                     <i class="fa-solid fa-gear"></i>
+                                    <p class="resp_text" id="btnlogintext">Config</p>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
                             <div class="navbar_case">
                                     {# login/inscription #}
                                     {% if app.user == null %}
@@ -94,14 +117,6 @@
                                         <a class="col text-end" href="{{ path('app_logout') }}" class="profildeco btn btn-outline-danger"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #ff0000;"></i></a>
                                         </div>
                                     </div>
-                                    {# <a href=" {{ path("app_profile") }}">
-                                    <div class="btnlogin">
-                                    <button type="button" class="btn btn-outline-success btnprofil">
-                                    <i class="fa-solid fa-user"></i>
-                                    <p class="btnlogintext">{{ app.user.UserName }}</p>
-                                    </button></a>
-                                    <a href="{{ path('app_logout') }}" class="profildeco btn btn-outline-danger"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #ff0000;"></i></a>
-                                    </div> #}
                                     {% endif %}
                             </div>
                             </article>
@@ -142,12 +157,35 @@
                     <section class="my-2 mx-2">
                         <article class="row">
 
-                            <div class="navbar_case col text-end">
+                    {% if app.user %}
+                        {% if app.user.roles[0] == 'ROLE_USER' or app.user.roles[0] == 'ROLE_PRO' %}
+                            <div class="navbar_case col">
                                 <button type="button" class="btn btn btn-outline-success" id="shopbtn" data-bs-toggle="modal" data-bs-target="#basket-shopping">
                                     <i class="fa-sharp fa-solid fa-basket-shopping"></i>
                                     <p class="resp_text" id="btnlogintext">Panier</p>
                                 </button>
                             </div>
+                        {% endif %}
+                    {% endif %}
+                    {% if app.user == null %}
+                            <div class="navbar_case col">
+                                <button type="button" class="btn btn btn-outline-success" id="shopbtn" data-bs-toggle="modal" data-bs-target="#basket-shopping">
+                                    <i class="fa-sharp fa-solid fa-basket-shopping"></i>
+                                    <p class="resp_text" id="btnlogintext">Panier</p>
+                                </button>
+                            </div>
+                    {% endif %}
+                                        {% if app.user %}
+                        {% if app.user.roles[0] == 'ROLE_COM' %}
+                            <div class="navbar_case col">
+                                <a class="btn btn btn-outline-success" href={{  path("app_config") }}>
+                                     <i class="fa-solid fa-gear"></i>
+                                    <p class="resp_text" id="btnlogintext">Config</p>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
                             <div class="navbar_case col">
                                     {# login/inscription #}
                                     {% if app.user == null %}

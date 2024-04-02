@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+
+{# Ca/Mouth #}
+<section class="mx-5 my-5">
+    <article>
+        <p>Chiffre d'affaire sur l'année : </p>
+        <select name="select_year" id="select_year">
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+        </select>
+
+    </article>
+
+
+    {% for ca in ca %}
+        {% if ca[0] == 0 %}
+                {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+        {% if ca[0] == 1 %}
+            {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+        {% if ca[0] == 2 %}
+                {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+        {% if ca[0] == 3 %}
+            {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+        {% if ca[0] == 4 %}
+                {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+        {% if ca[0] == 5 %}
+                {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+        {% if ca[0] == 6 %}
+                {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+        {% if ca[0] == 7 %}
+                {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+        {% if ca[0] == 8 %}
+                {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+        {% if ca[0] == 9 %}
+                {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+        {% if ca[0] == 10 %}
+                {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+        {% if ca[0] == 11 %}
+                {% if  ca[1].Prix_HT == null %}
+            <input hidden id={{ ca[0] }} type="number" value="0"/>
+            {% endif %}
+            {% if  ca[1].Prix_HT != null %}
+            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src={{asset('assets/js/select_year.js')}}></script>
+
+    <div class="row" id="columnchart_values" style="height: 500px"></div>
+</section>
+
+
+
+{% endblock %}

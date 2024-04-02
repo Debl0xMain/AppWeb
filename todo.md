@@ -1,12 +1,17 @@
-# En cours :
-    -template pdf facture | Bon de livraison | Devis
-    -modife adress 
 # A faire :
+ -modife adress 
     -Accueil ??
     -catalogue react
     -panier function
     -verif formulaire inscription + mail
+
+    
+# En cours :
+    -Page Stats Admin
+
+
 # Fait :
+    -template pdf facture | Bon de livraison | Devis
     -template base
     -entity
     -fixture

@@ -21,28 +21,19 @@ class OrdersRepository extends ServiceEntityRepository
         parent::__construct($registry, Orders::class);
     }
 
-//    /**
-//     * @return Orders[] Returns an array of Orders objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Orders
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function find_id($date_d_year,$date_f_year)
+    {
+        return $this->createQueryBuilder('o')
+        ->select('SUM(o.ordPrixTotal) AS Prix_TTC')
+        ->addSelect('SUM(o.OrdPrixTotalHT) AS Prix_HT')
+        ->addSelect('SUM(o.ordPrixTotal - o.OrdPrixTotalHT) AS tva')
+        ->where('o.ordDateBill BETWEEN :start_date AND :end_date')
+        ->andWhere('o.ordStatusBill = :status')
+        ->setParameter('start_date', $date_d_year)
+        ->setParameter('end_date', $date_f_year)
+        ->setParameter('status', 2)
+        ->getQuery()
+        ->getResult();
+    }
 }
+
