@@ -1,126 +1,159 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Stats{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href={{asset('assets/css/config.css')}}
+{% endblock %}
 
 {% block body %}
+<aside class="row mx-5 px-5 my-3 graph_height">
+    {# Ca/Mouth #}
+    <section class="col text-center graph_responsive">
+        <article class="mx-5 py-3 row">
+            <h4>Chiffre d'affaire sur l'année : </h4>
+            <select name="select_year" id="select_year">
+                <option value="0" selected>----</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+            </select>
+        </article>
 
-{# Ca/Mouth #}
-<section class="mx-5 my-5">
-    <article>
-        <p>Chiffre d'affaire sur l'année : </p>
-        <select name="select_year" id="select_year">
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-        </select>
+        <input hidden id="0" type="number" value={{ ca[1] }}>
+        <input hidden id="1" type="number" value={{ ca[2] }}>
+        <input hidden id="2" type="number" value={{ ca[3] }}>
+        <input hidden id="3" type="number" value={{ ca[4] }}>
+        <input hidden id="4" type="number" value={{ ca[4] }}>
+        <input hidden id="5" type="number" value={{ ca[6] }}>
+        <input hidden id="6" type="number" value={{ ca[7] }}>
+        <input hidden id="7" type="number" value={{ ca[8] }}>
+        <input hidden id="8" type="number" value={{ ca[9] }}>
+        <input hidden id="9" type="number" value={{ ca[10] }}>
+        <input hidden id="10" type="number" value={{ ca[11] }}>
+        <input hidden id="11" type="number" value={{ ca[12] }}>
 
-    </article>
+        <article class="z-n1 d-flex justify-content-center position-relative">
+            <div class="row mx-auto z-n1 position-absolute p-5 rounded-3" id="columnchart_values" style="height: 500px"></div>
+        </article>
+
+    </section>
+
+    <section class="col text-center px-5 graph_responsive">
+        <article class="mx-5 py-3 row">
+            <h4>Chiffre d'affaire Types Client 2024</h4>
+            <select name="select_year_ca_type" id="select_year_ca_type">
+                <option value="0" selected>----</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+            </select>
+        </article>
+        <input hidden id='cli_pro' type="number" value={{ type_client_pro }}>
+        <input hidden id='cli_par' type="number" value={{ type_client_par }}>
+        <article class="z-n1 d-flex justify-content-center position-relative">
+            <div class="row mx-auto z-n1 position-absolute p-5 rounded-3" id="piechart" style="height: 500px"></div>
+        </article>
+    </section>
+
+</aside>
+{# Livrasion #}
+<aside class="row mx-5 px-5 my-3">
+    <section class="col text-center px-5">
+        <article class="mx-5 py-3 row">
+            <h4>Nombre de commande en cours de livraison</h4>
+        </article>
+        <article class="z-n1 d-flex justify-content-center position-relative">
+           <p>{{delivery_number}}</p>
+        </article>
+    </section>
+
+    <section class="col text-center px-5">
+        <article class="mx-5 py-3 row">
+            <h4>Nombre de commande en cours de livraison</h4>
+        </article>
+        <article class="z-n1 d-flex justify-content-center position-relative">
+           <p>{{delivery_number}}</p>
+        </article>
+    </section>
+</aside>
+{# Top 10 #}
+<aside class="row mx-5 px-5 my-5">
+    <section class="col text-center graph_responsive mb-5">
+        <article class="mx-5 py-3 row">
+            <h4>Top 10 produit </h4>
+            <select name="select_type_top" id="select_type_top">
+                <option value="0" selected>Type</option>
+                <option value="1">Top Chiffre d'affaire</option>
+                <option value="2">Top Vente</option>
+            </select>
+            <select name="select_year_top_produit" id="select_year_top_produit">
+                <option value="0" selected>Année</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+            </select>
+        </article>
+
+        <div id='switch_price'>
+            <article class="row">
+                <div class="col row">
+                    <p class="border case_height">1</p>
+                    <p class="border case_height">2</p>
+                    <p class="border case_height">3</p>
+                    <p class="border case_height">4</p>
+                    <p class="border case_height">5</p>
+                    <p class="border case_height">6</p>
+                    <p class="border case_height">7</p>
+                    <p class="border case_height">8</p>
+                    <p class="border case_height">9</p>
+                    <p class="border case_height">10</p>
+                </div>
+                <div class="col row" id='top10_price'>
+                </div>
+            </article>
+        </div>
+
+        <div id='switch_quantity'>
+            <article class="row top10_quantity">
+                <div class="col row">
+                    <p class="border case_height">1</p>
+                    <p class="border case_height">2</p>
+                    <p class="border case_height">3</p>
+                    <p class="border case_height">4</p>
+                    <p class="border case_height">5</p>
+                    <p class="border case_height">6</p>
+                    <p class="border case_height">7</p>
+                    <p class="border case_height">8</p>
+                    <p class="border case_height">9</p>
+                    <p class="border case_height">10</p>
+                </div>
+                <div class="col row" id='top10_quantity'>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="col text-center px-5">
+        <article class="mx-5 py-3 row">
+            <h4>Top 10 client </h4>
+            <select name="select_year_client" id="select_year">
+                <option value="0" selected>Année</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+            </select>
+        </article>
+    </section>
+
+</aside>
 
 
-    {% for ca in ca %}
-        {% if ca[0] == 0 %}
-                {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-        {% if ca[0] == 1 %}
-            {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-        {% if ca[0] == 2 %}
-                {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-        {% if ca[0] == 3 %}
-            {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-        {% if ca[0] == 4 %}
-                {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-        {% if ca[0] == 5 %}
-                {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-        {% if ca[0] == 6 %}
-                {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-        {% if ca[0] == 7 %}
-                {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-        {% if ca[0] == 8 %}
-                {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-        {% if ca[0] == 9 %}
-                {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-        {% if ca[0] == 10 %}
-                {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-        {% if ca[0] == 11 %}
-                {% if  ca[1].Prix_HT == null %}
-            <input hidden id={{ ca[0] }} type="number" value="0"/>
-            {% endif %}
-            {% if  ca[1].Prix_HT != null %}
-            <input hidden id={{ ca[0] }} type="number" value={{ ca[1].Prix_TTC }}>
-            {% endif %}
-        {% endif %}
-    {% endfor %}
+
+<div class="my-5 cache_misere">y</div>
+<div class="my-5 cache_misere">y</div>
+<div class="my-3 cache_misere">y</div>
+
+
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src={{asset('assets/js/select_year.js')}}></script>
-
-    <div class="row" id="columnchart_values" style="height: 500px"></div>
-</section>
-
-
-
+    <script src={{asset('assets/js/ca_client.js')}}></script>
+    <script src={{asset('assets/js/top10_produit.js')}}></script>
 {% endblock %}

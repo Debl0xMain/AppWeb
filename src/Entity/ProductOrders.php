@@ -63,7 +63,7 @@ class ProductOrders
 
         return $this;
     }
-
+  
     public function getProOrdPriceUht(): ?string
     {
         return $this->pro_ordPriceUht;
@@ -104,14 +104,14 @@ class ProductOrders
     {
         return $this->price_ligne;
     }
-
+//prix hors reduction prix base x coef client x tva
     public function setPriceLigne(?string $price_ligne): static
     {
         $this->price_ligne = $price_ligne;
 
         return $this;
     }
-
+//prix hors reduction juste prix base x coef client
     public function getPriceLigneht(): ?string
     {
         return $this->price_ligneht;

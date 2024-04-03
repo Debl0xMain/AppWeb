@@ -23,12 +23,43 @@ class OrdersRepository extends ServiceEntityRepository
 
     public function find_id($date_d_year,$date_f_year)
     {
-        return $this->createQueryBuilder('o')
-        ->select('SUM(o.ordPrixTotal) AS Prix_TTC')
-        ->addSelect('SUM(o.OrdPrixTotalHT) AS Prix_HT')
-        ->addSelect('SUM(o.ordPrixTotal - o.OrdPrixTotalHT) AS tva')
+        $array = $this->createQueryBuilder('o')
+        ->select('sum(o.OrdPrixTotalHT)')
         ->where('o.ordDateBill BETWEEN :start_date AND :end_date')
         ->andWhere('o.ordStatusBill = :status')
+        ->setParameter('start_date', $date_d_year)
+        ->setParameter('end_date', $date_f_year)
+        ->setParameter('status', 2)
+        ->getQuery()
+        ->getResult();
+
+        return Intval($array[0][1]);
+    }
+
+    public function ca_client_pro($date_d_year,$date_f_year)
+    {
+        return $this->createQueryBuilder('o')
+        ->select('sum(o.OrdPrixTotalHT)')
+        ->where('o.ordDateBill BETWEEN :start_date AND :end_date')
+        ->andWhere('o.ordStatusBill = :status')
+        ->innerJoin('o.users','u')
+        ->andWhere('u.userCompanySiret IS NOT NULL')
+        ->setParameter('start_date', $date_d_year)
+        ->setParameter('end_date', $date_f_year)
+        ->setParameter('status', 2)
+        ->getQuery()
+        ->getResult();
+
+        
+    }
+    public function ca_client_par($date_d_year,$date_f_year)
+    {
+        return $this->createQueryBuilder('o')
+        ->select('sum(o.OrdPrixTotalHT)')
+        ->where('o.ordDateBill BETWEEN :start_date AND :end_date')
+        ->andWhere('o.ordStatusBill = :status')
+        ->innerJoin('o.users','u')
+        ->andWhere('u.userCompanySiret IS NULL')
         ->setParameter('start_date', $date_d_year)
         ->setParameter('end_date', $date_f_year)
         ->setParameter('status', 2)

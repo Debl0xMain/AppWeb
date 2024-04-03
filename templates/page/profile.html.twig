@@ -88,66 +88,66 @@
 
 {# Historique command #}
 <h2 class="text-center">Commandes</h2>
-{% for histo_cmd in histo_cmd %}
+{% for histo_cmd in user.orders %}
 {# Btn Histo Cmd #}
 <div class="mx-auto text-center">
-        <hr>
-<section class="row mx-auto text-center justify-content-center">
-    <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#open_detail_{{ histo_cmd.ordref }}" aria-expanded="false" aria-controls="collapseExample">
-        <div class='row text-center'>
-            <div class="col mx-5">
-                <p class="row">ref</p>
-                <p class="row">{{ histo_cmd.ordref }}</p>
+    <hr>
+    <section class="row mx-auto text-center justify-content-center">
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#open_detail_{{ histo_cmd.ordref }}" aria-expanded="false" aria-controls="collapseExample">
+            <div class='row text-center'>
+                <div class="col mx-5">
+                    <p class="row">ref</p>
+                    <p class="row">{{ histo_cmd.ordref }}</p>
+                </div>
+                <div class="col mx-5">
+                    <p class="row">Status</p>
+                        {% if histo_cmd.ordStatusBill  == 1 %}
+                        <p class="row">Attente</p>
+                        {% endif %}
+                        {% if histo_cmd.ordStatusBill  == 2 %}
+                        <p class="row">Payé</p>
+                        {% endif %}
+                        {% if histo_cmd.ordStatusBill  == 3 %}
+                        <p class="row">Retard</p>
+                        {% endif %}
+                </div>
+                <div class="col mx-5">
+                    <p class="row">Date</p>
+                    <p class="row">{{ histo_cmd.ordDateBill|date("m/d/Y") }}</p>
+                </div>
+                <div class="col">
+                    <p>Prix Total HT</p>
+                    <p>{{ histo_cmd.ordPrixTotalHT }}</p>
+                </div>
+                <div class="col">
+                    <p>Prix Total TTC</p>
+                    <p>{{ histo_cmd.ordPrixTotal }}</p>
+                </div>
+                <div class="col mx-5">
+                    <p class="row">Facture</p>
+                    {# modif id #}
+                    <a href='{{path('app_facture',{'id': histo_cmd.id })}}' class="row btn btn-warning" name="facture" id="facture">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </a>
+                </div>
+                <div class="col mx-5">
+                    <p class="row">Bon Livraison</p>
+                    {# modif id #}
+                    <a href='{{path('app_bonlivraison',{'id': histo_cmd.id })}}' class="row btn btn-warning" name="facture" id="facture">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </a>
+                </div>
+                <div class="col mx-5">
+                    <p class="row">Bon Commande</p>
+                    {# modif id #}
+                    <a href='{{path('app_boncmd',{'id': histo_cmd.id })}}' class="row btn btn-warning" name="facture" id="facture">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </a>
+                </div>
+                </div>
             </div>
-            <div class="col mx-5">
-                <p class="row">Status</p>
-                    {% if histo_cmd.ordStatusBill  == 1 %}
-                    <p class="row">Attente</p>
-                    {% endif %}
-                    {% if histo_cmd.ordStatusBill  == 2 %}
-                    <p class="row">Payé</p>
-                    {% endif %}
-                    {% if histo_cmd.ordStatusBill  == 3 %}
-                    <p class="row">Retard</p>
-                    {% endif %}
-            </div>
-            <div class="col mx-5">
-                <p class="row">Date</p>
-                <p class="row">{{ histo_cmd.ordDateBill|date("m/d/Y") }}</p>
-            </div>
-            <div class="col">
-                <p>Prix Total HT</p>
-                <p>{{ histo_cmd.ordPrixTotalHT }}</p>
-            </div>
-            <div class="col">
-                <p>Prix Total TTC</p>
-                <p>{{ histo_cmd.ordPrixTotal }}</p>
-            </div>
-            <div class="col mx-5">
-                <p class="row">Facture</p>
-                {# modif id #}
-                <a href='{{path('app_facture',{'id': histo_cmd.id })}}' class="row btn btn-warning" name="facture" id="facture">
-                    <i class="fa-solid fa-file-invoice"></i>
-                </a>
-            </div>
-            <div class="col mx-5">
-                <p class="row">Bon Livraison</p>
-                {# modif id #}
-                <a href='{{path('app_bonlivraison',{'id': histo_cmd.id })}}' class="row btn btn-warning" name="facture" id="facture">
-                    <i class="fa-solid fa-file-invoice"></i>
-                </a>
-            </div>
-            <div class="col mx-5">
-                <p class="row">Bon Commande</p>
-                {# modif id #}
-                <a href='{{path('app_boncmd',{'id': histo_cmd.id })}}' class="row btn btn-warning" name="facture" id="facture">
-                    <i class="fa-solid fa-file-invoice"></i>
-                </a>
-            </div>
-            </div>
-        </div>
-    </button>
-</section>
+        </button>
+    </section>
 
 
 
@@ -159,9 +159,8 @@
             </div>
              <hr>
             {# produit #}
-                {% for product_orders in product_orders %}
+                {% for product_orders in histo_cmd.productOrders %}
                 <div class="row">
-                    {% if product_orders.orders.id == histo_cmd.id %}
                     <hr>
                         <div class="col">
                             <p class="row">Nom :</p>
@@ -180,29 +179,34 @@
                             <p class="row">{{ product_orders.ProOrdProductQuantity }}</p>
                         </div>
                     {# product_delivery #}
-                    {% for histo_delivery in histo_delivery %}
-                    {% for product_delivery in product_delivery %}
-                            {% if (histo_delivery.orders.id == histo_cmd.id) and (histo_delivery.id == product_delivery.delivery.id) %}
+                    {% for histo_delivery in histo_cmd.deliveries %}
+                    {% for productdel_histo in histo_delivery.productDeliveries %}
+
+                    <div class="my-auto px-5 mt-2">
+                        <article class="border row">
+                                <p class='col my-auto'>Quantité Colis {{ productdel_histo.ProDelProductQuantity }}</p>
                                 <div class="col mx-2">
                                     <p class="row">Expedition </p>
                                     <p class="row">{{ histo_delivery.delDateExped|date("m/d/Y") }}</p>
                                 </div>
                                 <div class="col mx-2">
                                         {# Planified Date Not Hidden #}
-                                            {% if histo_delivery.delDateDeliveryClient == null %}
+                                {% if histo_delivery.delDateDeliveryClient == null %}
                                     <p class="row">En cours</p>
                                     <p class="row">{{ histo_delivery.delDatePlannedDelivery|date("m/d/Y") }}</p>
-                                            {% endif %}
+                                {% endif %}
                                         {# Delivery Date #}
-                                            {% if histo_delivery.delDateDeliveryClient != null %}
+                                {% if histo_delivery.delDateDeliveryClient != null %}
                                     <p class="row">Livré</p>
                                     <p class="row">{{ histo_delivery.delDateDeliveryClient|date("m/d/Y") }}</p>
-                            {% endif %}
+                                {% endif %}
                                 </div>
-                            {% endif %}
+                        </article>
+                    </div>
+
+
                     {% endfor %}
                     {% endfor %}
-                {% endif %}
                 </div>
             {% endfor %}
         </div>

@@ -4,10 +4,13 @@
     -catalogue react
     -panier function
     -verif formulaire inscription + mail
+    -securise admin non admin
 
-    
 # En cours :
     -Page Stats Admin
+        -top 10 produit Années Ca ou vente
+        -top 10 client Pro ou particulier
+        -Ca Fourniseur / années
 
 
 # Fait :

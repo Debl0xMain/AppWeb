@@ -21,28 +21,41 @@ class ProductOrdersRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductOrders::class);
     }
 
-//    /**
-//     * @return ProductOrders[] Returns an array of ProductOrders objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?ProductOrders
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function top10_quantity($year)
+   {
+    return $this->createQueryBuilder('po')
+    ->Select('SUM(po.pro_ordProductQuantity) as quantite')
+    ->addSelect('p.proName')
+    ->join('po.orders', 'o')
+    ->join('po.product', 'p')
+    ->where('o.ordDateBill BETWEEN :start_date AND :end_date')
+    ->setParameter('start_date', $year.'-01-01')
+    ->setParameter('end_date', $year.'-12-31')
+    ->groupBy('p.id')
+    ->orderBy('quantite', 'DESC')
+    ->setMaxResults(10)
+    ->getQuery()
+    ->getResult();
+   }
+
+   public function top10_price($year)
+   {
+    return $this->createQueryBuilder('po')
+    ->select('COUNT(p.id) AS nombre_idcount')
+    ->addSelect('COUNT(po.pro_ordProductQuantity) as nombre_quantity')
+    ->addSelect('SUM(po.price_ligneht) as resultat_price')
+    ->addSelect('p.id')
+    ->addSelect('p.proName')
+    ->join('po.orders', 'o')
+    ->join('po.product', 'p')
+    ->where('o.ordDateBill BETWEEN :start_date AND :end_date')
+    ->setParameter('start_date', $year.'-01-01')
+    ->setParameter('end_date', $year.'-12-31')
+    ->groupBy('p.id')
+    ->orderBy('resultat_price', 'DESC')
+    ->setMaxResults(10)
+    ->getQuery()
+    ->getResult();
+   }
 }

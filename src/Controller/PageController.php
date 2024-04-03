@@ -74,21 +74,12 @@ class PageController extends AbstractController
                     $adress_ajax = $this->AdressRepo->recupinfo($idform,$userid);
                     return new JsonResponse($adress_ajax);
                 }
-            //Historique cmd 
-            $user_cmd_orders = $this->OrdersRepo->findBy(array('users' => $userid));
-            $user_cmd_delivery = $this->DeliveryRepo->findBy(array('orders' => $user_cmd_orders));
-            $user_cmd_ProductOrders = $this->ProductOrders->findBy(array('orders' => $user_cmd_orders));
-            $user_cmd_ProductDelivery = $this->ProductDelivery->findBy(array('delivery' => $user_cmd_delivery));
 
             return $this->render('page/profile.html.twig', [
                 'controller_name' => 'HomeController',
                 'formUser' => $formUser->createView(),
                 'formAdress' => $formAdress->createView(),
                 'adress_user_selected' => $adress_user_selected,
-                'histo_cmd' => $user_cmd_orders,
-                'histo_delivery' => $user_cmd_delivery,
-                'product_orders' => $user_cmd_ProductOrders,
-                'product_delivery' => $user_cmd_ProductDelivery,
                 'user' => $user_co
             ]);}
         

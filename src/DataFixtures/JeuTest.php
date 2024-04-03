@@ -1147,7 +1147,7 @@ class JeuTest extends Fixture
 
                         //generation commande client particulier
 
-                        for ($i = 1; $i <= 150; $i++) {
+                        for ($i = 1; $i <= 3; $i++) {
                             var_dump("creation commande particulier ". $i);
                             $userset = [$user[1],$user[2],$user[3],$user[4],$user[5],$user[6],$user[7],$user[8],$user[9],$user[10],$user[11],$user[12],$user[13],$user[14],$user[15],$user[16],$user[17],$user[18],$user[19],$user[20],$user[21],$user[22],$user[23],$user[24]];
                             $productset = [
@@ -1202,7 +1202,7 @@ class JeuTest extends Fixture
                                 $order[$i]->setTvaCmd($tva);
                                 $order[$i]->setOrdReduction($reduction);
 
-                                            for ($x = 1; $x <= rand(1,6); $x++)
+                                            for ($x = 1; $x <= 3; $x++)
                                             {
                                                 $productnombrearticle = rand(0,43);
                                                 $quantityboucle = rand(1,7);
@@ -1255,7 +1255,7 @@ class JeuTest extends Fixture
 
                         //generation commande client pro
                                         
-                        for ($i = 1; $i <= 250; $i++) {
+                        for ($i = 1; $i <= 3; $i++) {
                             var_dump("creation commande pro ".$i);
                             $userset = [$prouser[1],$prouser[2],$prouser[3],$prouser[4],$prouser[5],$prouser[6],$prouser[7],$prouser[8],$prouser[9],$prouser[10],$prouser[11],$prouser[12],$prouser[13],$prouser[14],$prouser[15],$prouser[16],$prouser[17],$prouser[18],$prouser[19],$prouser[20],$prouser[21],$prouser[22],$prouser[23],$prouser[24],$prouser[25]];
                             $productset = [
@@ -1319,7 +1319,9 @@ class JeuTest extends Fixture
                                                 
                                                 $delivery[$x]->setDelDateExped($date_client_expediction);
                                                 $delivery[$x]->setDelDatePlannedDelivery($date_client_livraison_estime);
-                                                $delivery[$x]->setDelDateDeliveryClient($date_client_livraison);
+                                                if ($x%2) {
+                                                    $delivery[$x]->setDelDateDeliveryClient($date_client_livraison);
+                                                }
                                                 $delivery[$x]->setOrders($order[$i]);
 
                                             $prix_client_ht_u = $productset[$productnombrearticle]->getProPriceHT() * $userset[$usernombre]->getUserCompanyCoefficient();
