@@ -1,25 +1,35 @@
 # A faire :
+Api :
+    -Crée Api
+Page Admin :
+    -EasyAdmin
 Profil :
     -modife adress {Id a passe lors de l'ajax}
 Base Site : 
     -Accueil
-    -catalogue react
+    -catalogue react /!\ Api a crée avent /!\
 Service Back/Front :
-    -panier function
+    -panier service | Panier Cote Client | Panier Cote Serveur
+    -Validation Commande | Livraison Differe 
+    -Paiement Commande
     -verif formulaire inscription + mail
     -securise admin non admin {#IsGranted}
+Front :
+    -Index JS {import des function,js ajax request index}
+    -Mention legal
+    -Page Contact
+
 
 # En cours :
    Page Admin :
-        -Client du com connecte X
-
+        -Liste Client du com connecte X
 
 # Fait :
     Page Stats Admin :
-        -top 10 produit Années Ca ou vente V
-        -top 10 client Pro ou particulier V
-        -Ca Fourniseur / années X
-        -top 10 client X
+        -top 10 produit Années Ca ou vente 
+        -top 10 client Pro ou particulier 
+        -Ca Fourniseur / années 
+        -top 10 client 
     Pdf :
         -template pdf facture | Bon de livraison | Devis
     Base Site :
