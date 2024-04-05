@@ -38,25 +38,6 @@
 
     </section>
 
-    <section class="col text-center px-5 graph_responsive">
-        <article class="mx-5 py-3 row">
-            <h4>Chiffre d'affaire Types Client 2024</h4>
-            <select name="select_year_ca_type" id="select_year_ca_type">
-                <option value="0" selected>----</option>
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-            </select>
-        </article>
-        <input hidden id='cli_pro' type="number" value={{ type_client_pro }}>
-        <input hidden id='cli_par' type="number" value={{ type_client_par }}>
-        <article class="z-n1 d-flex justify-content-center position-relative">
-            <div class="row mx-auto z-n1 position-absolute p-5 rounded-3" id="piechart" style="height: 500px"></div>
-        </article>
-    </section>
-
-</aside>
-{# Livrasion #}
-<aside class="row mx-5 px-5 my-3">
     <section class="col text-center px-5">
         <article class="mx-5 py-3 row">
             <h4>Nombre de commande en cours de livraison</h4>
@@ -66,14 +47,35 @@
         </article>
     </section>
 
-   <section class="col text-center px-5">
+</aside>
+{# ca Supplier #}
+<aside class="row mx-5 px-5 my-3">
+    <section class="col text-center px-5">
         <article class="mx-5 py-3 row">
-            <h4>Top 10 client </h4>
-            <select name="select_year_client" id="select_year">
+            <h4>Ca Fourniseur </h4>
+            <select name="ca_supplier" id="ca_supplier">
                 <option value="0" selected>Année</option>
                 <option value="2024">2024</option>
                 <option value="2023">2023</option>
             </select>
+        </article>
+        <article class="z-n1 d-flex justify-content-center position-relative">
+            <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+        </article>
+    </section>
+{# Ca Client #}
+     <section class="col text-center px-5 graph_responsive">
+        <article class="mx-5 py-3 row">
+            <h4>Chiffre d'affaire Types Client</h4>
+            <select name="select_year_ca_type" id="select_year_ca_type">
+                <option value="0" selected>----</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+            </select>
+        </article>
+
+        <article class="z-n1 d-flex justify-content-center position-relative">
+            <div class="row mx-auto z-n1 position-absolute p-5 rounded-3" id="piechart" style="width: 900px;height: 500px"></div>
         </article>
     </section>
 </aside>
@@ -133,15 +135,35 @@
         </div>
     </section>
 
-    <section class="col text-center px-5">
-        <article class="mx-5 py-3 row">
+
+{# Top10 Client #}
+   <section class="col text-center px-5">
+        <article class="mx-5 mb-4 py-3 row">
             <h4>Top 10 client </h4>
-            <select name="select_year_client" id="select_year">
+            <select name="select_year_client_top" id="select_year_client_top">
                 <option value="0" selected>Année</option>
                 <option value="2024">2024</option>
                 <option value="2023">2023</option>
             </select>
         </article>
+          <div class="cli_ca_parent">
+            <article class="row">
+                <div class="col row">
+                    <p class="border case_height">1</p>
+                    <p class="border case_height">2</p>
+                    <p class="border case_height">3</p>
+                    <p class="border case_height">4</p>
+                    <p class="border case_height">5</p>
+                    <p class="border case_height">6</p>
+                    <p class="border case_height">7</p>
+                    <p class="border case_height">8</p>
+                    <p class="border case_height">9</p>
+                    <p class="border case_height">10</p>
+                </div>
+                <div class="col row" id='top10_client'>
+                </div>
+            </article>
+        </div>               
     </section>
 
 </aside>
@@ -158,4 +180,6 @@
     <script src={{asset('assets/js/select_year.js')}}></script>
     <script src={{asset('assets/js/ca_client.js')}}></script>
     <script src={{asset('assets/js/top10_produit.js')}}></script>
+    <script src={{asset('assets/js/top10_client.js')}}></script>
+    <script src={{asset('assets/js/ca_supplier.js')}}></script>
 {% endblock %}

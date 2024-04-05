@@ -45,18 +45,19 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
-    // public function histo_cmd($userId)
-    // {
-    //     return $this->createQueryBuilder('u')
-    //     ->select('o.ordRef', 'o.ordReduction', 'o.ordAdressDelivery', 'o.ordAdressBilling', 'o.ordStatusBill', 'o.ordPrixTotal', 'd.delDateExped', 'd.delDatePlannedDelivery', 'd.delDateDeliveryClient', 'po.pro_ordNameProduct', 'po.pro_ordProductQuantity', 'po.pro_ordPriceUht', 'u.userCoefficient')
-    //     // ->Join(Users::class, 'u')
-    //     ->join(Orders::class, 'o')
-    //     ->join(delivery::class, 'd')
-    //     ->join(productOrders::class, 'po')
-    //     ->join(productDelivery::class, 'pd')
-    //     ->where('u.id = :userId')
-    //     ->setParameter('userId', $userId)
-    //     ->getQuery()
-    //     ->getResult();
-    // }
+    public function top10_client($year)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u.id,u.userName,u.userFristName,u.userRef')
+            ->addSelect("SUM(o.OrdPrixTotalHT) as totalAmount")
+            ->innerJoin('u.orders', 'o')
+            ->where('o.ordDateBill BETWEEN :start_date AND :end_date')
+            ->setParameter('start_date', $year.'-01-01')
+            ->setParameter('end_date', $year.'-12-31')
+            ->groupBy('u.id')
+            ->orderBy('totalAmount', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 }

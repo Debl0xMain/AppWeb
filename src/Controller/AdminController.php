@@ -6,7 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\OrdersRepository;
+use App\Repository\SupplierRepository;
 use App\Repository\DeliveryRepository;
+use App\Repository\UsersRepository;
 use App\Repository\ProductOrdersRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,12 +18,16 @@ class AdminController extends AbstractController
     private $OrdersRepo;
     private $deliveryRepo;
     private $pro_ordRepo;
+    private $UsersRepo;
+    private $supplierRepo;
 
-    public function __construct(OrdersRepository $OrdersRepo, DeliveryRepository $deliveryRepo,ProductOrdersRepository $pro_ordRepo){
+    public function __construct(OrdersRepository $OrdersRepo, DeliveryRepository $deliveryRepo,ProductOrdersRepository $pro_ordRepo,UsersRepository $UsersRepo,SupplierRepository $supplierRepo){
 
         $this->OrdersRepo = $OrdersRepo;
         $this->deliveryRepo = $deliveryRepo;
         $this->pro_ordRepo = $pro_ordRepo;
+        $this->UsersRepo = $UsersRepo;
+        $this->supplierRepo = $supplierRepo;
 
     }
    
@@ -60,7 +66,6 @@ class AdminController extends AbstractController
 
         $delivery_number = $this->deliveryRepo->delivery_number();
 
-
         $top10_quantity = $this->pro_ordRepo->top10_quantity($year_top);
         $top10_price = $this->pro_ordRepo->top10_price($year_top);
 
@@ -71,12 +76,25 @@ class AdminController extends AbstractController
             'type_client_pro' => $cli_pro[0][1],
             'delivery_number' => $delivery_number,
             'top10_price' => $top10_price,
-            "top10_quantity" => $top10_quantity
+            "top10_quantity" => $top10_quantity,
         ]);
     }
 
                                                     // // // Ajax \\ \\ \\
+//Ca Supplier 
+#[Route('/set_year_ca_supplier', name: 'app_set_year_ca_supplier')]
+public function set_year_ca_supplier(Request $request,OrdersRepository $OrdersRepo): Response
+{
+    $m = [1,2,3,4,5,6,7,8,9,10,11,12];
+    if($request->isXmlHttpRequest()) {
+        // CA/Années
+        $year_ca_sup = $request->request->get('set_year_ca_supplier');
 
+        $ca_supplier = $this->supplierRepo->ca_supplier($year_ca_sup);
+
+        return new JsonResponse($ca_supplier);
+    }
+}
 // Stats chiffre d'affaire entreprise année / mois
     #[Route('/ajax_stats_year', name: 'app_ajax_stats_year')]
     public function ajax_stats_year(Request $request,OrdersRepository $OrdersRepo): Response
@@ -154,6 +172,22 @@ class AdminController extends AbstractController
 
             $table = json_encode($table_json);
             
+
+            return new JsonResponse($table);
+        }
+    }
+
+    #[Route('/ajax_year_user_ca', name: 'app_ajax_year_user_ca')]
+    public function ajax_year_user_ca(Request $request): Response
+    {
+
+        if($request->isXmlHttpRequest()) {
+
+            $year_user_ca = $request->request->get('select_year_client_top');
+
+            $top10_client = $this->UsersRepo->top10_client($year_user_ca);
+
+            $table = json_encode($top10_client);
 
             return new JsonResponse($table);
         }

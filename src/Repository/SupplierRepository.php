@@ -21,28 +21,22 @@ class SupplierRepository extends ServiceEntityRepository
         parent::__construct($registry, Supplier::class);
     }
 
-//    /**
-//     * @return Supplier[] Returns an array of Supplier objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   public function ca_supplier($year): array
+   {
+    return $this->createQueryBuilder('s')
+    ->select('s.supRef, s.supName, SUM(po.price_ligneht) as ca_supplier')
+    ->join('s.products', 'p')
+    ->join('p.productOrders', 'po')
+    ->join('po.orders' , 'o')
+    ->where('o.ordDateBill BETWEEN :start_date AND :end_date')
+    ->andWhere('o.ordStatusBill = :status')
+    ->setParameter('start_date', $year.'-01-01')
+    ->setParameter('end_date', $year.'-12-31')
+    ->setParameter('status', 2)
+    ->groupBy('s.id')
+    ->orderBy('ca_supplier', 'DESC')
+    ->getQuery()
+    ->getResult();
+   }
 
-//    public function findOneBySomeField($value): ?Supplier
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
