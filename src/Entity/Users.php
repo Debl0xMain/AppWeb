@@ -75,6 +75,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: 'users')]
     private Collection $adresses;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Panier $panier = null;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -363,6 +366,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
                 $adress->setUsers(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPanier(): ?Panier
+    {
+        return $this->panier;
+    }
+
+    public function setPanier(?Panier $panier): static
+    {
+        $this->panier = $panier;
 
         return $this;
     }
