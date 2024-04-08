@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body %}
-<aside class="row mx-5 px-5 my-3 graph_height">
+<section class="row mx-5 px-5 my-3 graph_height">
     {# Ca/Mouth #}
     <section class="col text-center graph_responsive">
         <article class="mx-5 py-3 row">
@@ -47,9 +47,9 @@
         </article>
     </section>
 
-</aside>
+</section>
 {# ca Supplier #}
-<aside class="row mx-5 px-5 my-3">
+<section class="row mx-5 px-5 my-3">
     <section class="col text-center px-5">
         <article class="mx-5 py-3 row">
             <h4>Ca Fourniseur </h4>
@@ -78,9 +78,9 @@
             <div class="row mx-auto z-n1 position-absolute p-5 rounded-3" id="piechart" style="width: 900px;height: 500px"></div>
         </article>
     </section>
-</aside>
+</section>
 {# Top 10 #}
-<aside class="row mx-5 px-5 my-5">
+<section class="row mx-5 px-5 my-5">
     <section class="col text-center graph_responsive mb-5">
         <article class="mx-5 py-3 row">
             <h4>Top 10 produit </h4>
@@ -166,15 +166,24 @@
         </div>               
     </section>
 
-</aside>
+</section>
 
-
-
-<div class="my-5 cache_misere">y</div>
-<div class="my-5 cache_misere">y</div>
-<div class="my-3 cache_misere">y</div>
-
-
+<section class="text-center mb-5">
+<h3>Liste Client</h3>
+    <article class="row text-center px-5">
+    {% for client_info in client_info %}
+        <div class="border col-md mx-5 my-2">
+            <p class="my-1">{{ client_info.userName }}</p>
+            <p>{{ client_info.userFristName }}</p>
+            <p>{{ client_info.userRef }}</p>
+            <div class='row my-1'>
+                    <a class="col mx-1" href='mailto:{{ client_info.userEmail }}'><i class="fa-solid fa-envelope"></i></a>
+                    <a class="col mx-1" href='tel:{{ client_info.UserPhone }}'><i class="fa-solid fa-phone"></i></a>
+            </div>
+        </div>
+    {% endfor %}
+    </article>
+</section>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src={{asset('assets/js/select_year.js')}}></script>
