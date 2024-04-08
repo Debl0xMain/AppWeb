@@ -8,6 +8,7 @@ use App\Repository\CategoryRepository;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Entity\Users;
 use App\Repository\UsersRepository;
+use App\Repository\PanierRepository;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,11 +19,13 @@ class FragementController extends AbstractController
 {
     private $CategoryRepo;
     private $userRepo;
+    private $PanierRepository;
 
-    public function __construct(CategoryRepository $CategoryRepo,UsersRepository $userRepo)
+    public function __construct(CategoryRepository $CategoryRepo,UsersRepository $userRepo,PanierRepository $PanierRepository)
     {   
         $this->userRepo = $userRepo;
         $this->CategoryRepo = $CategoryRepo;
+        $this->PanierRepository = $PanierRepository;
 
     }
 
@@ -61,12 +64,18 @@ class FragementController extends AbstractController
             'last_username' => $lastUsername,
         ]);
     }
-    public function panier(AuthenticationUtils $authenticationUtils,Request $request): Response
+
+
+    public function panier(Request $request): Response
     {
-        //    
+        $user =  $this->getUser();
+        
+        $panier_client = $this->PanierRepository->findBy(array('user' => $user));
 
         return $this->render('frag/_panier.html.twig', [
             'controller_name' => 'HomeController',
+            'panier_client' => $panier_client
         ]);
     }
+
 }

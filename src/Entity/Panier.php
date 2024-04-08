@@ -17,37 +17,18 @@ class Panier
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $idProduit = null;
-
-    #[ORM\Column]
     private ?int $QuantityProduit = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $PriceUser = null;
 
-    #[ORM\OneToMany(targetEntity: Users::class, mappedBy: 'panier')]
-    private Collection $users;
 
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'paniers')]
+    private ?Product $produit = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdProduit(): ?int
-    {
-        return $this->idProduit;
-    }
-
-    public function setIdProduit(int $idProduit): static
-    {
-        $this->idProduit = $idProduit;
-
-        return $this;
     }
 
     public function getQuantityProduit(): ?int
@@ -74,33 +55,16 @@ class Panier
         return $this;
     }
 
-    /**
-     * @return Collection<int, Users>
-     */
-    public function getUsers(): Collection
+    public function getProduit(): ?Product
     {
-        return $this->users;
+        return $this->produit;
     }
 
-    public function addUser(Users $user): static
+    public function setProduit(?Product $produit): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setPanier($this);
-        }
+        $this->produit = $produit;
 
         return $this;
     }
 
-    public function removeUser(Users $user): static
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getPanier() === $this) {
-                $user->setPanier(null);
-            }
-        }
-
-        return $this;
-    }
 }

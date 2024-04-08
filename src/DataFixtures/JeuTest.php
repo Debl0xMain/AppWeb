@@ -6,6 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\Adress;
+use App\Entity\Panier;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\Delivery;
@@ -1361,6 +1362,43 @@ class JeuTest extends Fixture
                                     $order[$i]->setOrdPrixTotalHT($prix_cmd_ht);
                                     
                                     $manager->persist($order[$i]);
+                            }
+
+                            for ($i = 1; $i <= 3; $i++) {
+                                var_dump("panier ".$i);
+                                
+                                $productset = [
+                                    $product1, $product2, $product3, $product4, $product5,
+                                    $product6, $product7, $product8, $product9, $product10,
+                                    $product11, $product12, $product13, $product14, $product15,
+                                    $product16, $product17, $product18, $product19, $product20,
+                                    $product21, $product22, $product23, $product24, $product25,
+                                    $product26, $product27, $product28, $product29, $product30,
+                                    $product31, $product32, $product33, $product34, $product35,
+                                    $product36, $product37, $product38, $product39, $product40,
+                                    $product41, $product42, $product43, $product44, $product45
+                                ];
+                                $productnombre_set = rand(0,43);
+                                $quantityboucle_set = rand(1,8);
+
+                                $coef = $user[1]->getuserCoefficient();
+                                $productnombre = $productnombre_set;
+                                $prixhtproduit = $productset[$productnombre]->getproPriceHT();
+                                
+                                $pricepanier = $coef * $prixhtproduit;
+                                $id_produit = $productset[$productnombre]->getId();
+
+                                $panier = new Panier();
+
+                                $panier->setProduit($productset[$productnombre]);
+                                $panier->setQuantityProduit($quantityboucle_set);
+                                $panier->setPriceUser($pricepanier);
+                                $panier->addUser($user[1]);
+
+                                
+                                $manager->persist($panier);
+
+                                
                             }
                         
         // Send data

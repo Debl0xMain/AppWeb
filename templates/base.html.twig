@@ -22,6 +22,12 @@
         {{ render(controller(
             'App\\Controller\\FragementController::navbar'
         )) }}
+        {# panier #}
+        {% if app.user %}
+                {{ render(controller(
+            'App\\Controller\\FragementController::panier'
+        )) }}{% endif %}
+        
     {# BodyBlock #}
         {% block body %}
         {% endblock %}

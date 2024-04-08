@@ -1,4 +1,71 @@
-<button type="button" class="btn btn btn-outline-success" id="shopbtn" data-bs-toggle="modal" data-bs-target="#basket-shopping">
-    <i class="fa-sharp fa-solid fa-basket-shopping"></i>
-    <p class="resp_text" id="btnlogintext">Panier</p>
-</button>
+{# Modal Panier#}
+
+<div class="modal fade" id="basket-shopping" tabindex="-1" aria-labelledby="basket-shoppingLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content shopmodal">
+      <div class="modal-header text-center mx-auto">
+        <i class="fa-sharp fa-solid fa-basket-shopping mx-2"></i>
+        <h5 class="modal-title" id="basket-shoppingLabel">Panier</h5>
+        <i class="fa-sharp fa-solid fa-basket-shopping mx-2"></i>
+      </div>
+      <div class="modal-body">
+      {# Panier #}
+        <section class="row px-2">
+
+            <article class="row text-center">
+                <div class="col">
+                    <p>Produit</p>
+                </div>
+                <p class="col">Nom</p>
+                <p class="col">Prix|u</p>
+                <div class='col row'>
+                    <p class="row">Quantite</p>
+                </div>
+                <p class="col">Prix|q</p>
+                <p class="col-sm">Delete</p>
+            </article>
+            <hr class="my-2">
+
+            {# Start Ligne Panier #}
+            <article class="row text-center">
+                <div class="col">
+                    <img src="{{ asset('assets/product/arrangeur.jpg') }}" alt="ProduitImage" style="height:50px; width:50px;">
+                </div>
+                <p class="col">Piano</p>
+                <p class="col">605€</p>
+                <div class='col row text-center'>
+                    <p class="row">6</p>
+                    <div class="row">
+                        <button class="col-sm btn btn-outline-secondary sup_quantity">-</button>
+                        <button class="col-sm btn btn-outline-primary add_quantity">+</button>
+                    </div>
+                </div>
+                <p class="col">9542€</p>
+                <div class="col">
+                    <button class="col-sm btn btn-outline-danger">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </article>
+            <hr class="my-2">
+            {# End Ligne Panier #}
+
+        </section>
+        {# Start Prix Panier #}
+        <div class="modal-footer my-1 row">
+          <p class="col">Montant du panier</p>
+          <div class="col bg-white text-center text-uppercase">
+            <p class="my-1 prix_total_panier">250.952€</p>
+          </div>
+        </div>
+        {# End Prix Panier #}
+
+        <!-- Modal footer with Close button and Payment link -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">Close</button>
+          <a href="" type="submit" class="btn btn-outline-primary">Paiement</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
