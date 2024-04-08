@@ -61,4 +61,12 @@ class FragementController extends AbstractController
             'last_username' => $lastUsername,
         ]);
     }
+    public function panier(AuthenticationUtils $authenticationUtils,Request $request): Response
+    {
+        //    
+
+        return $this->render('frag/_panier.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }

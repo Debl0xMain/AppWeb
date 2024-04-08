@@ -98,38 +98,3 @@
 </div>
 
 {% endif %}
-{# Modal Panier#}
-<div class="modal fade" id="basket-shopping" tabindex="-1" aria-labelledby="basket-shoppingLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content shopmodal">
-      <div class="modal-header text-center mx-auto">
-        <i class="fa-sharp fa-solid fa-basket-shopping mx-2"></i>
-        <h5 class="modal-title" id="basket-shoppingLabel">Panier</h5>
-        <i class="fa-sharp fa-solid fa-basket-shopping mx-2"></i>
-      </div>
-      <div class="modal-body text-center">
-        <!-- Basket items -->
-        {# Example basket item #}
-        <div class="row rows-col-4 panierrow${id}" id='panierrow${id}'>
-          <!-- Basket item details -->
-        </div>
-        <hr class="mx-5 my-0">
-        <!-- More basket items -->
-
-        <!-- Footer displaying the total amount of the basket -->
-        <div class="modal-footer my-1 row">
-          <p class="col">Montant du panier</p>
-          <div class="col bg-white text-center text-uppercase panier_montant">
-            <p class="my-1">250.952€</p>
-          </div>
-        </div>
-
-        <!-- Modal footer with Close button and Payment link -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-danger mx-2" data-bs-dismiss="modal">Close</button>
-          <a href="" type="submit" class="btn btn-outline-primary">Paiement</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>

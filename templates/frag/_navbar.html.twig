@@ -160,11 +160,11 @@
                     {% if app.user %}
                         {% if app.user.roles[0] == 'ROLE_USER' or app.user.roles[0] == 'ROLE_PRO' %}
                             <div class="navbar_case col">
-                                <button type="button" class="btn btn btn-outline-success" id="shopbtn" data-bs-toggle="modal" data-bs-target="#basket-shopping">
-                                    <i class="fa-sharp fa-solid fa-basket-shopping"></i>
-                                    <p class="resp_text" id="btnlogintext">Panier</p>
-                                </button>
+                                    {{ render(controller(
+                                        'App\\Controller\\FragementController::panier'
+                                    )) }}
                             </div>
+ 
                         {% endif %}
                     {% endif %}
                     {% if app.user == null %}
