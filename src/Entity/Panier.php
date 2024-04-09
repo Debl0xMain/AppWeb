@@ -22,9 +22,11 @@ class Panier
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $PriceUser = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'paniers')]
-    private ?Product $produit = null;
+    private ?Users $users = null;
+
+    #[ORM\ManyToOne]
+    private ?Product $products = null;
 
     public function getId(): ?int
     {
@@ -55,14 +57,31 @@ class Panier
         return $this;
     }
 
-    public function getProduit(): ?Product
+    public function getUsers(): ?Users
     {
-        return $this->produit;
+        return $this->users;
     }
 
-    public function setProduit(?Product $produit): static
+    public function setUsers(?Users $users): static
     {
-        $this->produit = $produit;
+        $this->users = $users;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->id;
+    }
+
+    public function getProducts(): ?Product
+    {
+        return $this->products;
+    }
+
+    public function setProducts(?Product $products): static
+    {
+        $this->products = $products;
 
         return $this;
     }

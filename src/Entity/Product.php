@@ -46,14 +46,11 @@ class Product
     #[ORM\OneToMany(targetEntity: ProductOrders::class, mappedBy: 'product')]
     private Collection $productOrders;
 
-    #[ORM\OneToMany(targetEntity: Panier::class, mappedBy: 'produit')]
-    private Collection $paniers;
 
     public function __construct()
     {
         $this->productDeliveries = new ArrayCollection();
         $this->productOrders = new ArrayCollection();
-        $this->paniers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,7 +58,7 @@ class Product
         return $this->id;
     }
 
-    public function getProName(): ?string
+    public function getProName(): ?string 
     {
         return $this->proName;
     }
@@ -216,34 +213,9 @@ class Product
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Panier>
-     */
-    public function getPaniers(): Collection
+    public function __toString()
     {
-        return $this->paniers;
+        return $this->id;
     }
 
-    public function addPanier(Panier $panier): static
-    {
-        if (!$this->paniers->contains($panier)) {
-            $this->paniers->add($panier);
-            $panier->setProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removePanier(Panier $panier): static
-    {
-        if ($this->paniers->removeElement($panier)) {
-            // set the owning side to null (unless already changed)
-            if ($panier->getProduit() === $this) {
-                $panier->setProduit(null);
-            }
-        }
-
-        return $this;
-    }
 }

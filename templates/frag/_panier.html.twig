@@ -25,40 +25,41 @@
                 <p class="col-sm">Delete</p>
             </article>
             <hr class="my-2">
-
+        {% for panier in panier_client.paniers %}
             {# Start Ligne Panier #}
-            <article class="row text-center">
-                <div class="col">
-                    <img src="{{ asset('assets/product/arrangeur.jpg') }}" alt="ProduitImage" style="height:50px; width:50px;">
-                </div>
-                <p class="col">Piano</p>
-                <p class="col">605€</p>
-                <div class='col row text-center'>
-                    <p class="row">6</p>
-                    <div class="row">
-                        <button class="col-sm btn btn-outline-secondary sup_quantity">-</button>
-                        <button class="col-sm btn btn-outline-primary add_quantity">+</button>
-                    </div>
-                </div>
-                <p class="col">9542€</p>
-                <div class="col">
-                    <button class="col-sm btn btn-outline-danger">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </div>
+            <article class="row text-center ligne_panier_{{ panier.id }}">
+                  {% for product in product %}
+                  {% if product == panier.Products %}
+                  <div class="col">
+                      <img src={{ asset('assets/product/' ~ product.proPictureName ) }} alt={{ product.proName }} style="height:50px; width:50px;">
+                  </div>
+                  <p class="col">{{ product.proName }}</p>
+                  {% endif %}
+                  {% endfor %}
+                  <p class="col">{{ panier.PriceUser|number_format(2, ',', ' ' ) }} €</p>
+                  <div class='col row text-center'>
+                      <p class="row" id='quantity_{{ panier.id }}'>{{ panier.QuantityProduit }}</p>
+                      <div class="row">
+                          <button class="col-sm btn btn-outline-secondary sup_quantity quantity_sup" value={{panier.id}}>-</button>
+                          <button class="col-sm btn btn-outline-primary add_quantity quantity_add" value={{panier.id}}>+</button>
+                      </div>
+                  </div>
+                  {% set price_ligne = panier.PriceUser * panier.QuantityProduit %}
+                  <p class="col" id='quanity_price_{{ panier.id }}'>{{ price_ligne|number_format(2, ',', ' ' )}} €</p>
+                  <div class="col">
+                      <button class="col-sm btn btn-outline-danger ligne_del" value={{panier.id}}>
+                          <i class="fa-solid fa-trash"></i>
+                      </button>
+                  </div>
+                <hr class="my-2">
             </article>
-            <hr class="my-2">
             {# End Ligne Panier #}
+        {% endfor %}
 
-        </section>
-        {# Start Prix Panier #}
-        <div class="modal-footer my-1 row">
-          <p class="col">Montant du panier</p>
-          <div class="col bg-white text-center text-uppercase">
-            <p class="my-1 prix_total_panier">250.952€</p>
-          </div>
-        </div>
-        {# End Prix Panier #}
+        <article class="row text-center">
+        <p id='input_total_price_view_client'>Prix Panier : {{ prix_total|number_format(2, ',', ' ' ) }} €</p>
+        <input type="text" id='input_total_price' value={{ prix_total }} hidden/>
+        </article>
 
         <!-- Modal footer with Close button and Payment link -->
         <div class="modal-footer">
@@ -69,3 +70,4 @@
     </div>
   </div>
 </div>
+<script src={{ asset('assets/js/panier.js') }}></script>

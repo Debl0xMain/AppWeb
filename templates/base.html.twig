@@ -19,14 +19,18 @@
     </head>
     <body>
     {# navbar #}
+    
         {{ render(controller(
             'App\\Controller\\FragementController::navbar'
         )) }}
         {# panier #}
         {% if app.user %}
+            {% if app.user.roles[0]  == 'ROLE_USER' or app.user.roles[0]  == 'ROLE_PRO' %}
                 {{ render(controller(
-            'App\\Controller\\FragementController::panier'
-        )) }}{% endif %}
+                'App\\Controller\\FragementController::panier'
+                )) }}
+            {% endif %}
+        {% endif %}
         
     {# BodyBlock #}
         {% block body %}

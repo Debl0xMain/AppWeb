@@ -75,11 +75,15 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: 'users')]
     private Collection $adresses;
 
+    #[ORM\OneToMany(targetEntity: Panier::class, mappedBy: 'users')]
+    private Collection $paniers;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->ref_commercial = new ArrayCollection();
         $this->adresses = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
     }
 
 
@@ -361,6 +365,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($adress->getUsers() === $this) {
                 $adress->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): static
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): static
+    {
+        if ($this->paniers->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getUsers() === $this) {
+                $panier->setUsers(null);
             }
         }
 

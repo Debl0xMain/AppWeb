@@ -1390,10 +1390,10 @@ class JeuTest extends Fixture
 
                                 $panier = new Panier();
 
-                                $panier->setProduit($productset[$productnombre]);
+                                $panier->setProducts($productset[$productnombre]);
                                 $panier->setQuantityProduit($quantityboucle_set);
                                 $panier->setPriceUser($pricepanier);
-                                $panier->addUser($user[1]);
+                                $panier->setUsers($user[1]);
 
                                 
                                 $manager->persist($panier);
