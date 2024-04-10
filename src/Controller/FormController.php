@@ -45,7 +45,34 @@ class FormController extends AbstractController
                     }
                 }
             }
-        
+    }
+    #[Route('/formadress_cmd', name: 'app_formadress_cmd')]
+    public function formadress(AdressFormType $formAdress,Request $request,EntityManagerInterface $entityManager): Response
+    {
+        //verif id user exist
+        $userid = $this->getUser()->getId();
+        if ($userid)
+        {
+            //Create Form Type
+            $newAdress = new Adress;
+            $formAdress = $this->createForm(AdressFormType::class,$newAdress); 
+            $formAdress->handleRequest($request);
+                //Create New Adress
+                if ($formAdress->isSubmitted() && $formAdress->isValid()) {
+                    //Check user exist
+                    $user_found = $formAdress->get('users')->getData();
+                    //Verif User login == User request form
+                        /** @var Adress $Adress */
+                        $data = $formAdress->getData();
+                        $message = $data;
+
+                        $entityManager->persist($message);
+                        $entityManager->flush();
+                        $this->addFlash('success', 'Votre Adresse a été ajouté');
+                        return $this->redirectToRoute('app_commande');
+                    }
+                
+        }
     }
 
     #[Route('/formuser', name: 'app_formuser')]

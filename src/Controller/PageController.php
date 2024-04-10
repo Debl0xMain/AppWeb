@@ -85,6 +85,41 @@ class PageController extends AbstractController
         
     }
 
+    #[Route('/commande', name: 'app_commande')]
+    public function commande(Request $request): Response
+    {
+        $user = $this->getUser();
+        $panier = $user->getPaniers();
+
+
+        if(isset($resultats) != true) {
+            $resultats[] = 0; 
+           }
+        foreach ($panier as $paniers) {
+         $quantityProduit = $paniers->getQuantityProduit();
+         $priceUser = $paniers->getPriceUser();
+         
+         $resultats[] = $quantityProduit * $priceUser;
+        }
+        
+        $prix_total = array_sum($resultats);
+
+         $newAdress = new Adress;
+         $formAdress = $this->createForm(AdressFormType::class,$newAdress);
+         $formAdress->handleRequest($request);
+         $formAdress->get("users")->setData($user);
+
+
+            return $this->render('page/confirmation_panier.html.twig', [
+                'panier'=> $panier,
+                'prix_total' => $prix_total,
+                'formAdress' => $formAdress->createView()
+            ]);
+        
+    }
+
    
 }
-
+// adress de facturation differante de livrasion yes or not : id='disabled_facturation'
+// id adress livraison : adress_cmd_valid_livraison
+// id adress facturation : adress_cmd_valid_facturation

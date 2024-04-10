@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande{% endblock %}
+
+{% block body %}
+{% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+{% endfor %}
+{# 1 Row :  User | Adress #}
+<section class='row my-3'>
+    {# User info #}
+    <article class="col py-3 border text-center py-4 px-3">
+        <p>{{ app.user.userName }}</p>
+        <p>{{ app.user.userFristName }}</p>
+        <p>{{ app.user.userRef }}</p>
+        {% if app.user.userCompanySiret != null %}
+            <p>{{ app.user.userCompanyName }}</p>
+            <p>{{ app.user.userCompanySiret }}</p>
+        {% endif %}
+    </article>
+    {# Livraison Info #}
+    <article class="col py-3 border text-center">
+    <h3>Adresse Livraison</h3>
+        <select class="text-center adress_cmd_valid_livraison" name="adress_cmd_valid_livraison" id="adress_cmd_valid_livraison">
+            <option value="0" select> -- Selection d'une adresse -- </option>
+            {% for adresse in app.user.adresses %}
+                <option value={{ adresse.id }}>-- {{ adresse.adrNumber }} {{ adresse.adrStreet }} {{ adresse.adrCity }} {{ adresse.adrZipCode }} -- </option>
+            {% endfor %}
+            <option value="new">-- Ajout d'une nouvelle adresse --</option>
+        </select>
+    <article class="my-2">
+        <input class="form-check-input" type="checkbox" id='disabled_facturation'>
+        <label for="disabled_facturation">Utiliser une adresse de facturation différente</label>
+    </article>
+    <div>
+    <h3>Adresse Facturation</h3>
+        <select class="text-center adress_cmd_valid_facturation" name="adress_cmd_valid_facturation" id="adress_cmd_valid_facturation" disabled>
+            <option value="0" select> -- Selection d'une adresse -- </option>
+            {% for adresse in app.user.adresses %}
+                <option value={{ adresse.id }}>-- {{ adresse.adrNumber }} {{ adresse.adrStreet }} {{ adresse.adrCity }} {{ adresse.adrZipCode }} -- </option>
+            
+            {% endfor %}
+             <option value="new">-- Ajout d'une nouvelle adresse --</option>
+        </select>
+    </div>
+    </article>
+</section>
+{# Information Produit #}
+<section class="row text-center">
+    <article class="row">
+        <div class='col border'>Produit</div>
+        <div class='col border'>Prix unite</div>
+        <div class='col border'>Quantite</div>
+        <div class='col border'>Prix quantite</div>
+    </article>
+    {% for panier in panier %}
+    <article class="row">
+        {% set PriceQuantity = panier.PriceUser * panier.QuantityProduit %}
+        <div class='col border'>{{ panier.products.proName }}</div>
+                <div class='col border'>{{ panier.PriceUser|number_format(2, ',', ' ' ) }} €</div>
+        <div class='col border'>{{ panier.QuantityProduit }}</div>
+        <div class='col border'>{{ PriceQuantity|number_format(2, ',', ' ' ) }} €</div>
+    </article>
+    {% endfor %}
+    <article class='row'>
+        <div class='col border'></div>
+        <div class='col border'></div>
+        <div class='col border'>Prix Total </div>
+        <div class='col border'>{{ prix_total|number_format(2, ',', ' ' ) }} €</div>
+    </article>
+</section>
+{# Set livraison #}
+<section class="my-5">
+    {% for panier in panier %}
+    <div class="quantity_{{panier.id}}" id='quantity_{{panier.id}}_{{panier.QuantityProduit}}'></div>
+    <article class="row text-center">
+        <div class='col border col'>{{ panier.products.proName }}</div>
+        <div class='col border col-sm-1'>Quantité <br> {{ panier.QuantityProduit }}</div>
+
+
+        <div class="col border">
+        <p>Livraison en plusieurs fois </p>
+        <input type="checkbox" class="livraison_plusieurs form-check-input" name="livraison_plusieurs" value={{panier.id}}>
+        </div>
+        <div class='col mx-1 border row' id='div_selection_date_qte_{{ panier.id }}' hidden>
+
+            {# 1 #}
+           <article class="col col_{{panier.id}}_0">
+                <p>Quantité</p>
+                {% set i = 0 %}
+                <select class="qte_date_receive_info" name="qte_for_livraison_{{panier.id}}_0" id="qte_for_livraison_{{panier.id}}_0">
+                {% for i in 0.. panier.QuantityProduit %}
+                            <option value={{ i }}>{{ i }}</option>     
+                {% endfor %}
+                </select>
+                    <div id="date_livrasion_program_{{panier.id}}_0">
+                        <p>Date de livraison programmée : </p>
+                        <input type="date" name="date_for_livraison_{{panier.id}}_0" id="date_for_livraison_{{panier.id}}_0">
+                    </div>
+           </article>
+           {# 1 #}
+           
+            <div hidden id='id_produit_for_qte_delivery_{{panier.id}}'>{{ panier.id}}</div>
+            <div hidden id='qte_produit_max_cmd_{{panier.id}}'>{{panier.QuantityProduit}}</div>
+        </div>
+    </article>
+    {% endfor %}
+</section>
+
+
+
+
+
+
+
+
+
+
+{# Modal Add Adress #}
+<div class="modal fade" id="add_adress_cmd_modal" tabindex="-1" role="dialog" aria-labelledby="add_adress_cmd" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content px-4">
+      <div class="modal-header row">
+        <h5 class="modal-title text-center col">Add Adress</h5>
+        <button type="button" class="close btn btn-outline-danger col-1" data-dismiss="modal" aria-label="Close" id='adress_cmd_close_modal'>
+            X
+        </button>
+      </div>
+      <div class="modal-body px-2 text-center">
+                <form method="post" action="{{ path('app_formadress_cmd')}}">
+            {{ form_errors(formAdress) }}
+            {{ form_start(formAdress) }}
+                {{ form_row(formAdress.adrNumber) }}
+                {{ form_row(formAdress.adrStreet) }}
+                {{ form_row(formAdress.adrCity) }}
+                {{ form_row(formAdress.adrZipCode) }}
+                {{ form_row(formAdress.adrAddInfo) }}
+                <div hidden>
+                {{ form_row(formAdress.users) }}</div>
+            {{ form_end(formAdress) }}
+        <form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src={{ asset('assets/js/validation_cmd.js') }}></script>
+{% endblock %}
