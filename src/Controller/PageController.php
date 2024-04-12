@@ -118,8 +118,26 @@ class PageController extends AbstractController
         
     }
 
+    #[Route('/paiement', name: 'app_paiement')]
+    public function paiement(Request $request): Response
+    {
+        $user = $this->getUser();
+        $panier = $user->getPaniers();
+
+        foreach ($panier as $paniers) {
+            $quantityProduit = $paniers->getQuantityProduit();
+            $priceUser = $paniers->getPriceUser();
+            
+            $resultats[] = $quantityProduit * $priceUser;
+           }
+           
+           $prix = array_sum($resultats);
+
+            return $this->render('page/paiement.html.twig', [
+                'prix' => $prix
+            ]);
+        
+    }
+
    
 }
-// adress de facturation differante de livrasion yes or not : id='disabled_facturation'
-// id adress livraison : adress_cmd_valid_livraison
-// id adress facturation : adress_cmd_valid_facturation

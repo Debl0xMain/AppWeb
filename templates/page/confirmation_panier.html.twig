@@ -109,15 +109,6 @@
     {% endfor %}
 </section>
 
-
-
-
-
-
-
-
-
-
 {# Modal Add Adress #}
 <div class="modal fade" id="add_adress_cmd_modal" tabindex="-1" role="dialog" aria-labelledby="add_adress_cmd" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -145,6 +136,43 @@
     </div>
   </div>
 </div>
+
+
+{# paiement #}
+<button type="button" class="btn btn-primary" id='paiement_btn'>
+  Paiement
+</button>
+
+{# modal paiement #}
+<div class="modal fade" id="paiement_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header row">
+                <h5 class="modal-title text-center col">Paiement</h5>
+                <button type="button" class="close btn btn-outline-danger col-1" data-dismiss="modal" aria-label="Close" id="paiement_btn_close_modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div id="paiement_set_info">
+                    <input type="checkbox" id="je_paie"> <label for="je_paie">Je paie</label>
+                    <br>
+                    <input type="checkbox" id="je_paie_pas"> <label for="je_paie_pas">Je paie pas</label>
+                </div>
+                <div class="my-2" id="attente_receive_data" hidden>
+                    <div class="d-flex align-items-center">
+                        <strong>En attente de la validation du paiement</strong>
+                        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer px-auto">
+                <button type="button" class="btn btn-outline-primary mx-auto" id="request_valid_paiement">Paiement</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src={{ asset('assets/js/validation_cmd.js') }}></script>
 {% endblock %}

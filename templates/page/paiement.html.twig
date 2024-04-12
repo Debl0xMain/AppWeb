@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    {# Meta #}
+        <meta charset="UTF-8">
+        <meta name="title" content="Green Village" />
+	    <meta name="description" content= "Magasin de musique !" />
+    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="theme-color" content="#3c790a" media="(prefers-color-scheme: dark)">
+        <meta name="color-scheme" content="dark light">
+        <title>{% block title %}Paiement{% endblock %}</title>
+    {# links #}
+     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" href={{asset('assets/logo/logogv.png')}} />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        {% block stylesheets %}
+        {% endblock %}
+    </head>
+    <body class="mx-auto py-auto text-center py-5 my-5">
+    <article class="py-5 my-5">
+        <div class="border w-25 my-2  mx-auto rounded row">
+            <h1>Paiement</h1>
+            <h3>Prix : {{prix|number_format(2, ',', ' ' ) }} €</h3>
+        </div>
+        <div class="border w-25 my-2  mx-auto rounded">
+            <section>
+                <p>Moyen de Paiement</p>
+                <div class="my-3">
+                    <button class="fa-solid fa-credit-card btn btn-outline-secondary mx-1 btn_press" title="Credit Card" id='card_'></button>
+                    <button class="fa-brands fa-paypal btn btn-outline-secondary mx-1 btn_press" title="Paypal" id="paypal_"></button>
+                    <button class="fa-brands fa-bitcoin btn btn-outline-secondary mx-1 btn_press" title="Bitcoin" id="bitcoin_"></button>
+                    <button class="fa-solid fa-gift btn btn-outline-secondary mx-1 btn_press" title="Gift Card" id="gift_"></button>
+                </div>
+            </section>
+        </div>
+        {# Paiement Carte #}
+        <section class="border w-25 my-2  mx-auto rounded" id="card_section">
+            <div class="mx-4 my-5">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" >nº carte</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" >Nom</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" >Cryptogramme</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+        </section>
+        {# Paypal #}
+        <section class="border w-25 my-2  mx-auto rounded" id="paypal_section">
+            <div id='credit_card' class="mx-4 my-5">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Mail Paypal</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+        </section>
+            {# Bitcoin #}
+        <section class="border w-25 my-2  mx-auto rounded" id="bitcoin_section">
+            <div id='credit_card' class="mx-4 my-5">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" >Adresse Portefeuille</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+        </section>
+        {# Gift #}
+        <section class="border w-25 my-2  mx-auto rounded" id="gift_section">
+            <div class="mx-4 my-5">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" >nº Gift Card</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+        </section>
+            <section class=" w-25 my-2  mx-auto rounded">
+                <button class="btn btn-outline-secondary">Payement</button>
+        </section>
+    </article>
+
+
+        <script src={{asset('assets/js/paiement.js')}}></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/3fd2d451cc.js" crossorigin="anonymous"></script>
+    </body>
+</html>
+
