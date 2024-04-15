@@ -1,17 +1,12 @@
 # A faire :
 Api :
     -Crée Api
-Page Admin :
-    -EasyAdmin
 Profil :
     -modife adress {Id a passe lors de l'ajax}
 Base Site : 
     -Accueil
     -catalogue react /!\ Api a crée avent /!\
 Service Back/Front :
-    -panier service | Panier Cote Client | Panier Cote Serveur
-    -Validation Commande | Livraison Differe 
-    -Paiement Commande
     -verif formulaire inscription + mail
     -securise admin non admin {#IsGranted}
 Front :
@@ -21,10 +16,12 @@ Front :
 
 
 # En cours :
-   Page Admin :
-        -Liste Client du com connecte X
+
 
 # Fait :
+    Service Back/Front :
+        -panier service | Panier Cote Client | Panier Cote Serveur
+        -Validation Commande | Livraison Differe 
     Page Stats Admin :
         -top 10 produit Années Ca ou vente 
         -top 10 client Pro ou particulier 
@@ -32,6 +29,9 @@ Front :
         -top 10 client 
     Pdf :
         -template pdf facture | Bon de livraison | Devis
+    Page Admin :
+        -EasyAdmin
+        -Liste Client du com connecte X
     Base Site :
         -template base
         -entity
