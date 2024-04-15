@@ -19,7 +19,7 @@
     <body class="mx-auto py-auto text-center py-5 my-5">
     <article class="py-5 my-5">
         <div class="border w-25 my-2  mx-auto rounded row">
-            <h1>Paiement</h1>
+            <h2>Paiement</h2>
             <h3>Prix : {{prix|number_format(2, ',', ' ' ) }} €</h3>
         </div>
         <div class="border w-25 my-2  mx-auto rounded">
@@ -89,8 +89,18 @@
                 </div>
             </div>
         </section>
-            <section class=" w-25 my-2  mx-auto rounded">
-                <button class="btn btn-outline-secondary">Payement</button>
+{# 
+ #}
+ <div class="form-check text-center px-5 mx-5 d-flex justify-content-center w25">
+  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+  <label class="form-check-label" for="flexCheckChecked">
+Paiement Accepte ?
+  </label>
+</div>
+{# 
+#}
+        <section class=" w-25 my-2  mx-auto rounded">
+                <button class="btn btn-outline-secondary" id='send_data_paiement'>Paiement</button>
         </section>
     </article>
 

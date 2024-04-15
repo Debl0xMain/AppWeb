@@ -35,7 +35,7 @@
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
-                        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                        <h2 class="h3 mb-3 font-weight-normal">Please sign in</h2>
                         <label for="inputUserEmail">Email</label>
                         <input type="email" value="{{ last_username }}" name="userEmail" id="inputUserEmail" class="form-control" autocomplete="email" required autofocus>
                         <label for="inputpassword">password</label>
@@ -56,7 +56,7 @@
                         {% for flash_error in app.flashes('verify_email_error') %}
                             <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
                         {% endfor %}
-                        <h1 class="font-weight-bold">Inscription</h1>
+                        <h2 class="font-weight-bold">Inscription</h2>
                         {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
                             {{ form_widget(registrationForm) }}
                         {{ form_end(registrationForm) }}

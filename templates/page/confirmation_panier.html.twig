@@ -139,10 +139,11 @@
 
 
 {# paiement #}
-<button type="button" class="btn btn-primary" id='paiement_btn'>
+<section class="text-center">
+<button type="button" class="btn btn-primary text-center" id='paiement_btn'>
   Paiement
 </button>
-
+</section>
 {# modal paiement #}
 <div class="modal fade" id="paiement_modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -155,9 +156,7 @@
             </div>
             <div class="modal-body text-center">
                 <div id="paiement_set_info">
-                    <input type="checkbox" id="je_paie"> <label for="je_paie">Je paie</label>
-                    <br>
-                    <input type="checkbox" id="je_paie_pas"> <label for="je_paie_pas">Je paie pas</label>
+                    <p>Montant à payé {{ prix_total|number_format(2, ',', ' ' ) }} €</p>
                 </div>
                 <div class="my-2" id="attente_receive_data" hidden>
                     <div class="d-flex align-items-center">
@@ -166,8 +165,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer px-auto">
-                <button type="button" class="btn btn-outline-primary mx-auto" id="request_valid_paiement">Paiement</button>
+            <div class="modal-footer px-auto text-center">
+                <a class="btn btn-outline-primary mx-auto" id="request_valid_paiement">Paiement</a>
             </div>
         </div>
     </div>

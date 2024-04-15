@@ -109,7 +109,6 @@ class PageController extends AbstractController
          $formAdress->handleRequest($request);
          $formAdress->get("users")->setData($user);
 
-
             return $this->render('page/confirmation_panier.html.twig', [
                 'panier'=> $panier,
                 'prix_total' => $prix_total,
@@ -139,5 +138,20 @@ class PageController extends AbstractController
         
     }
 
-   
+    #[Route('/sys_paie', name: 'sys_paie')]
+    public function sys_paie(Request $request): Response
+    {
+        //Ajax request
+        if($request->isXmlHttpRequest()) {
+            $info_paiement = $request->request->get('paiement');
+            // apel service insertion commande base de donne
+            $user = $this->getUser();
+            $panier = $user->getPaniers();
+
+            
+            // 
+            return new JsonResponse($info_paiement);
+        }
+    }
 }
+
