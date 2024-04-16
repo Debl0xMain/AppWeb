@@ -153,5 +153,54 @@ class PageController extends AbstractController
             return new JsonResponse($info_paiement);
         }
     }
+
+
+
+    #[Route('/test', name: 'test')]
+    public function test(Request $request): Response
+    {
+        // Paramettre
+        $id_adress_livraison = $request->request->get('id_adress_livraison');
+        $id_adress_facturation = $request->request->get('id_adress_facturation');
+        if($id_adress_facturation === null){
+            $id_adress_facturation = $id_adress_livraison;
+        }
+
+        //info livraison plusieur fois
+        
+        // Recup user et panier
+        $user = $this->getUser();
+        $panier = $user->getPaniers();
+        $panier_produit = $panier;
+        $produit = [];
+        // Recherche des produits contenu dans le paniers
+        foreach ($panier as $paniers) {
+            $produit_panier = $paniers->getProducts();
+            
+            array_push($produit, $produit_panier);
+           }
+
+        
+        $date_j = new \DateTime();
+        $date_estime = new \DateTime();
+        $date_estime->add(new \DateInterval('P15D'));
+// $produit boucle count(produit)
+        $tva = 1.20;
+// recup adress utilise pour la livraison
+
+$adress_get = $user->getAdresses();
+
+$num_adress = $adress_get->getAdrNumber();
+$rue_adress = $adress_get->getAdrStreet();
+$zip_adress = $adress_get->getAdrZipCode();
+$city_adress = $adress_get->getAdrCity();
+$addinfo_adress = $adress_get->getAdrAddInfo();
+// adresse de livraison
+$adress_user_get = "$num_adress $rue_adress $zip_adress $city_adress $addinfo_adress ";
+
+
+
+
+    }
 }
 

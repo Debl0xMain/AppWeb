@@ -72,8 +72,10 @@
     </article>
 </section>
 {# Set livraison #}
-<section class="my-5">
+<section class="my-5" id="select_command_liv">
+    {% set nombre_ligne_panier = 0 %}
     {% for panier in panier %}
+        {% set nombre_ligne_panier = nombre_ligne_panier + 1 %}
     <div class="quantity_{{panier.id}}" id='quantity_{{panier.id}}_{{panier.QuantityProduit}}'></div>
     <article class="row text-center">
         <div class='col border col'>{{ panier.products.proName }}</div>
@@ -82,7 +84,7 @@
 
         <div class="col border">
         <p>Livraison en plusieurs fois </p>
-        <input type="checkbox" class="livraison_plusieurs form-check-input" name="livraison_plusieurs" value={{panier.id}}>
+        <input type="checkbox" class="livraison_plusieurs form-check-input" id='livraison_plusieurs_{{panier.id}}' name="livraison_plusieurs" value={{panier.id}}>
         </div>
         <div class='col mx-1 border row' id='div_selection_date_qte_{{ panier.id }}' hidden>
 
@@ -103,10 +105,13 @@
            {# 1 #}
            
             <div hidden id='id_produit_for_qte_delivery_{{panier.id}}'>{{ panier.id}}</div>
-            <div hidden id='qte_produit_max_cmd_{{panier.id}}'>{{panier.QuantityProduit}}</div>
+            <input id="qte_produit_max_cmd_{{panier.id}}" value="{{panier.QuantityProduit}}" hidden>
+
+
         </div>
     </article>
     {% endfor %}
+    <input type="text" value={{nombre_ligne_panier}} id='nbr_ligne_for_info' hidden>
 </section>
 
 {# Modal Add Adress #}
@@ -140,6 +145,7 @@
 
 {# paiement #}
 <section class="text-center">
+<button id='test_btn'>Test Js</button>
 <button type="button" class="btn btn-primary text-center" id='paiement_btn'>
   Paiement
 </button>

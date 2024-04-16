@@ -69,11 +69,6 @@ class Panier
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->id;
-    }
-
     public function getProducts(): ?Product
     {
         return $this->products;
@@ -84,6 +79,11 @@ class Panier
         $this->products = $products;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->id;
     }
 
 }
