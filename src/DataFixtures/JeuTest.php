@@ -1192,11 +1192,11 @@ class JeuTest extends Fixture
 
                             $order[$i] = new Orders();
                             
-                                $order[$i]->setOrdRef(820000 . $i);
+                                $order[$i]->setOrdRef($userset[$usernombre]->getId() . 0000 . $i);
                                 $order[$i]->setOrdClientCoefficient($userset[$usernombre]->getUserCoefficient());
                                 $order[$i]->setOrdAdressDelivery($adress_user_get);
                                 $order[$i]->setOrdAdressBilling($adress_user_get);
-                                $order[$i]->setOrdRebBill("Fact00" . $i);
+                                $order[$i]->setOrdRebBill("Fact00" . $userset[$usernombre]->getId() . 0000 . $i);
                                 $order[$i]->setOrdDateBill($date_client_facturation);
                                 $order[$i]->setOrdStatusBill(rand(1, 3));
                                 $order[$i]->setUsers($userset[$usernombre]);
@@ -1300,11 +1300,11 @@ class JeuTest extends Fixture
 
                             $order[$i] = new Orders();
                             
-                                $order[$i]->setOrdRef(820000 . $i);
+                                $order[$i]->setOrdRef($userset[$usernombre]->getId() . 0000 . $i);
                                 $order[$i]->setOrdClientCoefficient($userset[$usernombre]->getUserCoefficient());
                                 $order[$i]->setOrdAdressDelivery($adress_user_get);
                                 $order[$i]->setOrdAdressBilling($adress_user_get);
-                                $order[$i]->setOrdRebBill("Fact00" . $i);
+                                $order[$i]->setOrdRebBill("Fact00" . $userset[$usernombre]->getId() . 0000 . $i);
                                 $order[$i]->setOrdDateBill($date_client_facturation);
                                 $order[$i]->setOrdStatusBill(rand(1, 3));
                                 $order[$i]->setUsers($userset[$usernombre]);
@@ -1380,6 +1380,7 @@ class JeuTest extends Fixture
                                 ];
                                 $productnombre_set = rand(0,43);
                                 $quantityboucle_set = rand(1,8);
+                                var_dump('id produit = '.$productnombre_set );
 
                                 $coef = $user[1]->getuserCoefficient();
                                 $productnombre = $productnombre_set;

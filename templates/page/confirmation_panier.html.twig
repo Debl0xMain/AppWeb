@@ -75,12 +75,12 @@
 <section class="my-5" id="select_command_liv">
     {% set nombre_ligne_panier = 0 %}
     {% for panier in panier %}
+            <input hidden id='id_produit_for_table_{{panier.id}}' value={{panier.products.id}}>
         {% set nombre_ligne_panier = nombre_ligne_panier + 1 %}
     <div class="quantity_{{panier.id}}" id='quantity_{{panier.id}}_{{panier.QuantityProduit}}'></div>
     <article class="row text-center">
         <div class='col border col'>{{ panier.products.proName }}</div>
         <div class='col border col-sm-1'>Quantité <br> {{ panier.QuantityProduit }}</div>
-
 
         <div class="col border">
         <p>Livraison en plusieurs fois </p>
@@ -145,10 +145,9 @@
 
 {# paiement #}
 <section class="text-center">
-<button id='test_btn'>Test Js</button>
-<button type="button" class="btn btn-primary text-center" id='paiement_btn'>
-  Paiement
-</button>
+    <button type="button" class="btn btn-primary text-center" id='paiement_btn'>
+        Paiement
+    </button>
 </section>
 {# modal paiement #}
 <div class="modal fade" id="paiement_modal" tabindex="-1" role="dialog" aria-hidden="true">
