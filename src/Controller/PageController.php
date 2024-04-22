@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Adress;
 use App\Entity\Orders;
+use DateTimeImmutable;
 use App\Entity\Delivery;
 use App\Form\AdressFormType;
 use App\Entity\ProductOrders;
@@ -12,17 +13,20 @@ use App\Form\RegistrationFormType;
 use App\Repository\UsersRepository;
 use App\Repository\AdressRepository;
 use App\Repository\OrdersRepository;
+use App\Repository\PanierRepository;
 use App\Repository\ProductRepository;
 use App\Repository\DeliveryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\DBAL\Types\DateImmutableType;
 use App\Repository\ProductOrdersRepository;
+use Symfony\Component\Validator\Validation;
 use App\Repository\ProductDeliveryRepository;
-use DateTime;
-use phpDocumentor\Reflection\PseudoTypes\True_;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use phpDocumentor\Reflection\PseudoTypes\True_;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -37,8 +41,9 @@ class PageController extends AbstractController
     private $ProductOrders;
     private $ProductDelivery;
     private $ProductRepo;
+    private $panierRepo;
 
-    public function __construct(ProductRepository $ProductRepo,ProductDeliveryRepository $ProductDelivery,ProductOrdersRepository $ProductOrders, UsersRepository $userRepo,AdressRepository $AdressRepo,OrdersRepository $OrdersRepo,DeliveryRepository $DeliveryRepo){
+    public function __construct(PanierRepository $panierRepo,ProductRepository $ProductRepo,ProductDeliveryRepository $ProductDelivery,ProductOrdersRepository $ProductOrders, UsersRepository $userRepo,AdressRepository $AdressRepo,OrdersRepository $OrdersRepo,DeliveryRepository $DeliveryRepo){
         $this->userRepo = $userRepo;
         $this->AdressRepo = $AdressRepo;
         $this->ProductRepo= $ProductRepo;
@@ -46,6 +51,7 @@ class PageController extends AbstractController
         $this->ProductOrders = $ProductOrders;
         $this->ProductDelivery = $ProductDelivery;
         $this->DeliveryRepo = $DeliveryRepo;
+        $this->panierRepo = $panierRepo;
     }
 
     #[Route('/', name: 'app_home')]
@@ -169,7 +175,10 @@ class PageController extends AbstractController
     $tableau = $request->request->all('info_livraison');
     $adress_facturation = $request->request->get('adress_facturation');
     $adress_livraison = $request->request->get('adress_livraison');
-
+    for($yu = 0;$yu < count($tableau);$yu++){
+        $date_convert = $tableau[$yu]['date'];
+        $tableau[$yu]['date'] = new DateTimeImmutable($date_convert);
+    }
         
     //Adress de fact non def definir fact = a livr
     if($adress_facturation === null){
@@ -279,30 +288,21 @@ class PageController extends AbstractController
             $a =  [];
             $b = [];
 
-//fusionne les tableau en leur donne les meme donne Qte | Date | Id Produit
-// $tableau;
-// Gestion Boucle
-            for ($x = 0; $x <= count($tableau); $x++)
+            //fusionne les tableau en leur donne les meme donne Qte | Date | Id Produit
+
+            for ($x = 0; $x < count($tableau); $x++)
             {
-                // set id produit
-                // if object exist set quantity object else qte max
                 $quantity_produit = $tableau[$x]['qte'];
-                // recup id produit ligne cmd
-                $id_produit = Intval($tableau[$x]['id_produit']);
-                //Date de livraison 
+                $id_produit = $tableau[$x]['id_produit'];
                 $set_livraison_client = $tableau[$x]['date'];
                 // recup produit info
                 $produit_setBDD= $this->ProductRepo->find(array('id' => $id_produit));
-
                 // set new delivery
                 $delivery[$x] = new Delivery();
-                
                 $delivery[$x]->setDelDateExped($date_day);
-                // If object.date dont exist or is null set date estime  
-                $delivery[$x]->setDelDatePlannedDelivery(new DateTime($set_livraison_client));
-                // else $delivery[$x]->setDelDatePlannedDelivery($object_date);
+                $delivery[$x]->setDelDatePlannedDelivery($set_livraison_client);
                 $delivery[$x]->setOrders($order);
-            
+                            
                 //re calcul prix (ht)
                 $prix_client_ht_u = $produit_setBDD->getProPriceHT() * $user->getUserCoefficient();
                 
@@ -320,8 +320,8 @@ class PageController extends AbstractController
                     $productdelivery[$x]->setProduct($produit_setBDD);
                     $productdelivery[$x]->setDelivery($delivery[$x]);
                     // calcul prix ht ttc
-                    $setPriceLigneht = $prix_client_ht_u * $quantity_produit * $reduction;
-                    $setPriceLignettc = $prix_client_ht_u * $quantity_produit * $tva * $reduction;
+                    $setPriceLigneht = $prix_client_ht_u * $quantity_produit + $reduction;
+                    $setPriceLignettc = $prix_client_ht_u * $quantity_produit * $tva + $reduction;
                     $productorder[$x]->setPriceLigne($setPriceLignettc);
                     $productorder[$x]->setPriceLigneht($setPriceLigneht);
 
@@ -329,17 +329,20 @@ class PageController extends AbstractController
                 $manager->persist($productorder[$x]);
                 $manager->persist($productdelivery[$x]);
 
-                $a = [$productorder[$x]->getPriceligne()];
-                $b = [$productorder[$x]->getPriceligneht()];
+                $a[] = $setPriceLigneht;
+                $b[] = $setPriceLignettc;
             }
             
-            $prix_cmd_ht = array_sum($b);
-            $prix_cmd_ttc = array_sum($a);
+            $prix_cmd_ht = array_sum($a);
+            $prix_cmd_ttc = array_sum($b);
 
             $order->setOrdPrixTotal($prix_cmd_ttc);
             $order->setOrdPrixTotalHT($prix_cmd_ht);
             
             $manager->persist($order);
+            $user = $this->getUser();
+            $this->panierRepo->removeAllCartsForUser($user);
+            $manager->flush();
 
             return new JsonResponse(True);
         }

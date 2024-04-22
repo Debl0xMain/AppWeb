@@ -180,11 +180,16 @@
                         </div>
                     {# product_delivery #}
                     {% for histo_delivery in histo_cmd.deliveries %}
-                    {% for productdel_histo in histo_delivery.productDeliveries %}
+                    {% for productDeliveries in histo_delivery.productDeliveries %}
+                        {% if productDeliveries.product == product_orders.product %}
 
+                        {% if product_orders.ProOrdProductQuantity == productDeliveries.ProDelProductQuantity %}
+
+
+                        
+                    
                     <div class="my-auto px-5 mt-2">
                         <article class="border row">
-                                <p class='col my-auto'>Quantité Colis {{ productdel_histo.ProDelProductQuantity }}</p>
                                 <div class="col mx-2">
                                     <p class="row">Expedition </p>
                                     <p class="row">{{ histo_delivery.delDateExped|date("m/d/Y") }}</p>
@@ -203,8 +208,8 @@
                                 </div>
                         </article>
                     </div>
-
-
+                    {% endif %}
+                    {% endif %}
                     {% endfor %}
                     {% endfor %}
                 </div>

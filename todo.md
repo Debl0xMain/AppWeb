@@ -16,6 +16,8 @@ Front :
 
 
 # En cours :
+    --Prix panier == ht (affiche le prixT TTC)
+    --Probleme date de livraison
 
 
 # Fait :

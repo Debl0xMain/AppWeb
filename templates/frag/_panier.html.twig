@@ -55,9 +55,13 @@
             </article>
             {# End Ligne Panier #}
         {% endfor %}
+        {% set prix_TVA = prix_total * 1.20 %}
+        {% set TVA = prix_total * 1.20 - prix_total %}
 
         <article class="row text-center">
-        <p id='input_total_price_view_client'>Prix Panier : {{ prix_total|number_format(2, ',', ' ' ) }} €</p>
+        <p id='input_total_price_view_client'>Prix Panier Ht : {{ prix_total|number_format(2, ',', ' ' ) }} €</p>
+        <p>Tva : {{ TVA|number_format(2, ',', ' ' ) }} €</p>
+        <p>Prix Panier TTC : {{ prix_TVA|number_format(2, ',', ' ' ) }} €</p>
         <input type="text" id='input_total_price' value={{ prix_total }} hidden/>
         </article>
 

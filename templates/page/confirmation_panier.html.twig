@@ -59,16 +59,30 @@
     <article class="row">
         {% set PriceQuantity = panier.PriceUser * panier.QuantityProduit %}
         <div class='col border'>{{ panier.products.proName }}</div>
-                <div class='col border'>{{ panier.PriceUser|number_format(2, ',', ' ' ) }} €</div>
+        <div class='col border'>{{ panier.PriceUser|number_format(2, ',', ' ' ) }} €</div>
         <div class='col border'>{{ panier.QuantityProduit }}</div>
         <div class='col border'>{{ PriceQuantity|number_format(2, ',', ' ' ) }} €</div>
     </article>
     {% endfor %}
-    <article class='row'>
-        <div class='col border'></div>
-        <div class='col border'></div>
-        <div class='col border'>Prix Total </div>
+    {% set prix_TVA = prix_total * 1.20 %}
+    {% set TVA = prix_total * 1.20 - prix_total %}
+    <article class='row mt-2'>
+        <div class='col '></div>
+        <div class='col '></div>
+        <div class='col border'>Prix Total HT</div>
         <div class='col border'>{{ prix_total|number_format(2, ',', ' ' ) }} €</div>
+    </article>
+    <article class='row'>
+        <div class='col '></div>
+        <div class='col '></div>
+        <div class='col border'>Tva</div>
+        <div class='col border'>{{ TVA|number_format(2, ',', ' ' ) }} €</div>
+    </article>
+    <article class='row'>
+        <div class='col '></div>
+        <div class='col '></div>
+        <div class='col border'>Prix TTC </div>
+        <div class='col border'>{{ prix_TVA|number_format(2, ',', ' ' ) }}€</div>
     </article>
 </section>
 {# Set livraison #}
