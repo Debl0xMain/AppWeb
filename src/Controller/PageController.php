@@ -53,7 +53,7 @@ class PageController extends AbstractController
         $this->DeliveryRepo = $DeliveryRepo;
         $this->panierRepo = $panierRepo;
     }
-
+// Index
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
@@ -61,6 +61,46 @@ class PageController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+// PageCatalogue
+    #[Route('/clavier_piano', name: 'Clavier | Piano')]
+    public function clavier_piano(): Response
+    {
+        return $this->render('page/catalogue/clavier.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+
+    #[Route('/batteries', name: 'Batteries')]
+    public function batteries(): Response
+    {
+        return $this->render('page/catalogue/batterie.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+
+    #[Route('/guitares', name: 'Guitares')]
+    public function guitares(): Response
+    {
+        return $this->render('page/catalogue/guitare.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+
+    #[Route('/vents', name: 'Vents')]
+    public function vent(): Response
+    {
+        return $this->render('page/catalogue/vent.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+    #[Route('/sono', name: 'Sono')]
+    public function sono(): Response
+    {
+        return $this->render('page/catalogue/vent.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+// Fin Catalogue
 
     #[Route('/profil', name: 'app_profile')]
     public function profile(RegistrationFormType $formUser,AdressFormType $formAdress,AuthenticationUtils $authenticationUtils,Request $request,UserPasswordHasherInterface $passwordHasher,EntityManagerInterface $entityManager): Response
@@ -99,7 +139,7 @@ class PageController extends AbstractController
             ]);}
         
     }
-
+// Gestion Commande | Panier
     #[Route('/commande', name: 'app_commande')]
     public function commande(Request $request): Response
     {

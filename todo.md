@@ -10,14 +10,11 @@ Service Back/Front :
     -verif formulaire inscription + mail
     -securise admin non admin {#IsGranted}
 Front :
-    -Index JS {import des function,js ajax request index}
     -Mention legal
     -Page Contact
 
 
 # En cours :
-    --Prix panier == ht (affiche le prixT TTC)
-    --Probleme date de livraison
 
 
 # Fait :
