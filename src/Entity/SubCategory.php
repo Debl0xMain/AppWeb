@@ -9,13 +9,18 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(operations: [
     new Get(),  
     new GetCollection(),
-])]
+],
+
+normalizationContext: ['groups' => ['read']]
+)]
 
 #[ORM\Entity(repositoryClass: SubCategoryRepository::class)]
 class SubCategory
@@ -23,9 +28,11 @@ class SubCategory
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['read'])]
     private ?string $subName = null;
 
     #[ORM\Column(length: 255)]
@@ -33,7 +40,7 @@ class SubCategory
 
     #[ORM\ManyToOne(inversedBy: 'subcategory')]
     private ?Category $categorys = null;
-
+    #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'subcategory')]
     private Collection $products;
 

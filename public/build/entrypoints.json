@@ -2,11 +2,17 @@
   "entrypoints": {
     "app": {
       "js": [
+        "/build/runtime.js"
+      ]
+    },
+    "catalogue": {
+      "js": [
         "/build/runtime.js",
-        "/build/app.js"
+        "/build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-4964b7.js",
+        "/build/catalogue.js"
       ],
       "css": [
-        "/build/app.css"
+        "/build/catalogue.css"
       ]
     }
   }

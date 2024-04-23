@@ -53,8 +53,8 @@
                         <div class="row mt-2">
                             {% for navbar_category in navbar_category %}
                                 <li class="nav-item col mx-1">
-                                    <a class="nav-link navbar_item_css text-center" href={{path(navbar_category.catName)}}>{{ navbar_category.catName }}</a>
-                                </li>
+                                    <a class="nav-link navbar_item_css text-center" href="{{ path('app_cat', {'categorie': navbar_category.catName}) }}">{{ navbar_category.catName }}</a>
+                                </li>   
                             {% endfor %}
                         </div>
                    </section>
@@ -149,7 +149,7 @@
                             {% for navbar_category in navbar_category %}
                                 <li class="nav-item my-1 row mx-1">
                                 {#  #}
-                                    <a class="nav-link navbar_item_css text-center" href={{path(navbar_category.catName)}}>{{ navbar_category.catName }}</a>
+                                    <a class="nav-link navbar_item_css text-center" href="{{ path('app_cat', {'categorie': navbar_category.catName}) }}">{{ navbar_category.catName }}</a>
                                 </li>
                             {% endfor %}
                         </div>

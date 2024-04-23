@@ -10,11 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(operations: [
     new Get(),  
     new GetCollection(),
-])]
+],
+normalizationContext: ['groups' => ['read']]
+)]
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -22,26 +25,32 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
+    #[Groups(['read'])]
     #[ORM\Column(length: 255)]
     private ?string $proName = null;
 
+    #[Groups(['read'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $proDesc = null;
 
+    #[Groups(['read'])]
     #[ORM\Column(length: 255)]
     private ?string $proPictureName = null;
 
+    #[Groups(['read'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 2)]
     private ?string $proPriceHT = null;
 
+    #[Groups(['read'])]
     #[ORM\Column]
     private ?int $proActive = null;
 
     #[ORM\Column(length: 255)]
     private ?string $proRef = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?SubCategory $subcategory = null;
 

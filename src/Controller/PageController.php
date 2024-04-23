@@ -61,45 +61,16 @@ class PageController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
-// PageCatalogue
-    #[Route('/clavier_piano', name: 'Clavier | Piano')]
-    public function clavier_piano(): Response
+// PageCatalogue a genere
+    #[Route('/catalogue/{categorie}', name: 'app_cat')]
+    public function categorie($categorie): Response
     {
-        return $this->render('page/catalogue/clavier.html.twig', [
+        
+        return $this->render('page/catalogue/catalogue.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }
 
-    #[Route('/batteries', name: 'Batteries')]
-    public function batteries(): Response
-    {
-        return $this->render('page/catalogue/batterie.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
-    }
-
-    #[Route('/guitares', name: 'Guitares')]
-    public function guitares(): Response
-    {
-        return $this->render('page/catalogue/guitare.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
-    }
-
-    #[Route('/vents', name: 'Vents')]
-    public function vent(): Response
-    {
-        return $this->render('page/catalogue/vent.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
-    }
-    #[Route('/sono', name: 'Sono')]
-    public function sono(): Response
-    {
-        return $this->render('page/catalogue/vent.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
-    }
 // Fin Catalogue
 
     #[Route('/profil', name: 'app_profile')]

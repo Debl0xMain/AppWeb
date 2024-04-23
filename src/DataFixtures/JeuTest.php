@@ -410,7 +410,7 @@ class JeuTest extends Fixture
                 //1
                 
                 $category1 = new Category();
-                $category1->setCatName('Clavier | Piano');
+                $category1->setCatName('Clavier');
                 $category1->setCatPictureName('clavier.jpg');
         
                 $manager->persist($category1);

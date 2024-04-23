@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue{% endblock %}
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('catalogue') }}
+{% endblock %}
+
+{% block body %}
+
+    <div id="react-app"></div>
+
+    {{ encore_entry_script_tags('catalogue') }}
+{% endblock %}

@@ -1,5 +1,9 @@
 {
   "build/app.css": "/build/app.css",
   "build/app.js": "/build/app.js",
-  "build/runtime.js": "/build/runtime.js"
+  "build/catalogue.css": "/build/catalogue.css",
+  "build/catalogue.js": "/build/catalogue.js",
+  "build/runtime.js": "/build/runtime.js",
+  "build/catalogue_node_modules_web-vitals_dist_web-vitals_js.js": "/build/catalogue_node_modules_web-vitals_dist_web-vitals_js.js",
+  "build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-4964b7.js": "/build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-4964b7.js"
 }
