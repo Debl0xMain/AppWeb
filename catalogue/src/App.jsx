@@ -4,7 +4,7 @@ import { Collapse } from 'react-bootstrap';
 const Api = () => {
   const [tableau, setTableau] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
-  const price_user = 1; //coef client + tva si pro sans tva
+  const price_user = 1.80//coef client + tva si pro sans tva
 
   useEffect(() => {
     const url = 'https://127.0.0.1:8000/api/categories';
@@ -31,6 +31,7 @@ const Api = () => {
             produits.push(categorie_filter[x]['products'][y]);
           }
         }
+
         setTableau(produits);
       });
   }, []);
@@ -38,10 +39,23 @@ const Api = () => {
   const toggleCollapse = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
-  const add_bask = (id) => {
-    console.log(id)
-  }
 
+  const add_bask = (id) => {
+    fetch("https://127.0.0.1:8000/bask/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ id_produit: id })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('success');
+      chargerPanier();
+    })
+    .catch((error) => console.log(error));
+  }
+  
   return (
     <>
       <article className='d-flex align-item-center justify-content-center'>
@@ -53,7 +67,7 @@ const Api = () => {
                   <p>{item.proName}</p>
                   <img src={`/assets/product/${item.proPictureName}`} alt={item.proName} height={'100px'} width={'100px'} />
                   <div className='d-flex justify-content-end'>
-                    <p className='text-end font-weight-bold'>{parseFloat(item.proPriceHT) * price_user} €</p>
+                    <p className='text-end font-weight-bold'>{(parseFloat(item.proPriceHT) * price_user).toFixed(2) + ' €'}</p>
                   </div>
                   <div className='d-flex justify-content-end mx-2'>
                   <button className='btn btn-outline-success' onClick={() => add_bask(item.id)}>
@@ -63,7 +77,7 @@ const Api = () => {
                   <button className='btn' onClick={() => toggleCollapse(index)}><i className="fa-solid fa-chevron-down"></i></button>
                   <Collapse in={openIndex === index}>
                     <div>
-                    <p className='text-end font-weight-bold'>{parseFloat(item.proPriceHT) * price_user} €</p>
+                    <p className='text-end font-weight-bold'>{(parseFloat(item.proPriceHT) * price_user).toFixed(2) + ' €'} </p>
                     <p className='text-end'>Tva : 20%</p>
                       <p className='border rounded py-1 px-1'>{item.proDesc}</p>
                     </div>

@@ -4,5 +4,8 @@
   "build/catalogue.js": "/build/catalogue.js",
   "build/runtime.js": "/build/runtime.js",
   "build/catalogue_node_modules_web-vitals_dist_web-vitals_js.js": "/build/catalogue_node_modules_web-vitals_dist_web-vitals_js.js",
-  "build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-4964b7.js": "/build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-4964b7.js"
+  "build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-aa8bb7.js": "/build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-aa8bb7.js",
+  "build/vendors-catalogue_node_modules_react-dom_client_js-catalogue_node_modules_core-js_modules_es_-9e4e4a.js": "/build/vendors-catalogue_node_modules_react-dom_client_js-catalogue_node_modules_core-js_modules_es_-9e4e4a.js",
+  "build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-f1c6bc.js": "/build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-f1c6bc.js",
+  "build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-748ad5.js": "/build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-748ad5.js"
 }

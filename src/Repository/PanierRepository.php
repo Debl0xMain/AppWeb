@@ -22,9 +22,10 @@ class PanierRepository extends ServiceEntityRepository
 {
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, ManagerRegistry $registry)
     {
         $this->entityManager = $entityManager;
+        parent::__construct($registry, Panier::class);
     }
 
     public function removeAllCartsForUser(Users $user)

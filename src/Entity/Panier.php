@@ -2,16 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\PanierRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PanierRepository;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(operations: [
     new Get(),  
@@ -24,7 +24,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 normalizationContext: ['groups' => ['read']],
 denormalizationContext: ['groups' => ['write']]
 )]
-
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
 class Panier
 {
@@ -68,7 +67,6 @@ class Panier
         return $this->PriceUser;
     }
 
-    #[Groups(['write'])]
     public function setPriceUser(string $PriceUser): static
     {
         $this->PriceUser = $PriceUser;

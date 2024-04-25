@@ -75,6 +75,7 @@ class FragementController extends AbstractController
     }
 
 
+    #[Route('/actu/panier', name: 'app_panier_actu')]
     public function panier(Request $request): Response
     {
         $user =  $this->getUser();
@@ -91,6 +92,30 @@ class FragementController extends AbstractController
             $prix_total = array_sum($resultats);
         }
         else {$prix_total = 0;}
+
+        if ($request->isXmlHttpRequest()) {
+            
+            $user =  $this->getUser();
+            $panier = $user->getPaniers();
+            $product = $this->ProductRepo->findAll();
+    
+            foreach ($panier as $paniers) {
+                $quantityProduit = $paniers->getQuantityProduit();
+                $priceUser = $paniers->getPriceUser();
+                
+                $resultats[] = $quantityProduit * $priceUser;
+            }
+            if(isset($resultats)){
+                $prix_total = array_sum($resultats);
+            }
+            else {$prix_total = 0;}
+            return $this->render('frag/_panier.html.twig', [
+                'controller_name' => 'HomeController',
+                'panier_client' => $user,
+                'prix_total' => $prix_total,
+                'product' => $product
+            ]);
+        }
 
         return $this->render('frag/_panier.html.twig', [
             'controller_name' => 'HomeController',
@@ -118,7 +143,8 @@ class FragementController extends AbstractController
             $id_panier = $request->request->get('value');
             $modif_quantity = $request->request->get('quantity');
 
-            $panier = $this->entityManager->getRepository(Panier::class)->find($id_panier);
+            // $repo = $this->entityManager->getRepository(Panier::class);
+            $panier = $this->PanierRepository->find($id_panier);
 
             if(in_array($panier->getId(),$id_check) === true){
 
@@ -147,9 +173,11 @@ class FragementController extends AbstractController
                 //Sup
                 if($modif_quantity == "del"){
                             
-                $new_quantity = 0;
+                    $new_quantity = 0;
 
                 }
+
+
                 if($new_quantity == 0){
                     
                     $this->entityManager->remove($panier);
@@ -166,9 +194,10 @@ class FragementController extends AbstractController
                 $return_price = $panier->getPriceUser();
                 $return_quantity = $panier->getQuantityProduit();
 
-               if(isset($resultats) != true) {
-                $resultats[] = 0; 
-               }
+                if(isset($resultats) != true) {
+                    $resultats[] = 0; 
+                }
+
                 $prix_total = array_sum($resultats);
 
                 $reponse_panier = [

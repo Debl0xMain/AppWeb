@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Adress;
 use App\Entity\Orders;
+use App\Entity\Panier;
 use DateTimeImmutable;
 use App\Entity\Delivery;
 use App\Form\AdressFormType;
@@ -173,6 +174,77 @@ class PageController extends AbstractController
 
             return new JsonResponse($info_paiement);
         }
+    }
+
+    #[Route('/bask/add', name: 'bask_add')]
+    public function bask_add(Request $request,EntityManagerInterface $manager): Response
+    {
+        $id_produit_react = json_decode($request->getContent(), true);
+
+        if ($id_produit_react === null) {
+            return new JsonResponse(['error' => 'Invalid JSON'], Response::HTTP_BAD_REQUEST);
+        }
+        $id_produit = $id_produit_react['id_produit'] ?? null;
+        $user = $this->getUser();
+        $produit_setBDD = $this->ProductRepo->find(array('id' => $id_produit));
+        $check_exist = $user->getPaniers();
+
+        $panierExiste = false;
+        foreach ($check_exist as $panier) {
+            if ($panier->getProducts() === $produit_setBDD) {
+                $panierExiste = $panier;
+                break;
+            }
+        }
+        
+        if ($panierExiste != false) {
+            $old_quantity = $panierExiste ->getQuantityProduit();
+            $panierExiste->setQuantityProduit($old_quantity +1);
+
+            $manager->flush();
+
+        }
+        else {
+            $prix_client_ht_u = $produit_setBDD->getProPriceHT() * $user->getUserCoefficient();
+
+            $panier = new Panier();
+                $panier->setProducts($produit_setBDD);
+                $panier->setQuantityProduit(1);
+                $panier->setPriceUser($prix_client_ht_u);
+                $panier->setUsers($user);
+            $manager->persist($panier);
+            $manager->flush();
+    
+        }
+
+        $id_panier = $panier->getId();
+        $panier_serveur = $user->getPaniers();
+
+        foreach ($panier_serveur as $paniers) {
+            $quantityProduit = $paniers->getQuantityProduit();
+            $priceUser = $paniers->getPriceUser();
+            
+            $resultats[] = $quantityProduit * $priceUser;
+        }
+
+        $return_price = $panier->getPriceUser();
+        $return_quantity = $panier->getQuantityProduit();
+
+        if(isset($resultats) != true) {
+            $resultats[] = 0; 
+        }
+
+        $prix_total = array_sum($resultats);
+
+        $reponse_panier = [
+            'price_user' => $return_price,
+            'quantity' => $return_quantity,
+            'id_del' => $id_panier,
+            'prix_total' => $prix_total
+        ];
+
+        return new JsonResponse($reponse_panier);
+
     }
 
     #[Route('/aff_tab', name: 'aff_tab')]

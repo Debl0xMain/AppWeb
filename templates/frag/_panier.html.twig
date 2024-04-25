@@ -25,6 +25,7 @@
                 <p class="col-sm">Delete</p>
             </article>
             <hr class="my-2">
+            <div id='panier_get_element'></div>
         {% for panier in panier_client.paniers %}
             {# Start Ligne Panier #}
             <article class="row text-center ligne_panier_{{ panier.id }}">
@@ -60,8 +61,8 @@
 
         <article class="row text-center">
         <p id='input_total_price_view_client'>Prix Panier Ht : {{ prix_total|number_format(2, ',', ' ' ) }} €</p>
-        <p>Tva : {{ TVA|number_format(2, ',', ' ' ) }} €</p>
-        <p>Prix Panier TTC : {{ prix_TVA|number_format(2, ',', ' ' ) }} €</p>
+        <p id='input_tva_view_client'>Tva : {{ TVA|number_format(2, ',', ' ' ) }} €</p>
+        <p id='input_ttc_view_client'>Prix Panier TTC : {{ prix_TVA|number_format(2, ',', ' ' ) }} €</p>
         <input type="text" id='input_total_price' value={{ prix_total }} hidden/>
         </article>
 
