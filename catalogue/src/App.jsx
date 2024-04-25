@@ -4,7 +4,18 @@ import { Collapse } from 'react-bootstrap';
 const Api = () => {
   const [tableau, setTableau] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
-  const price_user = 1.80//coef client + tva si pro sans tva
+  const [price_user,setPrice_user] = useState(1.80)
+
+  useEffect(() => {
+    const url_user = 'https://127.0.0.1:8000/api_new/user_coef'
+
+    fetch(url_user)
+    .then((resp) => resp.json())
+    .then(function(data) {
+      setPrice_user(data)
+    });
+
+  }, []);
 
   useEffect(() => {
     const url = 'https://127.0.0.1:8000/api/categories';

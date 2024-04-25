@@ -176,6 +176,17 @@ class PageController extends AbstractController
         }
     }
 
+    #[Route("/api_new/user_coef", name: 'user_coef')]
+    public function user_coef(Request $request): Response
+    {
+
+        $user = $this->getUser();
+        $coef = $user->getUserCoefficient();
+
+        return new JsonResponse($coef);
+
+    }
+
     #[Route('/bask/add', name: 'bask_add')]
     public function bask_add(Request $request,EntityManagerInterface $manager): Response
     {
