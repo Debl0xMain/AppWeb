@@ -57,17 +57,13 @@ class LoginToValidpaiementTest extends PantherTestCase
         $updatedCrawler = $client->clickLink('Paiement');
         //go Paiement
         $updatedCrawler = $client->refreshCrawler();
+        sleep(2);
 //GOOD
-        
-
         //Select condition livraison
-        /*
-        $client->clickLink('.adress_cmd_valid_livraison');
-        $client->clickLink('-- 123 Main Street Cityville 12345 -- ');
 
-        $client->clickLink('#livraison_plusieurs_4');
-        */
-
+        $myInput = $updatedCrawler->filterXPath(".//select[@id='adress_cmd_valid_livraison']//option[@value='1']");
+        $myInput->click();
+        sleep(200);
         $this->assertSelectorTextContains('body', 'TestUser1');
     }
 }
