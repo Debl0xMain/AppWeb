@@ -102,6 +102,10 @@
             "php bin/console d:s:u --force --complete",
             "php bin/console d:f:l --append",
             "php bin/console make:puml"
+        ],
+        "runtest":[
+            "npm run dev",
+            "php bin/phpunit"
         ]
     },
     "conflict": {
@@ -127,3 +131,4 @@
         "symfony/web-profiler-bundle": "7.0.*"
     }
 }
+

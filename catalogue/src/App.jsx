@@ -7,7 +7,7 @@ const Api = () => {
   const [price_user,setPrice_user] = useState(1.80)
 
   useEffect(() => {
-    const url_user = 'https://127.0.0.1:8000/api_new/user_coef'
+    const url_user = '/api_new/user_coef'
 
     fetch(url_user)
     .then((resp) => resp.json())
@@ -18,14 +18,14 @@ const Api = () => {
   }, []);
 
   useEffect(() => {
-    const url = 'https://127.0.0.1:8000/api/categories';
+    const url = '/api/categories';
       
     fetch(url)
       .then((resp) => resp.json())
       .then(function(data) {
         var href = window.location.href
-        let regex = /https:\/\/127\.0\.0\.1:8000\/catalogue\//g;
-        let param_cat = href.replace(regex, "");
+        var par  = href.split('/');
+        let param_cat = par[4]
         var tableau = data
         var categorie_found = null;
 
@@ -52,7 +52,7 @@ const Api = () => {
   };
 
   const add_bask = (id) => {
-    fetch("https://127.0.0.1:8000/bask/add", {
+    fetch("/bask/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -81,7 +81,7 @@ const Api = () => {
                     <p className='text-end font-weight-bold'>{(parseFloat(item.proPriceHT) * price_user).toFixed(2) + ' €'}</p>
                   </div>
                   <div className='d-flex justify-content-end mx-2'>
-                  <button className='btn btn-outline-success' onClick={() => add_bask(item.id)}>
+                  <button className='btn btn-outline-success' id={"btn_"+item.id} onClick={() => add_bask(item.id)}>
                       <i className="fa-solid fa-cart-plus"></i>
                   </button>
                   </div>

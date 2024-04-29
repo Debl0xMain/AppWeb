@@ -9,7 +9,7 @@
     "catalogue": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-748ad5.js",
+        "/build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-0b3ea2.js",
         "/build/catalogue.js"
       ],
       "css": [
