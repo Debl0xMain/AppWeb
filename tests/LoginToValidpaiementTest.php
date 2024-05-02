@@ -41,37 +41,47 @@ class LoginToValidpaiementTest extends PantherTestCase
 //sup article panier
         $updatedCrawler->filter('.btn-outline-danger')->click();
         $updatedCrawler->filter('.btn-outline-danger')->click();
-        sleep(2);
+        sleep(1);
 
 // click Sono
         $crawler = $client->clickLink('Sono');
         $crawler->filter("#btn_37");
-        sleep(2);
+        sleep(1);
         $updatedCrawler = $client->refreshCrawler();
         $updatedCrawler->filter('#btn_37')->click();
-        sleep(4);
+        sleep(1);
 //Open bash
         $updatedCrawler->filter('#shopbtn')->click();
-        sleep(2);
+        sleep(1);
 //ouverture du panier
         $updatedCrawler = $client->clickLink('Paiement');
         //go Paiement
         $updatedCrawler = $client->refreshCrawler();
-        sleep(2);
+        sleep(1);
         //Select condition livraison
 
         $myInput = $updatedCrawler->filterXPath(".//select[@id='adress_cmd_valid_livraison']//option[@value='1']");
         $myInput->click();
-        sleep(100);
+        sleep(1);
+
+        $client->executeScript("document.querySelector('#paiement_btn').click()");
+        $client->executeScript("document.querySelector('#request_valid_paiement').click()");
+        sleep(3);
+        //changement de fenetre
+        $handles = $client->getWindowHandles();
+        $client->switchTo()->window(end($handles));
+        sleep(1);
+        $client->executeScript("document.querySelector('#send_data_paiement').click()");
+        sleep(10);
+        //retour a la fenetre
+        $handles = $client->getWindowHandles();
+        $client->switchTo()->window(end($handles));
+
+        $client->waitFor('#Accueil', 30);
+
+        sleep(5);
         //GOOD
-        sleep(200);
-        /*
-        waitfor (modal)  : click->#paiement_btn
-                                -> modal
-                                in_modal->click #request_valid_paiement
-                                new page->click #send_data_paiement
-                                ->>> Home redirection
-        */
-        $this->assertSelectorTextContains('body', 'TestUser1');
+
+        $this->assertSelectorTextContains('body', 'Accueil');
     }
 }
