@@ -1,8 +1,8 @@
 {
-  "build/app.js": "/build/app.js",
-  "build/catalogue.css": "/build/catalogue.css",
-  "build/catalogue.js": "/build/catalogue.js",
-  "build/runtime.js": "/build/runtime.js",
-  "build/catalogue_node_modules_web-vitals_dist_web-vitals_js.js": "/build/catalogue_node_modules_web-vitals_dist_web-vitals_js.js",
-  "build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-0b3ea2.js": "/build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-0b3ea2.js"
+  "build/app.js": "/build/app.d182863d.js",
+  "build/catalogue.css": "/build/catalogue.956135cf.css",
+  "build/catalogue.js": "/build/catalogue.201cae03.js",
+  "build/runtime.js": "/build/runtime.807b61aa.js",
+  "build/282.6cf2e7b6.js": "/build/282.6cf2e7b6.js",
+  "build/642.cc196996.js": "/build/642.cc196996.js"
 }

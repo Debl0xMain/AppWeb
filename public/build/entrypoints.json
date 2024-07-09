@@ -2,18 +2,18 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.js",
-        "/build/app.js"
+        "/build/runtime.807b61aa.js",
+        "/build/app.d182863d.js"
       ]
     },
     "catalogue": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors-catalogue_node_modules_react-bootstrap_esm_Collapse_js-catalogue_node_modules_react-d-0b3ea2.js",
-        "/build/catalogue.js"
+        "/build/runtime.807b61aa.js",
+        "/build/642.cc196996.js",
+        "/build/catalogue.201cae03.js"
       ],
       "css": [
-        "/build/catalogue.css"
+        "/build/catalogue.956135cf.css"
       ]
     }
   }
