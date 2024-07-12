@@ -20,8 +20,7 @@ jobs:
     steps:
     #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
     # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
-    # uses: shivammathur/setup-php@v2
-    - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+    - uses: shivammathur/setup-php@v2
       with:
         php-version: '8.3'
     - uses: actions/checkout@v4
@@ -41,7 +40,18 @@ jobs:
       run: |
         mkdir -p data
         touch data/database.sqlite
+    - name: Install Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+    - name: Install ChromeDriver
+      run: |
+        CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1)
+        sudo wget -N https://chromedriver.storage.googleapis.com/$CHROME_VERSION/chromedriver_linux64.zip
+        sudo unzip -o chromedriver_linux64.zip -d /usr/local/bin
+        sudo rm chromedriver_linux64.zip
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
+        PANTHER_NO_HEADLESS: '1'
       run: vendor/bin/phpunit
