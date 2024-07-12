@@ -67,6 +67,8 @@ class LoginToValidpaiementTest extends PantherTestCase
         $client->executeScript("document.querySelector('#paiement_btn').click()");
         $client->executeScript("document.querySelector('#request_valid_paiement').click()");
         sleep(3);
+
+
         //changement de fenetre
         $handles = $client->getWindowHandles();
         $client->switchTo()->window(end($handles));
