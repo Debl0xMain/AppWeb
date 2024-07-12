@@ -1,8 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Symfony
 
 on:
@@ -18,10 +13,7 @@ jobs:
   symfony-tests:
     runs-on: ubuntu-latest
     steps:
-    #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
-    # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
-    # uses: shivammathur/setup-php@v2
-    - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+    - uses: shivammathur/setup-php@v2
       with:
         php-version: '8.3'
     - uses: actions/checkout@v4
@@ -45,3 +37,9 @@ jobs:
       env:
         DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
       run: vendor/bin/phpunit
+    - name: Install Firefox
+      uses: mozilla/geckodriver@v1
+    - name: Run Panther tests with Firefox
+      run: |
+        export PANTHER_WEB_SERVER_DIR=public
+        vendor/bin/panther --disable-tls-verification --no-sandbox --disable-dev-shm-usage --browser firefox
