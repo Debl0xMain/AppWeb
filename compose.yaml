@@ -1,23 +1,20 @@
 version: '3.8'
 
 services:
-  database:
-    image: postgres:${{ env.POSTGRES_VERSION }}-alpine
-    environment:
-      POSTGRES_DB: ${{ env.POSTGRES_DB }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      POSTGRES_USER: ${{ env.POSTGRES_USER }}
-    volumes:
-      - database_data:/var/lib/postgresql/data
-
-  mailer:
-    image: axllent/mailpit
+  mysql:
+    image: mysql:latest
+    container_name: mysql-db
     ports:
-      - "1025:1025"
-      - "8025:8025"
+      - "3306:3306"
     environment:
-      MP_SMTP_AUTH_ACCEPT_ANY: 1
-      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+      MYSQL_ROOT_PASSWORD: admin   # Mot de passe root pour MySQL
+      MYSQL_DATABASE: mydatabase  # Nom de la base de données à créer
+      MYSQL_USER: admin           # Nom de l'utilisateur MySQL
+      MYSQL_PASSWORD: admin       # Mot de passe de l'utilisateur MySQL
+    command: ['--default-authentication-plugin=mysql_native_password']
+    volumes:
+      - mysql_data:/var/lib/mysql
 
 volumes:
-  database_data:
+  mysql_data:
+    driver: local
