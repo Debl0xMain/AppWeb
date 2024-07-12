@@ -8,12 +8,6 @@ doctrine:
 
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
-        # dbname_suffix is used only in a special @test environment
-        # It appends _test and a unique test token to the test database name
-        # which helps to isolate the tests from each other.
-        when@test:
-            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
-
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
@@ -29,8 +23,15 @@ doctrine:
                 prefix: 'App\Entity'
                 alias: App
 
-        # Configuration for production environment
-        when@prod:
+when@test:
+    doctrine:
+        dbal:
+            # "TEST_TOKEN" is typically set by ParaTest
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
             auto_generate_proxy_classes: false
             proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
             query_cache_driver:
@@ -39,3 +40,11 @@ doctrine:
             result_cache_driver:
                 type: pool
                 pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system
