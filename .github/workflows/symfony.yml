@@ -12,6 +12,21 @@ permissions:
 jobs:
   symfony-tests:
     runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_DATABASE: test_database
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     steps:
     - uses: shivammathur/setup-php@v2
       with:
@@ -29,10 +44,14 @@ jobs:
           ${{ runner.os }}-php-
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Create Database
-      run: |
-        mkdir -p data
-        touch data/database.sqlite
+    - name: Run Database Migrations
+      env:
+        DATABASE_URL: 'mysql://test_user:test_password@127.0.0.1:3306/test_database'
+      run: php bin/console doctrine:migrations:migrate --no-interaction
+    - name: Load Fixtures
+      env:
+        DATABASE_URL: 'mysql://test_user:test_password@127.0.0.1:3306/test_database'
+      run: php bin/console doctrine:fixtures:load --no-interaction
     - name: Install Chrome
       run: |
         sudo apt-get update
@@ -46,6 +65,5 @@ jobs:
         sudo rm chromedriver_linux64.zip
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
-        DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
-        PANTHER_NO_HEADLESS: '1'
+        DATABASE_URL: 'mysql://test_user:test_password@127.0.0.1:3306/test_database'
       run: vendor/bin/phpunit
