@@ -13,16 +13,17 @@ jobs:
   symfony-tests:
     runs-on: ubuntu-latest
     services:
-      postgresql:
-        image: postgres:${{ env.POSTGRES_VERSION }}-alpine
+      mariadb:
+        image: mariadb:latest
         env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_DATABASE: test_database
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
         ports:
-          - 5432:5432
+          - 3306:3306
         options: >-
-          --health-cmd="pg_isready"
+          --health-cmd="mysqladmin ping --silent"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
@@ -51,21 +52,21 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Wait for PostgreSQL to be ready
+      - name: Wait for MariaDB to be ready
         run: |
-          while ! pg_isready -h"127.0.0.1" -p"5432" -q; do
+          while ! mysqladmin ping -h"127.0.0.1" --silent; do
             echo "Waiting for database connection..."
             sleep 5
           done
 
       - name: Run Database Migrations
         env:
-          DATABASE_URL: 'postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@127.0.0.1:5432/${{ secrets.POSTGRES_DB }}'
+          DATABASE_URL: 'mysql://test_user:test_password@127.0.0.1:3306/test_database'
         run: php bin/console doctrine:migrations:migrate --no-interaction
 
       - name: Load Fixtures
         env:
-          DATABASE_URL: 'postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@127.0.0.1:5432/${{ secrets.POSTGRES_DB }}'
+          DATABASE_URL: 'mysql://test_user:test_password@127.0.0.1:3306/test_database'
         run: php bin/console doctrine:fixtures:load --no-interaction
 
       - name: Install Chrome
@@ -83,9 +84,9 @@ jobs:
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
-          DATABASE_URL: 'postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@127.0.0.1:5432/${{ secrets.POSTGRES_DB }}'
+          DATABASE_URL: 'mysql://test_user:test_password@127.0.0.1:3306/test_database'
         run: vendor/bin/phpunit
 
-      - name: Display PostgreSQL Logs on Failure
+      - name: Display MariaDB Logs on Failure
         if: failure()
-        run: docker logs $(docker ps -q -f name=postgresql)
+        run: docker logs $(docker ps -q -f name=mariadb)
