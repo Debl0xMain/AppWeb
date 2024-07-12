@@ -13,79 +13,79 @@ jobs:
   symfony-tests:
     runs-on: ubuntu-latest
     services:
-      mariadb:
-        image: mariadb:latest
+      postgresql:
+        image: postgres:${{ env.POSTGRES_VERSION }}-alpine
         env:
-          MYSQL_ROOT_PASSWORD: root_password
-          MYSQL_DATABASE: test_database
-          MYSQL_USER: test_user
-          MYSQL_PASSWORD: test_password
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
         ports:
-          - 3306:3306
+          - 5432:5432
         options: >-
-          --health-cmd="mysqladmin ping --silent"
+          --health-cmd="pg_isready"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.3'
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
 
-    - name: Copy .env.test.local
-      run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+      - name: Copy .env.test.local
+        run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
 
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-    - name: Wait for MariaDB to be ready
-      run: |
-        while ! mysqladmin ping -h"127.0.0.1" --silent; do
-          echo "Waiting for database connection..."
-          sleep 5
-        done
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          while ! pg_isready -h"127.0.0.1" -p"5432" -q; do
+            echo "Waiting for database connection..."
+            sleep 5
+          done
 
-    - name: Run Database Migrations
-      env:
-        DATABASE_URL: 'mysql://test_user:test_password@127.0.0.1:3306/test_database'
-      run: php bin/console doctrine:migrations:migrate --no-interaction
+      - name: Run Database Migrations
+        env:
+          DATABASE_URL: 'postgresql://${{ env.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@127.0.0.1:5432/${{ env.POSTGRES_DB }}'
+        run: php bin/console doctrine:migrations:migrate --no-interaction
 
-    - name: Load Fixtures
-      env:
-        DATABASE_URL: 'mysql://test_user:test_password@127.0.0.1:3306/test_database'
-      run: php bin/console doctrine:fixtures:load --no-interaction
+      - name: Load Fixtures
+        env:
+          DATABASE_URL: 'postgresql://${{ env.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@127.0.0.1:5432/${{ env.POSTGRES_DB }}'
+        run: php bin/console doctrine:fixtures:load --no-interaction
 
-    - name: Install Chrome
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
 
-    - name: Install ChromeDriver
-      run: |
-        CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1)
-        LATEST_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
-        wget -N https://chromedriver.storage.googleapis.com/$LATEST_DRIVER_VERSION/chromedriver_linux64.zip
-        sudo unzip -o chromedriver_linux64.zip -d /usr/local/bin
-        sudo rm chromedriver_linux64.zip
+      - name: Install ChromeDriver
+        run: |
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1)
+          LATEST_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
+          wget -N https://chromedriver.storage.googleapis.com/$LATEST_DRIVER_VERSION/chromedriver_linux64.zip
+          sudo unzip -o chromedriver_linux64.zip -d /usr/local/bin
+          sudo rm chromedriver_linux64.zip
 
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DATABASE_URL: 'mysql://test_user:test_password@127.0.0.1:3306/test_database'
-      run: vendor/bin/phpunit
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        env:
+          DATABASE_URL: 'postgresql://${{ env.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@127.0.0.1:5432/${{ env.POSTGRES_DB }}'
+        run: vendor/bin/phpunit
 
-    - name: Display MariaDB Logs on Failure
-      if: failure()
-      run: docker logs $(docker ps -q -f name=mariadb)
+      - name: Display PostgreSQL Logs on Failure
+        if: failure()
+        run: docker logs $(docker ps -q -f name=postgresql)
