@@ -1,0 +1,29 @@
+.graph_height {
+    height: 650px;
+}
+.case_height {
+    height: 75px !important;
+}
+.cache_misere {
+    z-index: -50 !important;
+    color: white !important;
+}
+@media screen and (max-width : 1300px) {
+    .graph_height {
+        height: 850px !important;
+    }
+    .graph_responsive {
+        height: 650px !important;
+        position:static;
+    }
+}
+@media screen and (max-width : 950px) {
+    .graph_height {
+        height: 1250px !important;
+        display: block;
+    }
+    .graph_responsive {
+        height: 650px !important;
+        position:static;
+    }
+}
